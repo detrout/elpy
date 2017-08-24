@@ -40,9 +40,9 @@ Recommends: emacs (>= 46.0)
           , python3-flake8
           , python3-jedi
           , python3-rope
-          , python3-importmagic
-          , python-autopep8
-	  , yapf3
+Suggests: python3-importmagic
+        , python-autopep8
+        , yapf3
 Enhances: emacs
         , emacs25
 Description: Emacs Python Development Environment
