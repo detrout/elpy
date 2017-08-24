@@ -1,0 +1,66 @@
+Source: elpy
+Section: lisp
+Priority: optional
+Maintainer: Debian Emacs addons team <pkg-emacsen-addons@lists.alioth.debian.org>
+Uploaders: Nicholas D Steeves <nsteeves@gmail.com>
+Build-Depends: debhelper (>= 10)
+             , dh-elpa
+             , dh-python
+             , python3-all
+             , python3-setuptools
+	     , python3-flake8
+             , python3-jedi
+             , python3-rope
+	     , python3-importmagic
+             , python-autopep8
+             , yapf3
+	     , elpa-company
+             , elpa-find-file-in-project
+             , elpa-highlight-indentation
+             , elpa-pyvenv
+             , elpa-yasnippet
+             , elpa-s
+Standards-Version: 4.1.0
+Vcs-Browser: https://anonscm.debian.org/cgit/pkg-emacsen/pkg/elpy.git/
+Vcs-Git: https://anonscm.debian.org/git/pkg-emacsen/pkg/elpy.git
+Homepage: https://github.com/jorgenschaefer/elpy
+Testsuite: autopkgtest-pkg-elpa
+
+Package: elpa-elpy
+Architecture: all
+Depends: ${elpa:Depends}
+       , ${misc:Depends}
+       , elpa-company
+       , elpa-find-file-in-project
+       , elpa-highlight-indentation
+       , elpa-pyvenv
+       , elpa-yasnippet
+       , elpa-s
+Recommends: emacs (>= 46.0)
+          , python3-flake8
+          , python3-jedi
+          , python3-rope
+          , python3-importmagic
+          , python-autopep8
+	  , yapf3
+Enhances: emacs
+        , emacs25
+Description: Emacs Python Development Environment
+ The Emacs Lisp Python Environment in Emacs
+ .
+ Elpy is an Emacs package that brings powerful Python editing to
+ Emacs.  It combines a number of existing Emacs packages, written in
+ both Emacs Lisp as well as Python.
+ .
+ Features:
+   * Navigation by code indentation and code definition.
+   * Move the current region as a code block.
+   * Treat a working tree as a coherent project; search for files,
+     code, or text within the project.
+   * Interact with Python interpreters and test runners.
+   * Browse the Python built-in documentation.
+   * Refactor code and symbols.
+ .
+ For more information, read the Elpy manual:
+ .
+ https://elpy.readthedocs.io/en/latest/index.html
