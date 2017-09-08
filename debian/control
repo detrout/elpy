@@ -8,18 +8,20 @@ Build-Depends: debhelper (>= 10)
              , dh-python
              , python3-all
              , python3-setuptools
-	     , python3-flake8
+             , python3-flake8
              , python3-jedi
              , python3-rope
-	     , python3-importmagic
+             , python3-importmagic
              , python-autopep8
              , yapf3
-	     , elpa-company
+             , elpa-company
              , elpa-find-file-in-project
              , elpa-highlight-indentation
              , elpa-pyvenv
              , elpa-yasnippet
              , elpa-s
+             , elpa-dash
+             , elpa-f
 Standards-Version: 4.1.0
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-emacsen/pkg/elpy.git/
 Vcs-Git: https://anonscm.debian.org/git/pkg-emacsen/pkg/elpy.git
