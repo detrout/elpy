@@ -12,7 +12,7 @@ Build-Depends: debhelper (>= 10)
              , python3-jedi
              , python3-rope
              , python3-importmagic
-             , python-autopep8
+             , python3-autopep8
              , yapf3
              , elpa-company
              , elpa-find-file-in-project
@@ -43,7 +43,7 @@ Recommends: emacs (>= 46.0)
           , python3-jedi
           , python3-rope
 Suggests: python3-importmagic
-        , python-autopep8
+        , python3-autopep8
         , yapf3
 Enhances: emacs
         , emacs25
