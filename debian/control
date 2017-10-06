@@ -14,15 +14,15 @@ Build-Depends: debhelper (>= 10)
              , python3-importmagic
              , python3-autopep8
              , yapf3
-             , elpa-company
-             , elpa-find-file-in-project
-             , elpa-highlight-indentation
-             , elpa-pyvenv
-             , elpa-yasnippet
-             , elpa-s
-             , elpa-dash
-             , elpa-f
-Standards-Version: 4.1.0
+             , elpa-company <!nocheck>
+             , elpa-find-file-in-project <!nocheck>
+             , elpa-highlight-indentation <!nocheck>
+             , elpa-pyvenv <!nocheck>
+             , elpa-yasnippet <!nocheck>
+             , elpa-s <!nocheck>
+             , elpa-dash <!nocheck>
+             , elpa-f <!nocheck>
+Standards-Version: 4.1.1
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-emacsen/pkg/elpy.git/
 Vcs-Git: https://anonscm.debian.org/git/pkg-emacsen/pkg/elpy.git
 Homepage: https://github.com/jorgenschaefer/elpy
