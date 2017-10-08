@@ -22,6 +22,7 @@ Build-Depends: debhelper (>= 10)
              , elpa-s <!nocheck>
              , elpa-dash <!nocheck>
              , elpa-f <!nocheck>
+             , elpa-ert-runner <!nocheck>
 Standards-Version: 4.1.1
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-emacsen/pkg/elpy.git/
 Vcs-Git: https://anonscm.debian.org/git/pkg-emacsen/pkg/elpy.git
