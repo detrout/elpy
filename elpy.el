@@ -4,7 +4,7 @@
 
 ;; Author: Jorgen Schaefer <contact@jorgenschaefer.de>
 ;; URL: https://github.com/jorgenschaefer/elpy
-;; Version: 1.16.0
+;; Version: 1.17.0
 ;; Keywords: Python, IDE, Languages, Tools
 ;; Package-Requires: ((company "0.9.2") (find-file-in-project "3.3")  (highlight-indentation "0.5.0") (pyvenv "1.3") (yasnippet "0.8.0") (s "1.11.0"))
 
@@ -42,13 +42,14 @@
 (require 'ido)
 (require 'json)
 (require 'python)
+(require 'xref nil t)
 
 (require 'elpy-refactor)
 (require 'elpy-django)
 (require 'elpy-profile)
 (require 'pyvenv)
 
-(defconst elpy-version "1.16.0"
+(defconst elpy-version "1.17.0"
   "The version of the Elpy lisp code.")
 
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -220,7 +221,9 @@ this to prevent this from happening."
   :group 'elpy)
 
 (defcustom elpy-rpc-python-command (if (equal system-type 'windows-nt)
-                                       "pythonw"
+                                       (or (executable-find "py")
+                                           (executable-find "pythonw")
+                                           "python")
                                      "python")
   "The Python interpreter for the RPC backend.
 
@@ -230,6 +233,7 @@ and not an interactive shell like ipython."
                  (const :tag "python2" "python2")
                  (const :tag "python3" "python3")
                  (const :tag "pythonw (Python on Windows)" "pythonw")
+                 (const :tag "py (other Python on Windows)" "py")
                  (string :tag "Other"))
   :safe (lambda (val)
           (member val '("python" "python2" "python3" "pythonw")))
@@ -433,9 +437,15 @@ option is `pdb'."
     (define-key map (kbd "<M-left>") 'elpy-nav-indent-shift-left)
     (define-key map (kbd "<M-right>") 'elpy-nav-indent-shift-right)
 
-    (define-key map (kbd "M-.")     'elpy-goto-definition)
-    (define-key map (kbd "C-x 4 M-.")     'elpy-goto-definition-other-window)
-    (define-key map (kbd "M-TAB")   'elpy-company-backend)
+    (if (not (boundp 'xref-find-definitions))
+        (define-key map (kbd "M-.") 'elpy-goto-definition))
+    (if (not (boundp 'xref-find-definitions-other-window))
+        (define-key map (kbd "C-x 4 M-.") 'elpy-goto-definition-other-window)
+      (define-key map (kbd "C-x 4 M-.") 'xref-find-definitions-other-window))
+    (if (boundp 'xref-pop-marker-stack)
+      (define-key map (kbd "M-*") 'xref-pop-marker-stack))
+
+    (define-key map (kbd "M-TAB") 'elpy-company-backend)
 
     map)
   "Key map for the Emacs Lisp Python Environment.")
@@ -545,6 +555,8 @@ virtualenv.
   :lighter " Elpy"
   (when (not (derived-mode-p 'python-mode))
     (error "Elpy only works with `python-mode'"))
+  (when (boundp 'xref-backend-functions)
+    (add-hook 'xref-backend-functions #'elpy--xref-backend nil t))
   (cond
    (elpy-mode
     (elpy-modules-buffer-init))
@@ -1628,7 +1640,7 @@ code is executed."
       (python-shell-send-buffer arg))
     (elpy-shell-display-buffer)
     (when has-if-main
-      (message (concat "Removed if __main__ == '__main__' construct, "
+      (message (concat "Removed if __name__ == '__main__' construct, "
                        "use a prefix argument to evaluate.")))))
 
 (defun elpy-shell-send-current-statement ()
@@ -1774,7 +1786,7 @@ with a prefix argument)."
                                    (buffer-file-name))))
         (extra-args (if whole-project-p
                         (concat
-                         (if (equal python-check-command "pylint")
+                         (if (string-match "pylint$" python-check-command)
                              " --ignore="
                            " --exclude=")
                          (mapconcat #'identity
@@ -3323,12 +3335,165 @@ Returns a possible multi-line docstring."
             success error))
 
 (defun elpy-rpc-get-usages (&optional success error)
+  "Return the symbol under point usages as a list"
   (elpy-rpc "get_usages"
             (list buffer-file-name
                   (elpy-rpc--buffer-contents)
                   (- (point)
                      (point-min)))
             success error))
+
+(defun elpy-rpc-get-names (&optional success error)
+  "Return all names (possible candidates for jumping to definition)."
+  (elpy-rpc "get_names"
+            (list buffer-file-name
+                  (elpy-rpc--buffer-contents)
+                  (- (point)
+                     (point-min)))
+            success error))
+
+;;;;;;;;;;;;;;;;
+;;; Xref backend
+(defun elpy--xref-backend ()
+  "Return the name of the elpy xref backend."
+  (if (string= elpy-rpc-backend "jedi")
+      'elpy
+    nil))
+
+(defvar elpy-xref--format-references
+  (let ((str "%s:\t%s"))
+    (put-text-property 0 4 'face 'font-lock-comment-face str)
+    str)
+  "String used to format references in xref buffers.")
+
+;; Elpy location structure
+(when (featurep 'xref)
+  (cl-defstruct (xref-elpy-location
+                 (:constructor xref-make-elpy-location (file pos)))
+    "Location of a python symbol definition."
+    file pos)
+
+  (defun xref-make-elpy-location (file pos)
+    "Return an elpy location structure.
+Points to file FILE, at position POS."
+    (make-instance 'xref-etags-location
+                   :file (expand-file-name file)
+                   :pos pos))
+
+  (cl-defmethod xref-location-marker ((l xref-elpy-location))
+    (with-current-buffer (find-file-noselect (xref-elpy-location-file l))
+      (save-excursion
+        (goto-char (xref-elpy-location-pos l))
+        (point-marker))))
+
+  (cl-defmethod xref-location-group ((l xref-elpy-location))
+    (xref-elpy-location-file l))
+
+  ;; Identifiers
+  (cl-defmethod xref-backend-identifier-at-point ((_backend (eql elpy)))
+    (elpy-xref--identifier-at-point))
+
+  (defun elpy-xref--identifier-at-point ()
+    "Return identifier at point."
+    (symbol-at-point))
+
+  (defun elpy-xref--goto-identifier (id)
+    "Goto the identifier ID in the current buffer.
+This is needed to get information on the identifier with jedi
+\(that work only on the symbol at point\)"
+    (let ((case-fold-search nil))
+      (goto-char (point-min))
+      (if (not (search-forward-regexp (format "\\_<%s\\_>" id) nil t))
+          (error "Symbol not found on current buffer")
+        (goto-char (match-beginning 0)))))
+
+  ;; Find definition
+  (cl-defmethod xref-backend-definitions ((_backend (eql elpy)) symbol)
+    (elpy-xref--definitions symbol))
+
+  (defun elpy-xref--definitions (symbol)
+    "Return SYMBOL definition position as a xref object."
+    (save-excursion
+      (elpy-xref--goto-identifier symbol)
+      (let* ((location (elpy-rpc-get-definition)))
+        (if (not location)
+            (error "No definition found")
+          (let* ((file (expand-file-name (car location)))
+                 (pos (+ 1 (cadr location)))
+                 (line (with-current-buffer (find-file-noselect file)
+                         (goto-char (+ pos 1))
+                         (buffer-substring (line-beginning-position) (line-end-position))))
+                 (linenumber  (with-current-buffer (find-file-noselect file)
+                                (line-number-at-pos pos)))
+                 (summary (format elpy-xref--format-references linenumber line))
+                 (loc (xref-make-elpy-location file pos)))
+            (list (xref-make summary loc)))))))
+
+  ;; Find references
+  (cl-defmethod xref-backend-references ((_backend (eql elpy)) symbol)
+    (elpy-xref--references symbol))
+
+  (defun elpy-xref--references (symbol)
+    "Return SYMBOL references as a list of xref objects."
+    (save-excursion
+      (elpy-xref--goto-identifier symbol)
+      (let* ((references (elpy-rpc-get-usages)))
+        (cl-loop
+         for ref in references
+         for file = (alist-get 'filename ref)
+         for pos = (+ (alist-get 'offset ref) 1)
+         for line = (with-current-buffer (find-file-noselect file)
+                      (save-excursion
+                        (goto-char (+ pos 1))
+                        (buffer-substring (line-beginning-position) (line-end-position))))
+         for linenumber = (with-current-buffer (find-file-noselect file)
+                            (line-number-at-pos pos))
+         for summary = (format elpy-xref--format-references linenumber line)
+         for loc = (xref-make-elpy-location file pos)
+         collect (xref-make summary loc)))))
+
+  ;; Completion table (used when calling `xref-find-references`)
+  (cl-defmethod xref-backend-identifier-completion-table ((_backend (eql elpy)))
+    (elpy-xref--get-completion-table))
+
+  (defun elpy-xref--get-completion-table ()
+    "Return the completion table for identifiers."
+    (let ((id-at-point (elpy-xref--identifier-at-point))
+          (table nil))
+      (when id-at-point
+        (push id-at-point table))
+      (cl-loop
+       for ref in (elpy-rpc-get-names)
+       for name = (alist-get 'name ref)
+       unless (member name table)
+       do (push name table))
+      table))
+
+  ;; Apropos
+  (cl-defmethod xref-backend-apropos ((_backend (eql elpy)) regex)
+    (elpy-xref--apropos regex))
+
+  (defun elpy-xref--apropos (regex)
+    "Return identifiers matching REGEX."
+    (let ((ids (elpy-rpc-get-names))
+          (case-fold-search nil))
+      (cl-loop
+       for id in ids
+       for name = (alist-get 'name id)
+       for filename = (alist-get 'filename id)
+       for pos = (+ (alist-get 'offset id) 1)
+       if (string-match regex name)
+       collect (with-current-buffer (find-file-noselect filename)
+                 (goto-char pos)
+                 (save-excursion
+                   (let* ((linenumber (line-number-at-pos))
+                          (line (buffer-substring
+                                 (line-beginning-position)
+                                 (line-end-position)))
+                          (summary (format elpy-xref--format-references linenumber line))
+                          (loc (xref-make-elpy-location filename pos)))
+                     (xref-make summary loc)))))))
+  )
 
 ;;;;;;;;;;;
 ;;; Modules
@@ -3435,10 +3600,9 @@ If you need your modeline, you can set the variable `elpy-remove-modeline-lighte
      (company-mode 1)
      (when (> (buffer-size) elpy-rpc-ignored-buffer-size)
        (message
-	(format
-	 (concat "Buffer larger than elpy-rpc-ignored-buffer-size (%d)."
-		 " Elpy will turn off completion.")
-	 elpy-rpc-ignored-buffer-size))))
+	(concat "Buffer %s larger than elpy-rpc-ignored-buffer-size (%d)."
+		" Elpy will turn off completion.")
+	(buffer-name) elpy-rpc-ignored-buffer-size)))
     (`buffer-stop
      (company-mode -1)
      (kill-local-variable 'company-idle-delay)
