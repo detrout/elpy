@@ -1,4 +1,4 @@
-elpy (1.16.0-1) UNRELEASED; urgency=medium
+elpy (1.17.0-1) UNRELEASED; urgency=medium
 
   * Initial release. (Closes: #825980, #861174)
 
