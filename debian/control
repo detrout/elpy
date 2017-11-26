@@ -13,7 +13,7 @@ Build-Depends: debhelper (>= 10)
              , python3-rope
              , python3-importmagic
 #             , python3-autopep8
-             , python-autopep8
+#             , python-autopep8
              , yapf3
              , elpa-company <!nocheck>
              , elpa-find-file-in-project <!nocheck>
