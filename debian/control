@@ -33,6 +33,7 @@ Testsuite: autopkgtest-pkg-elpa
 Package: elpa-elpy
 Architecture: all
 Depends: ${elpa:Depends}
+       , ${python3:Depends}
        , ${misc:Depends}
        , elpa-company
        , elpa-find-file-in-project
