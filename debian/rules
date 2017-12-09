@@ -11,6 +11,3 @@ override_dh_auto_clean:
 
 override_dh_auto_test:
 	true
-
-override_dh_elpa_test:
-	true
