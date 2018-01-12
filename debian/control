@@ -47,8 +47,10 @@ Recommends: emacs (>= 46.0)
           , python3-jedi
           , python3-rope
 Suggests: python3-importmagic
-        , python3-autopep8
+        , python-autopep8
         , yapf3
+# change python-autopep8 to python3-autopep8 as soon as it
+# becomes available
 Enhances: emacs
         , emacs25
 Description: Emacs Python Development Environment
