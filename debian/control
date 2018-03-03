@@ -24,6 +24,10 @@ Build-Depends: debhelper (>= 11~)
              , elpa-dash <!nocheck>
              , elpa-f <!nocheck>
 #             , elpa-ert-runner <!nocheck>
+# , python3-coverage <!nocheck>  unneeded for buildd-built package
+             , python3-mock <!nocheck>
+             , python3-nose <!nocheck>
+# probably not needed             , python3-wheel
 X-Python3-Version: >= 3.2
 Standards-Version: 4.1.3
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-emacsen/pkg/elpy.git/
