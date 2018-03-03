@@ -3,7 +3,7 @@ Section: lisp
 Priority: optional
 Maintainer: Debian Emacs addons team <pkg-emacsen-addons@lists.alioth.debian.org>
 Uploaders: Nicholas D Steeves <nsteeves@gmail.com>
-Build-Depends: debhelper (>= 11)
+Build-Depends: debhelper (>= 11~)
              , dh-elpa
              , dh-python
              , python3-all
