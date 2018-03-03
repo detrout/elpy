@@ -1,9 +1,7 @@
 (source gnu)
-(source "elpy" "http://jorgenschaefer.github.io/packages/")
-;; (source "melpa-stable" "http://hiddencameras.milkbox.net/packages/")
 (source melpa)
 
-(package "elpy" "1.17.0" "Emacs Python Development Environment")
+(package "elpy" "1.18.0" "Emacs Python Development Environment")
 
 (depends-on "company" "0.8.0")
 (depends-on "find-file-in-project" "3.3")
@@ -13,6 +11,5 @@
 (depends-on "s" "1.11.0")
 
 (development
- (depends-on "dash")
  (depends-on "f")
  (depends-on "ert-runner"))
