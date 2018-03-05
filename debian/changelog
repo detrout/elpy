@@ -1,5 +1,5 @@
-elpy (1.18.0-1) UNRELEASED; urgency=medium
+elpy (1.18.0-1) unstable; urgency=medium
 
   * Initial release. (Closes: #825980, #861174)
 
- -- Nicholas D Steeves <nsteeves@gmail.com>  Sat, 03 Mar 2018 16:16:41 -0500
+ -- Nicholas D Steeves <nsteeves@gmail.com>  Sun, 04 Mar 2018 19:47:15 -0500
