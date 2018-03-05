@@ -9,5 +9,3 @@ export PYBUILD_NAME=elpy
 override_dh_auto_clean:
 	true
 
-override_dh_auto_test:
-	true
