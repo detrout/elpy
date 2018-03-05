@@ -15,6 +15,7 @@ Build-Depends: debhelper (>= 11~)
 #             , python3-autopep8
 #             , python-autopep8
              , yapf3
+             , python3-sphinx
              , elpa-company <!nocheck>
              , elpa-find-file-in-project <!nocheck>
              , elpa-highlight-indentation <!nocheck>
