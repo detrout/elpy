@@ -1,2 +1,3 @@
 0001-Disable-failing-tests.patch
 0002-Use-py3-s-dict.items-instead-of-py2-s-dictionary.ite.patch
+0003-Fix-two-spelling-errors-in-documentation.patch
