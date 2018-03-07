@@ -1,0 +1,21 @@
+From: Nicholas D Steeves <nsteeves@gmail.com>
+Date: Wed, 7 Mar 2018 00:43:57 -0500
+Subject: Use py3's dict.items() instead of py2's dictionary.iteritems()
+
+---
+ docs/elispdomain.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/docs/elispdomain.py b/docs/elispdomain.py
+index 3145f43..eafee9f 100644
+--- a/docs/elispdomain.py
++++ b/docs/elispdomain.py
+@@ -144,7 +144,7 @@ class ELispDomain(Domain):
+                                     contnode, target + " " + objtype)
+ 
+     def get_objects(self):
+-        for (name, type_), docname in self.data['objects'].iteritems():
++        for (name, type_), docname in self.data['objects'].items():
+             yield name, name, type_, docname, type_ + '-' + name, 1
+ 
+ 
