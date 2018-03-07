@@ -1,6 +1,7 @@
 From: Nicholas D Steeves <nsteeves@gmail.com>
 Date: Wed, 7 Mar 2018 00:43:57 -0500
 Subject: Use py3's dict.items() instead of py2's dictionary.iteritems()
+Forwarded: https://github.com/jorgenschaefer/elpy/pull/1309
 
 ---
  docs/elispdomain.py | 2 +-
