@@ -6,9 +6,6 @@ export PYBUILD_NAME=elpy
 %:
 	dh $@ --with elpa,python3,sphinxdoc --buildsystem=pybuild
 
-override_dh_auto_clean:
-	true
-
 override_dh_auto_build:
 	dh_auto_build
 	PYTHONPATH=. sphinx-build -N -bman docs/ build/man # Manpage generator
