@@ -1,8 +1,35 @@
+Description: Disable failing tests
+ Disable patches known to fail when building elpy-1.18.0 on debian buster.
+ .
+ With the following additions (mostly Python2 dependencies) to
+ debian/control:
+ .
+ +             , python3-pip <!nocheck>
+ +# Dependencies used only for self-tests
+ +             , python-autopep8 <!nocheck>
+ +             , python-jedi <!nocheck>
+ +             , yapf <!nocheck>
+ +             , python-pip <!nocheck>
+ +             , python-flake8 <!nocheck>
+ .
+ Elpy at commit: f418f8e8a0bdc4f407add883a4961da950617690 only fails
+ for the following tests:
+ .
+ 2 unexpected results:
+ FAILED elpy-rpc-integration
+ FAILED elpy-shell-send-region-or-buffer-should-notify-of-removing-main
+ .
+ It may be possible to make
+ "elpy-shell-send-region-or-buffer-should-notify-of-removing-main"
+ pass by packaging ert-helper and then somehow integrating it with
+ dh-elpa; however, I do not believe this is a good use of time before
+ elpy-1.19.0 is released.  Furthermore, at this time elpy checks for
+ Python2 executable names such as /usr/bin/pip rather than
+ /usr/bin/pip3, and at this time pip3 does not provide /usr/bin/pip.
+Forwarded: https://github.com/jorgenschaefer/elpy/issues/1308
 From: Nicholas D Steeves <nsteeves@gmail.com>
 Date: Sat, 3 Mar 2018 19:27:31 -0500
-Subject: Disable failing tests
-Forwarded: https://github.com/jorgenschaefer/elpy/issues/1308
-
+Last-Update: 2018-03-30
 ---
  test/elpy-autopep8-fix-code-test.el                | 22 +++---
  ...y-config--insert-configuration-problems-test.el |  6 +-
