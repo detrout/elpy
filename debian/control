@@ -51,6 +51,7 @@ Recommends: emacs (>= 46.0)
 Suggests: python3-importmagic
         , python-autopep8
         , yapf3
+        , python3-pip
 # change python-autopep8 to python3-autopep8 as soon as it
 # is made available (see Bug #875906)
 Enhances: emacs
