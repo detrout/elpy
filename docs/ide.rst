@@ -167,8 +167,7 @@ necessary backends for the `xref`_ package.
 .. command:: xref-find-references
    :kbd: M-?
 
-   Find references to the identifier at point.
-   With prefix argument, prompt for the identifier.
+   Find references for an identifier of the current buffer.
 
 .. command:: xref-find-apropos
    :kbd: C-M-.
@@ -242,19 +241,34 @@ The Shell Buffer
    starts the python interpreter here. This behaviour can be suppressed
    with the option ``elpy-shell-use-project-root``.
 
-.. option:: elpy-dedicated-shells
+.. command:: elpy-shell-toggle-dedicated-shell
 
-   By default, Elpy only starts a single interactive Python process. This
-   process will inherit the current virtual env. If you want to start a Python
-   interpreter with a different virtual env, you can either kill the existing
-   one, or rename the buffer. Moreover, if `elpy-dedicated-shells` is set to
-   ``t``, Elpy creates a dedicated shell for each buffer.
+   By default, python buffers are all attached to a same python shell
+   (that lies in the `*Python*` buffer), meaning that all buffers and
+   code fragments will be send to this shell.
+   `elpy-shell-toggle-dedicated-shell` attaches a dedicated python shell
+   (not shared with the other python buffers) to the current python buffer.
+   To make this the default behavior (like the deprecated option
+   `elpy-dedicated-shells` did), use the following snippet:
+
+.. code-block:: lisp
+
+   (add-hook 'elpy-mode-hook (lambda () (elpy-shell-toggle-dedicated-shell 1)))
+
+.. command:: elpy-shell-set-local-shell
+
+   Attach the current python buffer to a specific python shell (whose name is
+   asked with completion).
+   You can use this function to have one python shell per project, with:
+
+.. code-block:: lisp
+
+   (add-hook 'elpy-mode-hook (lambda () (elpy-shell-set-local-shell elpy-project-root)))
 
 .. command:: elpy-shell-kill
    :kbd: C-c C-k
 
-   Kill the current python shell. If :option:`elpy-dedicated-shells` is non-nil,
-   kill the current buffer dedicated shell.
+   Kill the associated python shell.
 
 .. command:: elpy-shell-kill-all
    :kbd: C-c C-K
@@ -468,7 +482,7 @@ evaluation command, thereby providing visual feedback.
 
 .. option:: elpy-shell-display-buffer-after-send
 
-   Whether to display the Python shell after sending someting to it (default
+   Whether to display the Python shell after sending something to it (default
    ``nil``).
 
 
@@ -533,6 +547,14 @@ Elpy provides a single interface to documentation.
    With a prefix argument, Elpy will skip all the guessing and just
    prompt the user for a string to look up in pydoc.
 
+If the `autodoc` module is enabled (not the case by default) the
+documentation is automatically updated with the symbol at point or the
+currently selected company candidate.
+
+.. option:: elpy-autodoc-delay
+
+   The idle delay in seconds until documentation is updated automatically.
+
 
 Testing
 =======
@@ -561,12 +583,10 @@ advantages this brings.
    py.test. You can also write your own, as described in :ref:`Writing
    Test Runners`.
 
-   Note on Django runners: by default, elpy runs Django tests with
-   :kbd:`django-admin.py`. You must set the environment variable
-   :envvar:`DJANGO_SETTINGS_MODULE` accordingly. Alternatively, you can set
-   **elpy-test-django-with-manage** to **t** in order to use your
-   project's :kbd:`manage.py`. You then don't need to set the environment
-   variable, but change virtual envs (see `virtualenvwrapper.el`_).
+   Note on Django runners: Elpy tries to find `manage.py` within your project
+   structure. If it's unable to find it, it falls back to `django-admin.py`.
+   You must set the environment variable :envvar:`DJANGO_SETTINGS_MODULE` accordingly.
+
 
 This enables a good workflow. You write a test and use :kbd:`C-c C-t`
 to watch it fail. You then go to your implementation file, for example
@@ -615,6 +635,9 @@ Elpy supports various forms of refactoring Python code.
    region is selected, only that region is formatted. Otherwise current
    buffer is formatted.
 
+   `yapf`_ and `autopep8`_ can be configured with style files placed in
+   the project root directory (determined by ``elpy-project-root``).
+
 .. _autopep8: https://github.com/hhatto/autopep8
 .. _yapf: https://github.com/google/yapf
 
@@ -654,7 +677,7 @@ Can also start `runserver` automatically and you can give an ip address and port
 Profiling
 =========
 
-Elpy allows to profile asynchronously python scripts using `cProfile`.
+Elpy allows one to profile asynchronously python scripts using `cProfile`.
 
 .. command:: elpy-profile-buffer-or-region
 

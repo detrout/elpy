@@ -24,6 +24,9 @@
 ;;
 ;;; Code:
 
+(eval-when-compile (require 'subr-x))
+(require 'python)
+
 ;;;;;;;;;;;;;;;;;;;;;;
 ;;; User customization
 
@@ -35,6 +38,10 @@ manually started dedicated shells. Setting this option to non-nil
 force the creation of dedicated shells for each buffers."
   :type 'boolean
   :group 'elpy)
+(make-obsolete-variable 'elpy-dedicated-shells
+                        "Dedicated shells are no longer supported by Elpy.
+You can use `(add-hook 'elpy-mode-hook (lambda () (elpy-shell-toggle-dedicated-shell 1)))' to achieve the same result."
+                        "1.17.0")
 
 (defcustom elpy-shell-display-buffer-after-send nil ;
   "Whether to display the Python shell after sending something to it."
@@ -166,9 +173,6 @@ the code cell beginnings defined here."
 (defun elpy-shell-kill (&optional kill-buff)
   "Kill the current python shell.
 
-If `elpy-dedicated-shells' is non-nil,
-kill the current buffer dedicated shell.
-
 If KILL-BUFF is non-nil, also kill the associated buffer."
   (interactive)
   (let ((shell-buffer (python-shell-get-buffer)))
@@ -185,12 +189,11 @@ If KILL-BUFF is non-nil, also kill the associated buffer."
   "Kill all active python shells.
 
 If KILL-BUFFERS is non-nil, also kill the associated buffers.
-If ASK-FOR-EACH-ONE is non-nil, ask before killing each python process.
-"
+If ASK-FOR-EACH-ONE is non-nil, ask before killing each python process."
   (interactive)
   (let ((python-buffer-list ()))
     ;; Get active python shell buffers and kill inactive ones (if asked)
-    (loop for buffer being the buffers do
+    (cl-loop for buffer being the buffers do
 	  (when (and (buffer-name buffer)
 		     (string-match (rx bol "*Python" (opt "[" (* (not (any "]"))) "]") "*" eol)
 				   (buffer-name buffer)))
@@ -201,15 +204,15 @@ If ASK-FOR-EACH-ONE is non-nil, ask before killing each python process.
     (cond
      ;; Ask for each buffers and kill
      ((and python-buffer-list ask-for-each-one)
-      (loop for buffer in python-buffer-list do
-	    (when (y-or-n-p (format "Kill %s ?" buffer))
+      (cl-loop for buffer in python-buffer-list do
+	    (when (y-or-n-p (format "Kill %s ? " buffer))
 		(delete-process buffer)
 		(when kill-buffers
 		  (kill-buffer buffer)))))
      ;; Ask and kill every buffers
      (python-buffer-list
-      (if (y-or-n-p (format "Kill %s python shells ?" (length python-buffer-list)))
-	  (loop for buffer in python-buffer-list do
+      (if (y-or-n-p (format "Kill %s python shells ? " (length python-buffer-list)))
+	  (cl-loop for buffer in python-buffer-list do
 		(delete-process buffer)
 		(when kill-buffers
 		  (kill-buffer buffer)))))
@@ -223,36 +226,61 @@ If ASK-FOR-EACH-ONE is non-nil, ask before killing each python process.
 If SIT is non-nil, sit for that many seconds after creating a
 Python process. This allows the process to start up."
   (let* ((bufname (format "*%s*" (python-shell-get-process-name nil)))
-         (dedbufname (format "*%s*" (python-shell-get-process-name t)))
-         (proc (get-buffer-process bufname))
-         (dedproc (get-buffer-process dedbufname)))
-    (if elpy-dedicated-shells
-        (if dedproc
-            dedproc
-          (let ((default-directory (or (and elpy-shell-use-project-root
-                                            (elpy-project-root))
-                                       default-directory)))
-            (run-python (python-shell-parse-command) t t))
-          (when sit
-            (sit-for sit))
-          (when (elpy-project-root)
-            (python-shell-send-string
-             (format "import sys;sys.path.append('%s')" (elpy-project-root))))
-          (get-buffer-process dedbufname))
-      (if dedproc
-          dedproc
-        (if proc
-            proc
-          (let ((default-directory (or (and elpy-shell-use-project-root
-                                            (elpy-project-root))
-                                       default-directory)))
-            (run-python (python-shell-parse-command) nil t))
-          (when sit
-            (sit-for sit))
-          (when (elpy-project-root)
-            (python-shell-send-string
-             (format "import sys;sys.path.append('%s')" (elpy-project-root))))
-          (get-buffer-process bufname))))))
+         (proc (get-buffer-process bufname)))
+    (if proc
+        proc
+      (let ((default-directory (or (and elpy-shell-use-project-root
+                                        (elpy-project-root))
+                                   default-directory)))
+        (run-python (python-shell-parse-command) nil t))
+      (when sit (sit-for sit))
+      (when (elpy-project-root)
+        (python-shell-send-string
+         (format "import sys;sys.path.append('%s')" (elpy-project-root))))
+      (get-buffer-process bufname))))
+
+(defun elpy-shell-toggle-dedicated-shell (&optional arg)
+  "Toggle the use of a dedicated python shell for the current buffer.
+
+if ARG is positive, enable the use of a dedicated shell.
+if ARG is negative or 0, disable the use of a dedicated shell."
+  (interactive)
+  (let ((arg (or arg
+                 (if (local-variable-p 'python-shell-buffer-name) 0 1))))
+    (if (<= arg 0)
+        (kill-local-variable 'python-shell-buffer-name)
+      (setq-local python-shell-buffer-name
+                  (format "Python[%s]" (buffer-name))))))
+
+(defun elpy-shell-set-local-shell (&optional shell-name)
+  "Associate the current buffer to a specific shell.
+
+Meaning that the code from the current buffer will be sent to this shell.
+
+If SHELL-NAME is not specified, ask with completion for a shell name.
+
+If SHELL-NAME is \"Global\", associate the current buffer to the main python
+shell (often \"*Python*\" shell)."
+  (interactive)
+  (let* ((current-shell-name (if (local-variable-p 'python-shell-buffer-name)
+                                 (progn
+                                   (string-match "Python\\[\\(.*?\\)\\]"
+                                                 python-shell-buffer-name)
+                                   (match-string 1 python-shell-buffer-name))
+                               "Global"))
+         (shell-names (cl-loop
+                for buffer in (buffer-list)
+                for buffer-name = (substring-no-properties (buffer-name buffer))
+                if (string-match "\\*Python\\[\\(.*?\\)\\]\\*" buffer-name)
+                collect (match-string 1 buffer-name)))
+         (candidates (remove current-shell-name
+                          (delete-dups
+                           (append (list (buffer-name) "Global") shell-names))))
+         (prompt (format "Shell name (current: %s): " current-shell-name))
+         (shell-name (or shell-name (completing-read prompt candidates))))
+    (if (string= shell-name "Global")
+       (kill-local-variable 'python-shell-buffer-name)
+      (setq-local python-shell-buffer-name (format "Python[%s]" shell-name)))))
 
 (defun elpy-shell--ensure-shell-running ()
   "Ensure that the Python shell for the current buffer is running.
@@ -314,7 +342,8 @@ BEGIN and END refer to the region of the current buffer containing the code bein
           (message "Sent: %s" (string-trim (thing-at-point 'line)))
         (message "Sent: %s..." (string-trim (thing-at-point 'line)))))
     (when (bound-and-true-p eval-sexp-fu-flash-mode)
-      (multiple-value-bind (bounds hi unhi eflash) (eval-sexp-fu-flash (cons begin end))
+      (multiple-value-bind (_bounds hi unhi _eflash)
+          (eval-sexp-fu-flash (cons begin end))
         (eval-sexp-fu-flash-doit (lambda () t) hi unhi)))))
 
 ;;;;;;;;;;;;;;;;;;;
@@ -477,8 +506,7 @@ Prepends a continuation promt if PREPEND-CONT-PROMPT is set."
 
 (defun elpy-shell--string-head-lines (string n)
   "Extract the first N lines from STRING."
-  (let* ((any "\\(?:.\\|\n\\)")
-         (line "\\(?:\\(?:.*\n\\)\\|\\(?:.+\\'\\)\\)")
+  (let* ((line "\\(?:\\(?:.*\n\\)\\|\\(?:.+\\'\\)\\)")
          (lines (concat line "\\{" (number-to-string n) "\\}"))
          (regexp (concat "\\`" "\\(" lines "\\)")))
     (if (string-match regexp string)
@@ -487,15 +515,14 @@ Prepends a continuation promt if PREPEND-CONT-PROMPT is set."
 
 (defun elpy-shell--string-tail-lines (string n)
   "Extract the last N lines from STRING."
-  (let* ((any "\\(?:.\\|\n\\)")
-         (line "\\(?:\\(?:.*\n\\)\\|\\(?:.+\\'\\)\\)")
+  (let* ((line "\\(?:\\(?:.*\n\\)\\|\\(?:.+\\'\\)\\)")
          (lines (concat line "\\{" (number-to-string n) "\\}"))
          (regexp (concat "\\(" lines "\\)" "\\'")))
     (if (string-match regexp string)
         (match-string 1 string)
       string)))
 
-(defun elpy-shell--python-shell-send-string-echo-advice (string &optional process msg)
+(defun elpy-shell--python-shell-send-string-echo-advice (string &optional _process _msg)
   "Advice to enable echoing of input in the Python shell."
   (interactive)
   (let* ((append-string ; strip setup code from Python shell
@@ -539,14 +566,14 @@ Prepends a continuation promt if PREPEND-CONT-PROMPT is set."
 
 (defun elpy-shell-send-file (file-name &optional process temp-file-name
                                          delete msg)
-  """Like `python-shell-send-file' but evaluates last expression separately.
+  "Like `python-shell-send-file' but evaluates last expression separately.
 
-  See `python-shell-send-file' for a description of the
-  arguments. This function differs in that it breaks up the
-  Python code in FILE-NAME into statements. If the last statement
-  is a Python expression, it is evaluated separately in 'eval'
-  mode. This way, the interactive python shell can capture (and
-  print) the output of the last expression."""
+See `python-shell-send-file' for a description of the
+arguments. This function differs in that it breaks up the
+Python code in FILE-NAME into statements. If the last statement
+is a Python expression, it is evaluated separately in 'eval'
+mode. This way, the interactive python shell can capture (and
+print) the output of the last expression."
   (interactive
    (list
     (read-file-name "File to send: ")   ; file-name
@@ -611,8 +638,7 @@ there."
 Assumes that the point is precisely at the beginning of a
 statement (e.g., after calling
 `elpy-shell--nav-beginning-of-statement')."
-  (let ((indent (current-column))
-        (continue t)
+  (let ((continue t)
         (p))
     (while (and (not (eq p (point)))
                 continue)
@@ -855,7 +881,7 @@ variables `elpy-shell-cell-boundary-regexp' and
                (forward-line)
                (if (re-search-forward elpy-shell-cell-boundary-regexp nil t)
                    (forward-line -1)
-                 (end-of-buffer))
+                 (goto-char (point-max)))
                (end-of-line)
                (point))))
     (if beg
@@ -937,7 +963,7 @@ code is executed."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Send command variations (with/without step; with/without go)
 
-(defun elpy-shell--send-with-step-go (step-fun step go prefix-arg)
+(defun elpy-shell--send-with-step-go (step-fun step go my-prefix-arg)
   "Run a function with STEP and/or GO.
 
 STEP-FUN should be a function that sends something to the shell
@@ -946,7 +972,7 @@ and moves point to code position right after what has been sent.
 When STEP is nil, keeps point position. When GO is non-nil,
 switches focus to Python shell buffer."
   (let ((orig (point)))
-    (setq current-prefix-arg prefix-arg)
+    (setq current-prefix-arg my-prefix-arg)
     (call-interactively step-fun)
     (when (not step)
       (goto-char orig)))
@@ -986,12 +1012,12 @@ switches focus to Python shell buffer."
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; Deprecated functions
 
-(defun elpy-use-ipython (&optional ipython)
+(defun elpy-use-ipython (&optional _ipython)
   "Deprecated; see https://elpy.readthedocs.io/en/latest/ide.html#interpreter-setup"
   (error "elpy-use-ipython is deprecated; see https://elpy.readthedocs.io/en/latest/ide.html#interpreter-setup"))
 (make-obsolete 'elpy-use-ipython nil "Jan 2017")
 
-(defun elpy-use-cpython (&optional cpython)
+(defun elpy-use-cpython (&optional _cpython)
   "Deprecated; see https://elpy.readthedocs.io/en/latest/ide.html#interpreter-setup"
   (error "elpy-use-cpython is deprecated; see https://elpy.readthedocs.io/en/latest/ide.html#interpreter-setup"))
 (make-obsolete 'elpy-use-cpython nil "Jan 2017")

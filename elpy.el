@@ -4,7 +4,7 @@
 
 ;; Author: Jorgen Schaefer <contact@jorgenschaefer.de>
 ;; URL: https://github.com/jorgenschaefer/elpy
-;; Version: 1.18.0
+;; Version: 1.19.0
 ;; Keywords: Python, IDE, Languages, Tools
 ;; Package-Requires: ((company "0.9.2") (emacs "24.4") (find-file-in-project "3.3")  (highlight-indentation "0.5.0") (pyvenv "1.3") (yasnippet "0.8.0") (s "1.11.0"))
 
@@ -53,7 +53,7 @@
 (require 'pyvenv)
 (require 'find-file-in-project)
 
-(defconst elpy-version "1.18.0"
+(defconst elpy-version "1.19.0"
   "The version of the Elpy lisp code.")
 
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -98,6 +98,8 @@ can be inidividually enabled or disabled."
                      elpy-module-yasnippet)
               (const :tag "Django configurations (Elpy-Django)"
                      elpy-module-django)
+              (const :tag "Automatically update documentation (Autodoc)."
+                     elpy-module-autodoc)
               (const :tag "Configure some sane defaults for Emacs"
                      elpy-module-sane-defaults))
   :group 'elpy)
@@ -169,7 +171,9 @@ These will be checked in turn. The first directory found is used."
                      elpy-project-find-svn-root))
   :group 'elpy)
 
-(make-obsolete-variable 'elpy-company-hide-modeline 'elpy-remove-modeline-lighter)
+(make-obsolete-variable 'elpy-company-hide-modeline
+                        'elpy-remove-modeline-lighter
+                        "1.10.0")
 (defcustom elpy-remove-modeline-lighter t
   "Non-nil if Elpy should remove most mode line display.
 
@@ -319,24 +323,6 @@ edited instead. Setting this variable to nil disables this feature."
   :type '(repeat string)
   :group 'elpy)
 
-(defcustom elpy-test-django-runner-command '("django-admin.py" "test"
-                                             "--noinput")
-  "The command to use for `elpy-test-django-runner'."
-  :type '(repeat string)
-  :group 'elpy)
-
-(defcustom elpy-test-django-runner-manage-command '("manage.py" "test"
-                                                    "--noinput")
-  "The command to use for `elpy-test-django-runner' in case we want to use manage.py."
-  :type '(repeat string)
-  :group 'elpy)
-
-(defcustom elpy-test-django-with-manage nil
-  "Set to nil, elpy will use `elpy-test-django-runner-command',
-set to t elpy will use `elpy-test-django-runner-manage-command' and set the project root accordingly."
-  :type 'boolean
-  :group 'elpy)
-
 (defcustom elpy-test-nose-runner-command '("nosetests")
   "The command to use for `elpy-test-nose-runner'."
   :type '(repeat string)
@@ -366,7 +352,7 @@ option is `pdb'."
   :group 'elpy)
 
 (defcustom elpy-disable-backend-error-display t
-  "Non-nil if Elpy should disable backed error display."
+  "Non-nil if Elpy should disable backend error display."
   :type 'boolean
   :group 'elpy)
 
@@ -624,7 +610,8 @@ virtualenv.
     ("Snippets (YASnippet)" yasnippet "yas-")
     ("Directory Grep (rgrep)" grep "grep-")
     ("Search as You Type (ido)" ido "ido-")
-    ("Django Extension" elpy-django "elpy-django-")
+    ("Django extension" elpy-django "elpy-django-")
+    ("Autodoc extension" elpy-autodoc "elpy-autodoc-")
     ;; ffip does not use defcustom
     ;; highlight-indent does not use defcustom, either. Its sole face
     ;; is defined in basic-faces.
@@ -643,8 +630,8 @@ from distutils.version import LooseVersion
 
 def latest(package, version=None):
     try:
-        pypi = xmlrpclib.ServerProxy('https://pypi.python.org/pypi')
-        latest = pypi.package_releases(package)[0]
+        with xmlrpclib.ServerProxy('https://pypi.python.org/pypi') as pypi:
+            latest = pypi.package_releases(package)[0]
         if version is None or LooseVersion(version) < LooseVersion(latest):
             return latest
         else:
@@ -948,6 +935,11 @@ item in another window.\n\n")
       (insert "\n\n"))
 
     ))
+
+(defun elpy-config--package-available-p (package)
+  "Check if PACKAGE is installed in the rpc."
+  (equal 0 (call-process elpy-rpc-python-command nil nil nil "-c"
+                         (format "import %s" package))))
 
 (defun elpy-config--get-config ()
   "Return the configuration from `elpy-rpc-python-command'.
@@ -1744,7 +1736,10 @@ indentation levels."
   (setq elpy-nav-expand--initial-position (point))
   (let ((indentation (current-indentation)))
     (if (= indentation 0)
-        (mark-whole-buffer)
+        (progn
+          (push-mark (point))
+          (push-mark (point-max) nil t)
+          (goto-char (point-min)))
       (while (<= indentation (current-indentation))
         (forward-line -1))
       (forward-line 1)
@@ -1936,44 +1931,6 @@ This requires Python 2.7 or later."
     (apply #'elpy-test-run top command)))
 (put 'elpy-test-green-runner 'elpy-test-runner-p t)
 
-(defun elpy-test-django-runner (top _file module test)
-  "Test the project using the Django discover runner,
-or with manage.py if elpy-test-django-with-manage is true.
-
-This requires Django 1.6 or the django-discover-runner package."
-  (interactive (elpy-test-at-point))
-  (if module
-      (apply #'elpy-test-run
-             top
-             (append
-              ;; if we want to use manage.py, get the root directory where it is.
-              (if elpy-test-django-with-manage
-                  (append (list (concat (expand-file-name
-                                         (locate-dominating-file
-                                          (elpy-project-root)
-                                          (car elpy-test-django-runner-manage-command)))
-                                        (car elpy-test-django-runner-manage-command)))
-                          (cdr elpy-test-django-runner-manage-command))
-                ;; or the default:
-                elpy-test-django-runner-command)
-              (list (if test
-                        (format "%s.%s" module test)
-                      module))))
-    (apply #'elpy-test-run
-           top
-           (append
-            (if elpy-test-django-with-manage
-                (append (list (concat (expand-file-name
-                                       (locate-dominating-file
-                                        (if (elpy-project-root)
-                                            (elpy-project-root)
-                                          ".")
-                                        (car elpy-test-django-runner-manage-command)))
-                                      (car elpy-test-django-runner-manage-command)))
-                        (cdr elpy-test-django-runner-manage-command))
-              elpy-test-django-runner-command)))))
-(put 'elpy-test-django-runner 'elpy-test-runner-p t)
-
 (defun elpy-test-nose-runner (top _file module test)
   "Test the project using the nose test runner.
 
@@ -2124,8 +2081,8 @@ prefix argument is given, prompt for a symbol from the user."
 (defun elpy-importmagic-fixup ()
   (interactive))
 
-(make-obsolete 'elpy-importmagic-add-import "support for importmagic has been dropped.")
-(make-obsolete 'elpy-importmagic-fixup "support for importmagic has been dropped.")
+(make-obsolete 'elpy-importmagic-add-import "support for importmagic has been dropped." "1.17.0")
+(make-obsolete 'elpy-importmagic-fixup "support for importmagic has been dropped." "1.17.0")
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;;; Code reformatting
@@ -2134,38 +2091,49 @@ prefix argument is given, prompt for a symbol from the user."
   "Format code using the available formatter."
   (interactive)
   (cond
-   ((executable-find "yapf")
+   ((elpy-config--package-available-p "yapf")
     (elpy-yapf-fix-code))
-   ((executable-find "autopep8")
+   ((elpy-config--package-available-p "autopep8")
     (elpy-autopep8-fix-code))
    (t
     (message "Install yapf/autopep8 to format code."))))
 
 (defun elpy-yapf-fix-code ()
-  "Automatically formats Python code with yapf."
+  "Automatically formats Python code with yapf.
+
+Yapf can be configured with a style file placed in the project
+root directory."
   (interactive)
   (elpy--fix-code-with-formatter "fix_code_with_yapf"))
 
 (defun elpy-autopep8-fix-code ()
-  "Automatically formats Python code to conform to the PEP 8 style guide."
+  "Automatically formats Python code to conform to the PEP 8 style guide.
+
+Autopep8 can be configured with a style file placed in the project
+root directory."
   (interactive)
   (elpy--fix-code-with-formatter "fix_code"))
 
 (defun elpy--fix-code-with-formatter (method)
   "Common routine for formatting python code."
   (let ((line (line-number-at-pos))
-        (col (current-column)))
+        (col (current-column))
+        (directory (or (expand-file-name (elpy-project-root))
+                              default-directory)))
     (if (use-region-p)
-        (let ((new-block (elpy-rpc method (list (elpy-rpc--region-contents))))
-              (beg (region-beginning)) (end (region-end)))
+        (let ((new-block (elpy-rpc method
+                                   (list (elpy-rpc--region-contents)
+                                         directory)))
+              (beg (region-beginning))
+              (end (region-end)))
           (elpy-buffer--replace-region
            beg end
            (replace-regexp-in-string "\n$" "" new-block))
           (goto-char end)
           (deactivate-mark))
-      ;; Vector instead of list, json.el in Emacs 24.3 and before
-      ;; breaks for single-element lists of alists.
-      (let ((new-block (elpy-rpc method (vector (elpy-rpc--buffer-contents))))
+      (let ((new-block (elpy-rpc method
+                                 (list (elpy-rpc--buffer-contents)
+                                       directory)))
             (beg (point-min))
             (end (point-max)))
         (elpy-buffer--replace-region beg end new-block)
@@ -2987,7 +2955,8 @@ Returns a calltip string for the function call at point."
 
 Returns a list of possible completions for the Python symbol at
 point."
-  (when (< (buffer-size) elpy-rpc-ignored-buffer-size)
+  (when (and (< (buffer-size) elpy-rpc-ignored-buffer-size)
+             (not (string-match "^[0-9]+$" (symbol-name (symbol-at-point)))))
     (elpy-rpc "get_completions"
               (list buffer-file-name
                     (elpy-rpc--buffer-contents)
@@ -3114,12 +3083,18 @@ Points to file FILE, at position POS."
   (defun elpy-xref--identifier-at-point ()
     "Return identifier at point.
 
-Is a string, formatted as \"LINE_NUMBER: VARIABLE_NAME\"."
-    (let ((symb (substring-no-properties (symbol-name (symbol-at-point))))
-          (assign (elpy-rpc-get-assignment)))
-      (when assign
-        (format "%s: %s"
-                (line-number-at-pos (+ 1 (car (cdr assign)))) symb))))
+Is a string, formatted as \"LINE_NUMBER: VARIABLE_NAME\".
+Try to find the identifier assignement if it is in the current buffer.
+"
+    (let* ((symb  (symbol-at-point))
+           (symb-str (substring-no-properties (symbol-name symb)))
+           (assign (elpy-rpc-get-assignment)))
+      (when symb
+        (if (and assign (string= (car assign) (buffer-file-name)))
+            (format "%s: %s"
+                    (line-number-at-pos (+ 1 (car (cdr assign))))
+                    symb-str)
+          (format "%s: %s" (line-number-at-pos) symb-str)))))
 
   (defun elpy-xref--identifier-name (id)
     "Return the identifier ID variable name."
@@ -3135,7 +3110,8 @@ Is a string, formatted as \"LINE_NUMBER: VARIABLE_NAME\"."
     "Goto the identifier ID in the current buffer.
 This is needed to get information on the identifier with jedi
 \(that work only on the symbol at point\)"
-    (goto-line (elpy-xref--identifier-line id))
+    (goto-char (point-min))
+    (forward-line (1- (elpy-xref--identifier-line id)))
     (search-forward (elpy-xref--identifier-name id))
     (goto-char (match-beginning 0)))
 
@@ -3189,27 +3165,27 @@ This is needed to get information on the identifier with jedi
     (elpy-xref--get-completion-table))
 
   (defun elpy-xref--get-completion-table ()
-    "Return the completion table for identifiers."
-    (let ((table nil))
+    "Return the completion table for identifiers.
+
+Try to use the identifier assignement instead of the identifier at point.
+Also ensure that variables are not represented more than once."
+    (let ((table nil)
+          (outside-assigns))
       (cl-loop
        for ref in (nreverse (elpy-rpc-get-names))
        for offset = (+ (alist-get 'offset ref) 1)
-       for filename = (alist-get 'filename ref)
-       ;; ensure that variables with same assignment are not represented twice
-       do (with-current-buffer (find-file-noselect filename)
-            (save-excursion
-                                 (goto-char offset)
-                                 (let* ((def (elpy-rpc-get-assignment))
-                                        (tmp_filename (car def))
-                                        (tmp_offset (car (cdr def))))
-                                   (when def
-                                     (setq filename tmp_filename)
-                                     (setq offset (+ tmp_offset 1))))))
-       for line = (with-current-buffer (find-file-noselect filename)
-                    (line-number-at-pos offset))
+       for line = (line-number-at-pos offset)
+       ;; Use assignment line position if the assignement is in the same file
+       for assign = (save-excursion (goto-char offset) (elpy-rpc-get-assignment))
+       do (when (string= (car assign) (buffer-file-name))
+            (setq offset (+ 1 (car (cdr assign))))
+            (setq line (line-number-at-pos offset)))
        for id = (format "%s: %s" line (alist-get 'name ref))
-       unless (member id table)
-       do (push id table))
+       ;; ensure that identifier are represented only once
+       unless (or (member id table) (member assign outside-assigns))
+       do (progn
+            (push id table)
+            (when assign (push assign outside-assigns))))
       table))
 
   ;; Apropos
@@ -3321,7 +3297,13 @@ If you need your modeline, you can set the variable `elpy-remove-modeline-lighte
      (require 'company)
      (elpy-modules-remove-modeline-lighter 'company-mode)
      (define-key company-active-map (kbd "C-d")
-       'company-show-doc-buffer))
+       'company-show-doc-buffer)
+     ;; Workaround for company bug
+     ;; (https://github.com/company-mode/company-mode/issues/759)
+     (add-hook 'inferior-python-mode-hook
+               (lambda () (setq-local company-transformers
+                                      (remove 'company-sort-by-occurrence
+                                              company-transformers)))))
     (`buffer-init
      ;; We want immediate completions from company.
      (set (make-local-variable 'company-idle-delay)
@@ -3785,6 +3767,80 @@ description."
      (elpy-django-setup))
     (`buffer-stop
      (elpy-django -1))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Module: Autodoc
+
+(defun elpy-module-autodoc (command &rest _args)
+  "Module to automatically update documentation."
+  (pcase command
+    (`buffer-init
+     (add-hook 'pre-command-hook 'elpy-autodoc--pre-command nil t)
+     (add-hook 'post-command-hook 'elpy-autodoc--post-command nil t)
+     (make-local-variable 'company-frontends)
+     (add-to-list 'company-frontends 'elpy-autodoc--frontend :append))
+    (`buffer-stop
+     (remove-hook 'pre-command-hook 'elpy-autodoc--pre-command t)
+     (remove-hook 'post-command-hook 'elpy-autodoc--post-command t)
+     (setq company-frontends (remove 'elpy-autodoc--frontend company-frontends)))))
+
+
+;; Auto refresh documentation on cursor motion
+(defvar elpy-autodoc--timer nil
+  "Timer to refresh documentation.")
+
+(defcustom elpy-autodoc-delay .5
+  "The idle delay in seconds until documentation is refreshed automatically."
+  :type '(choice (const :tag "immediate (0)" 0)
+                 (number :tag "seconds"))
+  :group 'elpy
+  :group 'elpy-autodoc)
+
+(defun elpy-autodoc--pre-command ()
+  "Cancel autodoc timer on user action."
+  (when elpy-autodoc--timer
+    (cancel-timer elpy-autodoc--timer)
+    (setq elpy-autodoc--timer nil)))
+
+(defun elpy-autodoc--post-command ()
+  "Set up autodoc timer after user action."
+  (when elpy-autodoc-delay
+    (setq elpy-autodoc--timer
+          (run-with-timer elpy-autodoc-delay nil
+                          'elpy-autodoc--refresh-doc))))
+
+(defun elpy-autodoc--refresh-doc ()
+  "Refresh the doc asynchronously with the symbol at point."
+  (when (get-buffer-window "*Python Doc*")
+    (elpy-rpc-get-docstring 'elpy-autodoc--show-doc
+                            (lambda (_reason) nil))))
+
+(defun elpy-autodoc--show-doc (doc)
+  "Display DOC (if any) but only if the doc buffer is currently visible."
+  (when (and doc (get-buffer-window "*Python Doc*"))
+    (elpy-doc--show doc)))
+
+;; Auto refresh documentation in company candidate selection
+(defun elpy-autodoc--frontend (command)
+  "Elpy autodoc front-end for refreshing documentation."
+  (pcase command
+    (`post-command
+     (when elpy-autodoc-delay
+       (when elpy-autodoc--timer
+         (cancel-timer elpy-autodoc--timer))
+       (setq elpy-autodoc--timer
+             (run-with-timer elpy-autodoc-delay
+                             nil
+                             'elpy-autodoc--refresh-doc-from-company))))
+    (`hide
+     (when elpy-autodoc--timer
+       (cancel-timer elpy-autodoc--timer)))))
+
+(defun elpy-autodoc--refresh-doc-from-company ()
+  "Refresh the doc asynchronously using the current company candidate."
+  (let* ((symbol (nth company-selection company-candidates))
+         (doc (elpy-rpc-get-completion-docstring symbol)))
+    (elpy-autodoc--show-doc doc)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Backwards compatibility
