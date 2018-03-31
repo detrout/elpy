@@ -1,0 +1,25 @@
+Subject: Use hungry glob for string-match in test/elpy-config-test.el
+Forwarded: https://github.com/jorgenschaefer/elpy/pull/1318
+From: Nicholas D Steeves <nsteeves@gmail.com>
+Applied-Upstream: https://github.com/jorgenschaefer/elpy/commit/558aaf1589745079db60277b8848a8d928f76720
+Date: Tue, 20 Mar 2018 16:22:55 -0400
+
+This is needed to fix failure of the
+elpy-insert--pip-button-value-create-should-do-user-install test when
+building on Debian.
+
+Thanks to Jorgen Schaefer for the tip
+---
+ test/elpy-config-test.el | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/test/elpy-config-test.el b/test/elpy-config-test.el
+index 9951ef1..37dfcd1 100644
+--- a/test/elpy-config-test.el
++++ b/test/elpy-config-test.el
+@@ -21,4 +21,4 @@
+                                          (elpy/wait-for-output "Only")
+                                          (buffer-string))))
+                            (should (equal python-check-command "/foo/bar/flake8"))
+-                           (should (string-match "python -m pip install flake8" output))))))
++                           (should (string-match "python -m pip install.*flake8" output))))))
