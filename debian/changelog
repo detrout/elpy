@@ -2,4 +2,4 @@ elpy (1.19.0-1) unstable; urgency=medium
 
   * Initial release. (Closes: #825980, #861174)
 
- -- Nicholas D Steeves <nsteeves@gmail.com>  Fri, 30 Mar 2018 19:21:14 -0400
+ -- Nicholas D Steeves <nsteeves@gmail.com>  Sat, 31 Mar 2018 13:22:25 -0400
