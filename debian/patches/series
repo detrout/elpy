@@ -1,2 +1,3 @@
 0001-Disable-failing-tests.patch
 0002-Use-hungry-glob-for-string-match-in-test-elpy-config.patch
+0003-Modify-UTF8-character-in-elpy-rpc-test-to-allow-test.patch

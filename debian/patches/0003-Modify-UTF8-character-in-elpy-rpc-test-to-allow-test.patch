@@ -1,0 +1,44 @@
+Subject: Modify UTF8 character "ö" in elpy-rpc-test to allow test to pass
+Forwarded: https://github.com/jorgenschaefer/elpy/pull/1332
+From: Nicholas D Steeves <nsteeves@gmail.com>
+Date: Mon, 2 Apr 2018 14:12:35 -0400
+
+This might be caused by a UTF8 handling bug in Debian's dh-python,
+dh-elpa, libdpkg-perl, or a limitation in pbuilder; however, this
+simple patch allows the test to pass when building in a pbuilder or on
+the buildd network.
+---
+ elpy/tests/test_server.py | 4 ++--
+ test/elpy-rpc-test.el     | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/elpy/tests/test_server.py b/elpy/tests/test_server.py
+index fe83db6..3fc2ae5 100644
+--- a/elpy/tests/test_server.py
++++ b/elpy/tests/test_server.py
+@@ -332,11 +332,11 @@ class TestGetSource(unittest.TestCase):
+         fd, filename = tempfile.mkstemp(prefix="elpy-test-")
+         self.addCleanup(os.remove, filename)
+         with open(filename, "wb") as f:
+-            f.write(u"möp".encode("utf-8"))
++            f.write(u"mop".encode("utf-8"))
+ 
+         source = server.get_source({'filename': filename})
+ 
+-        self.assertEqual(source, u"möp")
++        self.assertEqual(source, u"mop")
+ 
+ 
+ class TestPysymbolKey(BackendTestCase):
+diff --git a/test/elpy-rpc-test.el b/test/elpy-rpc-test.el
+index cb49885..996a428 100644
+--- a/test/elpy-rpc-test.el
++++ b/test/elpy-rpc-test.el
+@@ -25,5 +25,5 @@
+ 
+ (ert-deftest elpy-rpc-integration ()
+   (elpy-testcase ()
+-    (should (equal (elpy-rpc "echo" '(23 "möp"))
+-                   '(23 "möp")))))
++    (should (equal (elpy-rpc "echo" '(23 "mop"))
++                   '(23 "mop")))))
