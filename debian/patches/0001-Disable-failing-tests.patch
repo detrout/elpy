@@ -1,42 +1,22 @@
 Description: Disable failing tests
- Elpy-1.19.0 now only fails for the following tests:
+ Elpy-1.19.0 now only fails for the following test:
  .
- 2 unexpected results:
- FAILED elpy-rpc-integration
+ 1 unexpected results:
  FAILED elpy-shell-send-region-or-buffer-should-notify-of-removing-main
  .
  It may be possible to make
  "elpy-shell-send-region-or-buffer-should-notify-of-removing-main"
  pass by packaging ert-helper and then somehow integrating it with
  dh-elpa.
- .
- The cause of failure for "elpy-rpc-integration" is unknown.
 Forwarded: https://github.com/jorgenschaefer/elpy/issues/1308
 From: Nicholas D Steeves <nsteeves@gmail.com>
 Date: Sat, 3 Mar 2018 19:27:31 -0500
-Last-Update: 2018-03-31
+Last-Update: 2018-04-02
 
 ---
- test/elpy-rpc-test.el                         |  8 +++----
  test/elpy-shell-send-region-or-buffer-test.el | 30 +++++++++++++--------------
- 2 files changed, 19 insertions(+), 19 deletions(-)
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/test/elpy-rpc-test.el b/test/elpy-rpc-test.el
-index cb49885..727c4a3 100644
---- a/test/elpy-rpc-test.el
-+++ b/test/elpy-rpc-test.el
-@@ -23,7 +23,7 @@
-               (should (equal params nil))))
-       (elpy-rpc "test-method" nil))))
- 
--(ert-deftest elpy-rpc-integration ()
--  (elpy-testcase ()
--    (should (equal (elpy-rpc "echo" '(23 "möp"))
--                   '(23 "möp")))))
-+;; (ert-deftest elpy-rpc-integration ()
-+;;   (elpy-testcase ()
-+;;     (should (equal (elpy-rpc "echo" '(23 "möp"))
-+;;                    '(23 "möp")))))
 diff --git a/test/elpy-shell-send-region-or-buffer-test.el b/test/elpy-shell-send-region-or-buffer-test.el
 index a863b5c..193946e 100644
 --- a/test/elpy-shell-send-region-or-buffer-test.el
