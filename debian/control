@@ -10,7 +10,6 @@ Build-Depends: debhelper (>= 11~)
              , python3-setuptools
              , python3-flake8
              , python3-jedi
-             , python3-rope
              , python3-importmagic
 # Add python3-autopep8 when is made available (see Bug #875906)
 # After adding python3-autopep8, update 0001-Disable-failing-tests.patch
@@ -54,7 +53,6 @@ Depends: ${elpa:Depends}
 Recommends: emacs (>= 46.0)
           , python3-flake8
           , python3-jedi
-          , python3-rope
 Suggests: python3-importmagic
         , python-autopep8
         , yapf3
