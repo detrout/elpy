@@ -1,1 +1,2 @@
 ert_eval = (progn (mapc 'load (file-expand-wildcards "test/*-runner-test.el")) (load-file "test/test-helper.el"))
+autopkgtest_keep = elpy/* test/*
