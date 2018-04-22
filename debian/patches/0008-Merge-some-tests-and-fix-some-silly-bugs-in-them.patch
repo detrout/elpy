@@ -1,0 +1,175 @@
+From: Jorgen Schaefer <contact@jorgenschaefer.de>
+Date: Fri, 20 Apr 2018 09:21:06 +0000
+Subject: Merge some tests and fix some silly bugs in them
+
+Hopefully helps with #1308
+---
+ ...shell-kill-all-should-kill-all-shell-buffers.el | 23 --------
+ test/elpy-shell-kill-all-should-kill-all-shells.el | 23 --------
+ test/elpy-shell-kill-should-kill-shell-buffer.el   |  7 ---
+ test/elpy-shell-kill-should-kill-shell.el          |  7 ---
+ test/elpy-shell-kill-test.el                       | 67 ++++++++++++++++++++++
+ 5 files changed, 67 insertions(+), 60 deletions(-)
+ delete mode 100644 test/elpy-shell-kill-all-should-kill-all-shell-buffers.el
+ delete mode 100644 test/elpy-shell-kill-all-should-kill-all-shells.el
+ delete mode 100644 test/elpy-shell-kill-should-kill-shell-buffer.el
+ delete mode 100644 test/elpy-shell-kill-should-kill-shell.el
+ create mode 100644 test/elpy-shell-kill-test.el
+
+diff --git a/test/elpy-shell-kill-all-should-kill-all-shell-buffers.el b/test/elpy-shell-kill-all-should-kill-all-shell-buffers.el
+deleted file mode 100644
+index 613482b..0000000
+--- a/test/elpy-shell-kill-all-should-kill-all-shell-buffers.el
++++ /dev/null
+@@ -1,23 +0,0 @@
+-(ert-deftest elpy-shell-kill-all-should-kill-all-shells ()
+-  (elpy-testcase ()
+-    (let ((buff1 (generate-new-buffer "buff1"))
+-	  (buff2 (generate-new-buffer "buff2"))
+-	  (shell-buff1 nil)
+-	  (shell-buff2 nil)
+-	  (add-hook 'elpy-mode-hook (lambda () (elpy-shell-toggle-dedicated-shell 1))))
+-      (with-current-buffer buff1
+-	(python-mode)
+-	(elpy-mode 1)
+-	(setq shell-buff1 (process-buffer (elpy-shell-get-or-create-process))))
+-      (with-current-buffer buff2
+-	(python-mode)
+-	(elpy-mode 1)
+-	(setq shell-buff2 (process-buffer (elpy-shell-get-or-create-process))))
+-      (defun yes-or-no-p (&rest args)
+-	t)
+-      (defun y-or-n-p (&rest args)
+-	t)
+-      (elpy-shell-kill-all t)
+-    (should (not (and
+-		    (buffer-name shell-buff1)
+-		    (buffer-name shell-buff2)))))))
+diff --git a/test/elpy-shell-kill-all-should-kill-all-shells.el b/test/elpy-shell-kill-all-should-kill-all-shells.el
+deleted file mode 100644
+index 744b62f..0000000
+--- a/test/elpy-shell-kill-all-should-kill-all-shells.el
++++ /dev/null
+@@ -1,23 +0,0 @@
+-(ert-deftest elpy-shell-kill-all-should-kill-all-shells ()
+-  (elpy-testcase ()
+-    (let ((buff1 (generate-new-buffer "buff1"))
+-	  (buff2 (generate-new-buffer "buff2"))
+-	  (shell-buff1 nil)
+-	  (shell-buff2 nil)
+-          (add-hook (lambda () (elpy-shell-toggle-dedicated-shell 1))))
+-      (with-current-buffer buff1
+-	(python-mode)
+-	(elpy-mode 1)
+-	(setq shell-buff1 (process-buffer (elpy-shell-get-or-create-process))))
+-      (with-current-buffer buff2
+-	(python-mode)
+-	(elpy-mode 1)
+-	(setq shell-buff2 (process-buffer (elpy-shell-get-or-create-process))))
+-      (defun yes-or-no-p (&rest args)
+-	t)
+-      (defun y-or-n-p (&rest args)
+-	t)
+-      (elpy-shell-kill-all)
+-    (should (not (and
+-		    (get-buffer-process shell-buff1)
+-		    (get-buffer-process shell-buff2)))))))
+diff --git a/test/elpy-shell-kill-should-kill-shell-buffer.el b/test/elpy-shell-kill-should-kill-shell-buffer.el
+deleted file mode 100644
+index 37d7803..0000000
+--- a/test/elpy-shell-kill-should-kill-shell-buffer.el
++++ /dev/null
+@@ -1,7 +0,0 @@
+-(ert-deftest elpy-shell-kill-should-kill-shell-buffer ()
+-  (elpy-testcase ()
+-    (python-mode)
+-    (elpy-mode 1)
+-    (let ((shell-buffer (process-buffer (elpy-shell-get-or-create-process))))
+-      (elpy-shell-kill t)
+-      (should (not (buffer-name shell-buffer))))))
+diff --git a/test/elpy-shell-kill-should-kill-shell.el b/test/elpy-shell-kill-should-kill-shell.el
+deleted file mode 100644
+index 39bce8e..0000000
+--- a/test/elpy-shell-kill-should-kill-shell.el
++++ /dev/null
+@@ -1,7 +0,0 @@
+-(ert-deftest elpy-shell-kill-should-kill-shell ()
+-  (elpy-testcase ()
+-    (python-mode)
+-    (elpy-mode 1)
+-    (let ((shell-buffer (process-buffer (elpy-shell-get-or-create-process))))
+-      (elpy-shell-kill t)
+-      (should (not (get-buffer-process shell-buffer))))))
+diff --git a/test/elpy-shell-kill-test.el b/test/elpy-shell-kill-test.el
+new file mode 100644
+index 0000000..2ac8a86
+--- /dev/null
++++ b/test/elpy-shell-kill-test.el
+@@ -0,0 +1,67 @@
++(ert-deftest elpy-shell-kill-all-should-kill-all-shells ()
++  (elpy-testcase ()
++    (let ((buff1 (generate-new-buffer "buff1"))
++	  (buff2 (generate-new-buffer "buff2"))
++	  (shell-buff1 nil)
++	  (shell-buff2 nil))
++      (add-hook 'elpy-mode-hook
++                (lambda ()
++                  (elpy-shell-toggle-dedicated-shell 1)))
++      (with-current-buffer buff1
++	(python-mode)
++	(elpy-mode 1)
++	(setq shell-buff1 (process-buffer (elpy-shell-get-or-create-process))))
++      (with-current-buffer buff2
++	(python-mode)
++	(elpy-mode 1)
++	(setq shell-buff2 (process-buffer (elpy-shell-get-or-create-process))))
++      (defun yes-or-no-p (&rest args)
++	t)
++      (defun y-or-n-p (&rest args)
++	t)
++      (elpy-shell-kill-all t)
++      (should (not (and
++		    (buffer-name shell-buff1)
++		    (buffer-name shell-buff2)))))))
++
++(ert-deftest elpy-shell-kill-all-should-kill-all-shells ()
++  (elpy-testcase ()
++    (let ((buff1 (generate-new-buffer "buff1"))
++          (buff2 (generate-new-buffer "buff2"))
++          (shell-buff1 nil)
++          (shell-buff2 nil))
++      (add-hook 'elpy-mode-hook
++                (lambda ()
++                  (elpy-shell-toggle-dedicated-shell 1)))
++      (with-current-buffer buff1
++        (python-mode)
++        (elpy-mode 1)
++        (setq shell-buff1 (process-buffer (elpy-shell-get-or-create-process))))
++      (with-current-buffer buff2
++        (python-mode)
++        (elpy-mode 1)
++        (setq shell-buff2 (process-buffer (elpy-shell-get-or-create-process))))
++      (defun yes-or-no-p (&rest args)
++        t)
++      (defun y-or-n-p (&rest args)
++        t)
++      (elpy-shell-kill-all)
++      (should (not (and
++                    (get-buffer-process shell-buff1)
++                    (get-buffer-process shell-buff2)))))))
++
++(ert-deftest elpy-shell-kill-should-kill-shell-buffer ()
++  (elpy-testcase ()
++    (python-mode)
++    (elpy-mode 1)
++    (let ((shell-buffer (process-buffer (elpy-shell-get-or-create-process))))
++      (elpy-shell-kill t)
++      (should (not (buffer-name shell-buffer))))))
++
++(ert-deftest elpy-shell-kill-should-kill-shell ()
++  (elpy-testcase ()
++    (python-mode)
++    (elpy-mode 1)
++    (let ((shell-buffer (process-buffer (elpy-shell-get-or-create-process))))
++      (elpy-shell-kill t)
++      (should (not (get-buffer-process shell-buffer))))))

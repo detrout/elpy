@@ -1,0 +1,55 @@
+From: galaunay <gaby.launay@tutanota.com>
+Date: Sun, 15 Apr 2018 20:32:42 +0100
+Subject: Raise an error if the interpreter is not in the current virtualenv
+ (#1335)
+
+* Raise an error if the interpreter is not in the current virtualenv
+
+* Add a test
+---
+ elpy-shell.el                                 |  6 ++++++
+ test/elpy-shell-get-or-create-process-test.el | 10 ++++++++++
+ 2 files changed, 16 insertions(+)
+
+diff --git a/elpy-shell.el b/elpy-shell.el
+index 33b951b..ec495aa 100644
+--- a/elpy-shell.el
++++ b/elpy-shell.el
+@@ -25,6 +25,7 @@
+ ;;; Code:
+ 
+ (eval-when-compile (require 'subr-x))
++(require 'pyvenv)
+ (require 'python)
+ 
+ ;;;;;;;;;;;;;;;;;;;;;;
+@@ -229,6 +230,11 @@ Python process. This allows the process to start up."
+          (proc (get-buffer-process bufname)))
+     (if proc
+         proc
++      (when (and pyvenv-virtual-env
++                 (not (string-prefix-p (expand-file-name pyvenv-virtual-env)
++                                       (executable-find
++                                        python-shell-interpreter))))
++        (error "Interpreter binaries not found in the current virtual environnement"))
+       (let ((default-directory (or (and elpy-shell-use-project-root
+                                         (elpy-project-root))
+                                    default-directory)))
+diff --git a/test/elpy-shell-get-or-create-process-test.el b/test/elpy-shell-get-or-create-process-test.el
+index ce2194e..f25bd3a 100644
+--- a/test/elpy-shell-get-or-create-process-test.el
++++ b/test/elpy-shell-get-or-create-process-test.el
+@@ -7,3 +7,13 @@
+     (let ((proc (elpy-shell-get-or-create-process)))
+       (with-current-buffer (process-buffer proc)
+         (should (eq major-mode 'inferior-python-mode))))))
++
++(ert-deftest elpy-shell-get-or-create-process-should-fail-for-missing-binaries ()
++  (elpy-testcase ()
++    ;; test that it does not fail outside a virtual env
++    (elpy-shell-get-or-create-process)
++    (elpy-shell-kill)
++    ;; Test that it fail for a virtualenv without the wanted interpreter
++    (pyvenv-activate (expand-file-name "./dummy-folder"))
++    (should-error (elpy-shell-get-or-create-process))
++    (pyvenv-deactivate)))
