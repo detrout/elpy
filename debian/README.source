@@ -1,0 +1,9 @@
+Elpy's python-mode snippets are in the process of being merged
+upstream into yasnippet-snippets.  After yasnippet-snippets makes a
+stable release that includes them, and after they have been removed
+from Elpy, this package must Depend or Recommend
+elpa-yasnippet-snippets if ${elpa:Depends} does not automatically
+require them.  Bug #893919 is currently blocking progress on the
+Debian side of this.
+
+ -- Nicholas D Steeves <nsteeves@gmail.com>, Mon, 23 Apr 2018 17:13:05 -0400
