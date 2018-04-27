@@ -3,7 +3,27 @@ upstream into yasnippet-snippets.  After yasnippet-snippets makes a
 stable release that includes them, and after they have been removed
 from Elpy, this package must Depend or Recommend
 elpa-yasnippet-snippets if ${elpa:Depends} does not automatically
-require them.  Bug #893919 is currently blocking progress on the
-Debian side of this.
+require them.
 
- -- Nicholas D Steeves <nsteeves@gmail.com>, Mon, 23 Apr 2018 17:13:05 -0400
+While upstream source can be downloaded with uscan, I am merging new
+upstream versions from upstream git tags and have disabled
+pristine-tar in gbp.conf.  If ever there is a quilt patch I committed
+that is missing DEP3 headers it is because I cherry picked it from
+upstream-vcs/master while on the patch-queue/master branch.  This can
+be verified by searching upstream-vcs/master's git log for the commit
+specified in the patch.
+
+The new upstream version workflow used in this package is as follows:
+  git fetch upstream-vcs
+  git checkout upstream
+  git merge upstream_version_tag --ff-only
+  git checkout master
+  # if patch/queue doesn't exist then
+  gbp pq import
+  git merge upstream_version_tag
+  # run the following to refresh all paches, and to drop patches for
+  # commits that were applied to the new upstream version.
+  gbp pq rebase    # automatically switches to patch-queue/master
+  gbp pq export    # now on master with refreshed patch set
+
+ -- Nicholas D Steeves <nsteeves@gmail.com>, Fri, 27 Apr 2018 14:16:22 -0400
