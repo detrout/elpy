@@ -1,11 +1,1 @@
 0001-Disable-failing-tests.patch
-0002-Use-hungry-glob-for-string-match-in-test-elpy-config.patch
-0003-Don-t-error-when-a-reference-has-no-associated-file.patch
-0004-Update-failing-tests-in-Travis-1342.patch
-0005-Raise-an-error-if-the-interpreter-is-not-in-the-curr.patch
-0006-Prevent-expand-file-name-from-erroring-when-project-.patch
-0007-typo.patch
-0008-Merge-some-tests-and-fix-some-silly-bugs-in-them.patch
-0009-Make-coding-system-explicit-for-files-with-umlauts.patch
-0010-Typo-fix.patch
-0011-Fix-tests-on-elpy-shell-kill.patch
