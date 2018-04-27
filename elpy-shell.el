@@ -25,6 +25,7 @@
 ;;; Code:
 
 (eval-when-compile (require 'subr-x))
+(require 'pyvenv)
 (require 'python)
 
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -229,6 +230,11 @@ Python process. This allows the process to start up."
          (proc (get-buffer-process bufname)))
     (if proc
         proc
+      (when (and pyvenv-virtual-env
+                 (not (string-prefix-p (expand-file-name pyvenv-virtual-env)
+                                       (executable-find
+                                        python-shell-interpreter))))
+        (error "Interpreter binaries not found in the current virtual environnement"))
       (let ((default-directory (or (and elpy-shell-use-project-root
                                         (elpy-project-root))
                                    default-directory)))
@@ -250,7 +256,9 @@ if ARG is negative or 0, disable the use of a dedicated shell."
     (if (<= arg 0)
         (kill-local-variable 'python-shell-buffer-name)
       (setq-local python-shell-buffer-name
-                  (format "Python[%s]" (buffer-name))))))
+                  (format "Python[%s]"
+                          (file-name-sans-extension
+                          (buffer-name)))))))
 
 (defun elpy-shell-set-local-shell (&optional shell-name)
   "Associate the current buffer to a specific shell.
@@ -270,12 +278,14 @@ shell (often \"*Python*\" shell)."
                                "Global"))
          (shell-names (cl-loop
                 for buffer in (buffer-list)
-                for buffer-name = (substring-no-properties (buffer-name buffer))
+                for buffer-name = (file-name-sans-extension (substring-no-properties (buffer-name buffer)))
                 if (string-match "\\*Python\\[\\(.*?\\)\\]\\*" buffer-name)
                 collect (match-string 1 buffer-name)))
          (candidates (remove current-shell-name
-                          (delete-dups
-                           (append (list (buffer-name) "Global") shell-names))))
+                           (delete-dups
+                           (append (list (file-name-sans-extension
+                                          (buffer-name)) "Global")
+                                   shell-names))))
          (prompt (format "Shell name (current: %s): " current-shell-name))
          (shell-name (or shell-name (completing-read prompt candidates))))
     (if (string= shell-name "Global")

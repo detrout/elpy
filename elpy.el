@@ -4,7 +4,7 @@
 
 ;; Author: Jorgen Schaefer <contact@jorgenschaefer.de>
 ;; URL: https://github.com/jorgenschaefer/elpy
-;; Version: 1.19.0
+;; Version: 1.20.0
 ;; Keywords: Python, IDE, Languages, Tools
 ;; Package-Requires: ((company "0.9.2") (emacs "24.4") (find-file-in-project "3.3")  (highlight-indentation "0.5.0") (pyvenv "1.3") (yasnippet "0.8.0") (s "1.11.0"))
 
@@ -53,7 +53,7 @@
 (require 'pyvenv)
 (require 'find-file-in-project)
 
-(defconst elpy-version "1.19.0"
+(defconst elpy-version "1.20.0"
   "The version of the Elpy lisp code.")
 
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -814,7 +814,7 @@ item in another window.\n\n")
        "no active virtualenv, installing Python packages locally will "
        "place executables in that directory, so Emacs won't find them. "
        "If you are missing some commands, do add this directory to your "
-       "PATH.\n\n"))
+       "PATH -- and then do `elpy-rpc-restart'.\n\n"))
 
     ;; Python found, but can't find the elpy module
     (when (and (gethash "python_rpc_executable" config)
@@ -2118,8 +2118,9 @@ root directory."
   "Common routine for formatting python code."
   (let ((line (line-number-at-pos))
         (col (current-column))
-        (directory (or (expand-file-name (elpy-project-root))
-                              default-directory)))
+        (directory (if (elpy-project-root)
+                       (expand-file-name (elpy-project-root))
+                     default-directory)))
     (if (use-region-p)
         (let ((new-block (elpy-rpc method
                                    (list (elpy-rpc--region-contents)
@@ -3150,14 +3151,17 @@ This is needed to get information on the identifier with jedi
          for ref in references
          for file = (alist-get 'filename ref)
          for pos = (+ (alist-get 'offset ref) 1)
-         for line = (with-current-buffer (find-file-noselect file)
-                      (save-excursion
-                        (goto-char (+ pos 1))
-                        (buffer-substring (line-beginning-position) (line-end-position))))
-         for linenumber = (with-current-buffer (find-file-noselect file)
-                            (line-number-at-pos pos))
+         for line = (when file
+                      (with-current-buffer (find-file-noselect file)
+                        (save-excursion
+                          (goto-char (+ pos 1))
+                          (buffer-substring (line-beginning-position) (line-end-position)))))
+         for linenumber = (when file
+                            (with-current-buffer (find-file-noselect file)
+                              (line-number-at-pos pos)))
          for summary = (format elpy-xref--format-references linenumber line)
          for loc = (xref-make-elpy-location file pos)
+         if file
          collect (xref-make summary loc)))))
 
   ;; Completion table (used when calling `xref-find-references`)
