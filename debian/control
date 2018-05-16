@@ -25,7 +25,6 @@ Build-Depends: debhelper (>= 11~)
              , python3-nose <!nocheck>
              , python3-pip <!nocheck>
 # Dependencies used only for self-tests
-             , python-autopep8 <!nocheck>
              , python-jedi <!nocheck>
              , yapf <!nocheck>
              , python-pip <!nocheck>
