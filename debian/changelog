@@ -2,12 +2,14 @@ elpy (1.20.0-2~) UNRELEASED; urgency=medium
 
   * Cleanup elpy.egg-info files to allow two dpkg-buildpackage runs to
     succeed from unpacked source package. (Closes: #898205)
-  * Switch from python-autopep8 to python3-autopep8:
+  * Begin switch from python-autopep8 to python3-autopep8:
     - Update elpa-elpy's Suggests to reflect this change.
     - Add python3-autopep8 to Build-Depends.
-    - Drop python-autopep8 from Build-Depends.  Note that it will continue
-      to be automatically installed because python3-autopep8 Recommends
-      its Python 2 variant.
+    - Python-autopep8 cannot yet be dropped from Build-Depends, because
+      self-tests do not yet seem to be Python 3-only ready.  At present
+      it is automatically installed when a user installs python3-autopep8,
+      because python3-autopep8 Recommends its Python 2 variant.
+      See Bug #899212 for progress on the transition to Python 3.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Mon, 07 May 2018 17:40:54 -0400
 
