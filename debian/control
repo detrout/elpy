@@ -1,7 +1,7 @@
 Source: elpy
 Section: lisp
 Priority: optional
-Maintainer: Debian Emacs addons team <pkg-emacsen-addons@lists.alioth.debian.org>
+Maintainer: Debian Emacsen team <debian-emacsen@lists.debian.org>
 Uploaders: Nicholas D Steeves <nsteeves@gmail.com>
 Build-Depends: debhelper (>= 11~)
              , dh-elpa
