@@ -4,7 +4,7 @@
 
 ;; Author: Jorgen Schaefer <contact@jorgenschaefer.de>
 ;; URL: https://github.com/jorgenschaefer/elpy
-;; Version: 1.20.0
+;; Version: 1.21.0
 ;; Keywords: Python, IDE, Languages, Tools
 ;; Package-Requires: ((company "0.9.2") (emacs "24.4") (find-file-in-project "3.3")  (highlight-indentation "0.5.0") (pyvenv "1.3") (yasnippet "0.8.0") (s "1.11.0"))
 
@@ -53,7 +53,7 @@
 (require 'pyvenv)
 (require 'find-file-in-project)
 
-(defconst elpy-version "1.20.0"
+(defconst elpy-version "1.21.0"
   "The version of the Elpy lisp code.")
 
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -851,6 +851,23 @@ item in another window.\n\n")
       (insert "\n"
               (gethash "error_output" config) "\n"
               "\n"))
+
+    ;; Interactive python interpreter not in the current virtual env
+    (when (and pyvenv-virtual-env
+               (not (string-prefix-p (expand-file-name pyvenv-virtual-env)
+                                     (executable-find
+                                      python-shell-interpreter))))
+      (elpy-insert--para
+       "The python interactive interpreter (" python-shell-interpreter
+       ") is not installed on the current virtualenv ("
+       pyvenv-virtual-env "). The system binary ("
+       (executable-find python-shell-interpreter)
+       ") will be used instead."
+       "\n")
+      (insert "\n")
+      (widget-create 'elpy-insert--pip-button
+                     :package python-shell-interpreter)
+      (insert "\n\n"))
 
     ;; Requested backend unavailable
     (when (and (gethash "python_rpc_executable" config)
@@ -2721,7 +2738,12 @@ RPC calls with the event."
       (elpy-insert--para
        "You are not using the same version of Elpy in Emacs Lisp "
        "compared to Python. This can cause random problems. Please "
-       "do make sure to use compatible versions.\n")
+       "do make sure to use compatible versions.\n\n"
+       "This often happens because you have an obsolete elpy python "
+       "package installed on your system/virtualenv. This package "
+       "shadows the elpy python package shipped with elpy, leading "
+       "to this mismatch. If it is the case, uninstalling the elpy "
+       "python package (with pip for example) should resolve the issue.\n")
       (insert
        "\n"
        "Elpy Emacs Lisp version: " elpy-version "\n"
@@ -3695,14 +3717,18 @@ description."
 
 (defun elpy-flymake-error-at-point ()
   "Return the flymake error at point, or nil if there is none."
-  (when (boundp 'flymake-err-info)
-    (let* ((lineno (line-number-at-pos))
-           (err-info (car (flymake-find-err-info flymake-err-info
-                                                 lineno))))
-      (when err-info
-        (mapconcat #'flymake-ler-text
-                   err-info
-                   ", ")))))
+  (cond ((boundp 'flymake-err-info)     ; emacs < 26
+         (let* ((lineno (line-number-at-pos))
+                (err-info (car (flymake-find-err-info flymake-err-info
+                                                      lineno))))
+           (when err-info
+             (mapconcat #'flymake-ler-text
+                        err-info
+                        ", "))))
+        ((and (fboundp 'flymake-diagnostic-text)
+              (fboundp 'flymake-diagnostics)) ; emacs >= 26
+         (mapconcat #'flymake-diagnostic-text
+                    (flymake-diagnostics (point)) ", "))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Module: Highlight Indentation
