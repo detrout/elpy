@@ -1,0 +1,102 @@
+Description: Disable tests for black code formatter
+ 3 unexpected results:
+   FAILED  elpy-black-fix-code-in-region-should-retain-line-and-column
+   FAILED  elpy-black-fix-code-should-do-nothing-if-already-formatted
+   FAILED  elpy-black-fix-code-should-retain-line-and-column
+ .
+ Test elpy-black-fix-code-in-region-should-retain-line-and-column backtrace:
+  (cond ((not (numberp code)) (error "Bad response from RPC: %S" error
+  (let ((message (cdr (assq (quote message) error-object))) (code (cdr
+  (if (and (consp error-object) (not (consp (car error-object)))) (sig
+  elpy-rpc--default-error-callback(((message . "black not installed")
+ .
+ Debian does not yet provide a package for Black, "the uncompromising
+ Python code formatter" (https://github.com/ambv/black).  Disabling
+ these tests until there is something to test.
+From: Nicholas D Steeves <nsteeves@gmail.com>
+Date: Tue, 3 Jul 2018 14:20:31 -0400
+Forwarded: no
+
+---
+ test/elpy-black-fix-code-test.el | 72 ----------------------------------------
+ 1 file changed, 72 deletions(-)
+ delete mode 100644 test/elpy-black-fix-code-test.el
+
+diff --git a/test/elpy-black-fix-code-test.el b/test/elpy-black-fix-code-test.el
+deleted file mode 100644
+index 75c7f0e..0000000
+--- a/test/elpy-black-fix-code-test.el
++++ /dev/null
+@@ -1,72 +0,0 @@
+-(ert-deftest elpy-black-fix-code-should-retain-line-and-column ()
+-  (let* ((pyversion (getenv "TRAVIS_PYTHON_VERSION"))
+-         (black-not-supported (string< pyversion "3.6")))
+-    (unless black-not-supported
+-      (elpy-testcase ()
+-                     (set-buffer-string-with-point
+-                      "x  =  1"
+-                      "y = 2_|_"
+-                      )
+-
+-                     (elpy-black-fix-code)
+-                     (should
+-                      (buffer-be
+-                       "x = 1"
+-                       "y = 2_|_"))))))
+-
+-(ert-deftest elpy-black-fix-code-in-region-should-retain-line-and-column ()
+-  (let* ((pyversion (getenv "TRAVIS_PYTHON_VERSION"))
+-         (black-not-supported (string< pyversion "3.6")))
+-    (unless black-not-supported
+-      (elpy-testcase ()
+-                     (set-buffer-string-with-point
+-                      "_|_y =  2"
+-                      "z = 3"
+-                      "x = 3"
+-                      )
+-                     (elpy/mark-region (point) 13)
+-
+-                     (elpy-black-fix-code)
+-
+-                     (should (not mark-active))
+-                     (should
+-                      (buffer-be
+-                       "y = 2"
+-                       "z = 3"
+-                       "_|_x = 3"
+-                       ))))))
+-
+-(ert-deftest elpy-black-fix-code-should-throw-error-for-invalid-code ()
+-  (let* ((pyversion (getenv "TRAVIS_PYTHON_VERSION"))
+-         (black-not-supported (string< pyversion "3.6")))
+-    (unless black-not-supported
+-      (elpy-testcase ()
+-                     (set-buffer-string-with-point
+-                      "x =_|_"
+-                      )
+-                     (should-error (elpy-black-fix-code))))))
+-
+-(ert-deftest elpy-black-fix-code-should-do-nothing-if-already-formatted ()
+-  (let* ((pyversion (getenv "TRAVIS_PYTHON_VERSION"))
+-         (black-not-supported (string< pyversion "3.6")))
+-    (unless black-not-supported
+-      (elpy-testcase ()
+-                     (set-buffer-string-with-point
+-                      "_|_y =  2"
+-                      "z = 3"
+-                      "x = 3"
+-                      )
+-                     (elpy-black-fix-code)
+-                     (should
+-                      (buffer-be
+-                       "_|_y = 2"
+-                       "z = 3"
+-                       "x = 3"
+-                       ))
+-                     (elpy-black-fix-code)
+-                     (should
+-                      (buffer-be
+-                       "_|_y = 2"
+-                       "z = 3"
+-                       "x = 3"
+-                       ))))))

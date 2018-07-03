@@ -1,3 +1,14 @@
+elpy (1.22.0-1) UNRELEASED; urgency=medium
+
+  [ Nicholas D Steeves ]
+  * New upstream version.
+  * Add 0002-Disable-tests-for-black-code-formatter.patch
+    - Debian does not yet provide a package for Black, "the uncompromising
+      Python code formatter" (https://github.com/ambv/black).
+    - Disable these tests until there is something to test.
+
+ -- Nicholas D Steeves <nsteeves@gmail.com>  Tue, 03 Jul 2018 14:26:58 -0400
+
 elpy (1.21.0-1) unstable; urgency=medium
 
   * New upstream version.
