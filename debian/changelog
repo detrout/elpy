@@ -1,4 +1,4 @@
-elpy (1.22.0-1) UNRELEASED; urgency=medium
+elpy (1.22.0-1) unstable; urgency=medium
 
   [ Nicholas D Steeves ]
   * New upstream version.
@@ -9,7 +9,7 @@ elpy (1.22.0-1) UNRELEASED; urgency=medium
   * Rename 0001-Disable-failing-tests.patch to
         -> 0001-Disable-test-shell-send-region-or-buffer.patch
 
- -- Nicholas D Steeves <nsteeves@gmail.com>  Tue, 03 Jul 2018 14:26:58 -0400
+ -- Nicholas D Steeves <nsteeves@gmail.com>  Tue, 03 Jul 2018 14:39:24 -0400
 
 elpy (1.21.0-1) unstable; urgency=medium
 
