@@ -6,6 +6,8 @@ elpy (1.22.0-1) UNRELEASED; urgency=medium
     - Debian does not yet provide a package for Black, "the uncompromising
       Python code formatter" (https://github.com/ambv/black).
     - Disable these tests until there is something to test.
+  * Rename 0001-Disable-failing-tests.patch to
+        -> 0001-Disable-test-shell-send-region-or-buffer.patch
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Tue, 03 Jul 2018 14:26:58 -0400
 

@@ -1,4 +1,4 @@
-Description: Disable failing tests
+Description: Disable one consistently failing test
  1 unexpected results:
  FAILED elpy-shell-send-region-or-buffer-should-notify-of-removing-main
  .
@@ -15,7 +15,7 @@ Description: Disable failing tests
 Forwarded: https://github.com/jorgenschaefer/elpy/issues/1308
 From: Nicholas D Steeves <nsteeves@gmail.com>
 Date: Sat, 3 Mar 2018 19:27:31 -0500
-Last-Update: 2018-04-23
+Last-Update: 2018-07-03
 
 ---
  test/elpy-shell-send-region-or-buffer-test.el | 30 +++++++++++++--------------
