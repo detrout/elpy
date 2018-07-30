@@ -4,7 +4,7 @@
 
 ;; Author: Jorgen Schaefer <contact@jorgenschaefer.de>
 ;; URL: https://github.com/jorgenschaefer/elpy
-;; Version: 1.22.0
+;; Version: 1.23.0
 ;; Keywords: Python, IDE, Languages, Tools
 ;; Package-Requires: ((company "0.9.2") (emacs "24.4") (find-file-in-project "3.3")  (highlight-indentation "0.5.0") (pyvenv "1.3") (yasnippet "0.8.0") (s "1.11.0"))
 
@@ -53,7 +53,7 @@
 (require 'pyvenv)
 (require 'find-file-in-project)
 
-(defconst elpy-version "1.22.0"
+(defconst elpy-version "1.23.0"
   "The version of the Elpy lisp code.")
 
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -440,8 +440,8 @@ option is `pdb'."
     (define-key map (kbd "C-c C-y F") 'elpy-shell-send-defun-and-go)
     (define-key map (kbd "C-c C-y c") 'elpy-shell-send-defclass)
     (define-key map (kbd "C-c C-y C") 'elpy-shell-send-defclass-and-go)
-    (define-key map (kbd "C-c C-y g") 'elpy-shell-send-group)
-    (define-key map (kbd "C-c C-y G") 'elpy-shell-send-group-and-go)
+    (define-key map (kbd "C-c C-y o") 'elpy-shell-send-group)
+    (define-key map (kbd "C-c C-y O") 'elpy-shell-send-group-and-go)
     (define-key map (kbd "C-c C-y w") 'elpy-shell-send-codecell)
     (define-key map (kbd "C-c C-y W") 'elpy-shell-send-codecell-and-go)
     (define-key map (kbd "C-c C-y r") 'elpy-shell-send-region-or-buffer)
@@ -456,8 +456,8 @@ option is `pdb'."
     (define-key map (kbd "C-c C-y C-S-F") 'elpy-shell-send-defun-and-step-and-go)
     (define-key map (kbd "C-c C-y C-c") 'elpy-shell-send-defclass-and-step)
     (define-key map (kbd "C-c C-y C-S-C") 'elpy-shell-send-defclass-and-step-and-go)
-    (define-key map (kbd "C-c C-y C-g") 'elpy-shell-send-group-and-step)
-    (define-key map (kbd "C-c C-y C-S-G") 'elpy-shell-send-group-and-step-and-go)
+    (define-key map (kbd "C-c C-y C-o") 'elpy-shell-send-group-and-step)
+    (define-key map (kbd "C-c C-y C-S-O") 'elpy-shell-send-group-and-step-and-go)
     (define-key map (kbd "C-c C-y C-w") 'elpy-shell-send-codecell-and-step)
     (define-key map (kbd "C-c C-y C-S-W") 'elpy-shell-send-codecell-and-step-and-go)
     (define-key map (kbd "C-c C-y C-r") 'elpy-shell-send-region-or-buffer-and-step)
@@ -619,6 +619,9 @@ virtualenv.
 
 (defvar elpy-config--get-config "import json
 import sys
+import warnings
+
+warnings.filterwarnings('ignore', category=FutureWarning)
 
 try:
     import xmlrpclib
@@ -3633,6 +3636,10 @@ or unless NAME is no callable instance."
      (require 'eldoc)
      (setq eldoc-minor-mode-string nil))
     (`buffer-init
+     ;; avoid interferences between eldoc and company meta frontend
+     (when (member 'elpy-module-company elpy-modules)
+       (set (make-local-variable 'company-frontends)
+            (delq 'company-echo-metadata-frontend company-frontends)))
      (set (make-local-variable 'eldoc-documentation-function)
           'elpy-eldoc-documentation)
      (eldoc-mode 1))
@@ -3688,15 +3695,20 @@ display the current class and method instead."
      (require 'flymake)
      (elpy-modules-remove-modeline-lighter 'flymake-mode)
      ;; Add our initializer function.
-     ;; For emacs > 26.1, python.el natively supports flymake,
-     ;; so we just tell python.el to use flake8
-     (if (version<= "26.1" emacs-version)
-         (setq python-flymake-command '("flake8" "-"))
-       (setq python-check-command elpy-syntax-check-command)
+     (when (not (version<= "26.1" emacs-version))
        (add-to-list 'flymake-allowed-file-name-masks
                     '("\\.py\\'" elpy-flymake-python-init))))
 
     (`buffer-init
+     ;; Set this for `elpy-check' command
+     (setq-local python-check-command elpy-syntax-check-command)
+     ;; For emacs > 26.1, python.el natively supports flymake,
+     ;; so we just tell python.el to use the wanted syntax checker
+     (when (version<= "26.1" emacs-version)
+       (setq-local python-flymake-command
+                   (if (string= elpy-syntax-check-command "pyflakes")
+                       '("pyflakes")
+                     `(,elpy-syntax-check-command "-"))))
      ;; `flymake-no-changes-timeout': The original value of 0.5 is too
      ;; short for Python code, as that will result in the current line
      ;; to be highlighted most of the time, and that's annoying. This
