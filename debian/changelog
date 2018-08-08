@@ -7,7 +7,7 @@ elpy (1.23.0-1) unstable; urgency=medium
   * Add "Local Variables" footer to NEWS so that it opens in ReST mode.
   * Compress README.rst with gzip before installing.
 
- -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 08 Aug 2018 16:04:52 -0400
+ -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 08 Aug 2018 17:48:06 -0400
 
 elpy (1.22.0-1) unstable; urgency=medium
 
