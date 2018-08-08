@@ -5,6 +5,7 @@ elpy (1.23.0-1) UNRELEASED; urgency=medium
   * Declare Standards-Version: 4.2.0
     - §12.7, Install NEWS.rst as NEWS.
   * Add "Local Variables" footer to NEWS so that it opens in ReST mode.
+  * Compress README.rst with gzip before installing.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Mon, 30 Jul 2018 13:59:49 -0400
 
