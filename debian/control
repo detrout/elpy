@@ -33,7 +33,7 @@ Build-Depends: debhelper (>= 11~)
              , python-pip <!nocheck>
              , python-flake8 <!nocheck>
              , texinfo
-Standards-Version: 4.1.4
+Standards-Version: 4.2.0
 Vcs-Browser: https://salsa.debian.org/emacsen-team/elpy
 Vcs-Git: https://salsa.debian.org/emacsen-team/elpy.git
 Homepage: https://elpy.readthedocs.io/en/latest/index.html
