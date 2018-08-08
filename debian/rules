@@ -14,3 +14,4 @@ override_dh_auto_build:
 	PYTHONPATH=. sphinx-build -N -bman docs/ build/man # Manpage generator
 	PYTHONPATH=. sphinx-build -N -btexinfo docs/ build/info
 	makeinfo --no-split build/info/Elpy.texi -o build/info/elpy.info
+	cat NEWS.rst debian/local-var-snippet > build/NEWS
