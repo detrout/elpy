@@ -1,6 +1,7 @@
 elpy (1.23.0-1) UNRELEASED; urgency=medium
 
   * New upstream version.
+  * Build and install info page.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Mon, 30 Jul 2018 13:59:49 -0400
 
