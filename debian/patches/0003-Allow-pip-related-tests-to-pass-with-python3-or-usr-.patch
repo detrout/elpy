@@ -1,0 +1,34 @@
+From: Nicholas D Steeves <nsteeves@gmail.com>
+Date: Wed, 15 Aug 2018 10:23:53 -0400
+Subject: Allow pip-related tests to pass with python3 or /usr/bin/python3
+
+---
+ test/elpy-config-test.el                          | 2 +-
+ test/elpy-insert--pip-button-value-create-test.el | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/test/elpy-config-test.el b/test/elpy-config-test.el
+index 37dfcd1..32356b0 100644
+--- a/test/elpy-config-test.el
++++ b/test/elpy-config-test.el
+@@ -21,4 +21,4 @@
+                                          (elpy/wait-for-output "Only")
+                                          (buffer-string))))
+                            (should (equal python-check-command "/foo/bar/flake8"))
+-                           (should (string-match "python -m pip install.*flake8" output))))))
++                           (should (string-match ".*python.* -m pip install.*flake8" output))))))
+diff --git a/test/elpy-insert--pip-button-value-create-test.el b/test/elpy-insert--pip-button-value-create-test.el
+index 48ef95d..d841312 100644
+--- a/test/elpy-insert--pip-button-value-create-test.el
++++ b/test/elpy-insert--pip-button-value-create-test.el
+@@ -17,8 +17,8 @@
+               (program &optional infile destination display &rest args)
+               0)
+              (widget (widget-create 'elpy-insert--pip-button "test-module")))
+-      (should (string-match "python -m pip" (widget-get widget :command)))
+-      (should (string-match "python -m pip" (buffer-string))))))
++      (should (string-match ".*python.* -m pip" (widget-get widget :command)))
++      (should (string-match ".*python.* -m pip" (buffer-string))))))
+ 
+ (ert-deftest elpy-insert--pip-button-value-create-should-use-easy_install ()
+   (elpy-testcase ()

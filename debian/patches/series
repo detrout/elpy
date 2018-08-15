@@ -1,2 +1,3 @@
 0001-Disable-test-shell-send-region-or-buffer.patch
 0002-Disable-tests-for-black-code-formatter.patch
+0003-Allow-pip-related-tests-to-pass-with-python3-or-usr-.patch
