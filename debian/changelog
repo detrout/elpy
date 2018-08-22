@@ -4,6 +4,10 @@ elpy (1.23.0-2) UNRELEASED; urgency=medium
     README.rst is only 2.8k and dh_compress already does the right thing
     automatically; that is to say, README.rst is not "larger than 4k in
     size" and should not be compressed.
+  * Add Debian-specific configuration to default to using Python 3.
+  * Add patches that allow pip-related tests to pass with python3:
+    - 0003-Allow-pip-related-tests-to-pass-with-python3-or-usr-.patch
+    - 0004-Tighten-the-regex-used-in-Allow-pip-related-tests-to.patch
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Fri, 10 Aug 2018 19:19:16 -0400
 

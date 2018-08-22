@@ -1,0 +1,38 @@
+From: Nicholas D Steeves <nsteeves@gmail.com>
+Date: Tue, 21 Aug 2018 08:30:31 -0400
+Subject: Tighten the regex used in "Allow pip-related tests to pass with pyth
+
+Tighten the regex used in Allow pip-related tests to pass with python3
+or /usr/bin/python3
+
+commit: de12ccbdb8b09f5973d7dae5b9fbaa5cdf7141e3
+---
+ test/elpy-config-test.el                          | 2 +-
+ test/elpy-insert--pip-button-value-create-test.el | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/test/elpy-config-test.el b/test/elpy-config-test.el
+index 32356b0..e5cc9b1 100644
+--- a/test/elpy-config-test.el
++++ b/test/elpy-config-test.el
+@@ -21,4 +21,4 @@
+                                          (elpy/wait-for-output "Only")
+                                          (buffer-string))))
+                            (should (equal python-check-command "/foo/bar/flake8"))
+-                           (should (string-match ".*python.* -m pip install.*flake8" output))))))
++                           (should (string-match "python.*\ -m pip install.*flake8" output))))))
+diff --git a/test/elpy-insert--pip-button-value-create-test.el b/test/elpy-insert--pip-button-value-create-test.el
+index d841312..2f1a065 100644
+--- a/test/elpy-insert--pip-button-value-create-test.el
++++ b/test/elpy-insert--pip-button-value-create-test.el
+@@ -17,8 +17,8 @@
+               (program &optional infile destination display &rest args)
+               0)
+              (widget (widget-create 'elpy-insert--pip-button "test-module")))
+-      (should (string-match ".*python.* -m pip" (widget-get widget :command)))
+-      (should (string-match ".*python.* -m pip" (buffer-string))))))
++      (should (string-match "python.*\ -m pip" (widget-get widget :command)))
++      (should (string-match "python.*\ -m pip" (buffer-string))))))
+ 
+ (ert-deftest elpy-insert--pip-button-value-create-should-use-easy_install ()
+   (elpy-testcase ()
