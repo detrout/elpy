@@ -5,6 +5,9 @@ elpy (1.23.0-2) UNRELEASED; urgency=medium
     automatically; that is to say, README.rst is not "larger than 4k in
     size" and should not be compressed.
   * Add Debian-specific configuration to default to using Python 3.
+    - Document this customisation in README.Debian along with instructions
+      on how to revert this when moving between Python 2 and Python 3
+      virtualenvs.
   * Add patches that allow pip-related tests to pass with python3:
     - 0003-Allow-pip-related-tests-to-pass-with-python3-or-usr-.patch
     - 0004-Tighten-the-regex-used-in-Allow-pip-related-tests-to.patch

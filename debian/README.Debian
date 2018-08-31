@@ -1,0 +1,23 @@
+Debian's Elpy package is configured to use a system-wide Python interpreter
+that will be supported after 1 January 2020, when Python 2 will be EOL.
+The specific customisation is:
+
+    (setq python-shell-interpreter "/usr/bin/python3"
+          python-shell-interpreter-args "-i")
+    (setq elpy-rpc-python-command "/usr/bin/python3")
+
+"python-shell-interpreter" is set separately to highlight the fact
+that alternative interactive interpreters can be used (eg: Jupyter
+console or IPython).  See "Interpreter Setup" section of Elpy's
+Documentation for more information.
+
+To restore upstream defaults, add the following to a user's Emacs config:
+
+    (setq python-shell-interpreter "python"
+          python-shell-interpreter-args "-i")
+    (setq elpy-rpc-python-command "python")
+
+These defaults are useful when moving between virtualenv projects
+where some projects use Python 3 and some projects use Python 2.
+
+ -- Nicholas D Steeves <nsteeves@gmail.com>, Fri, 31 Aug 2018 17:00:01 -0400
