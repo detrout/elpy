@@ -12,6 +12,7 @@ elpy (1.23.0-2) UNRELEASED; urgency=medium
     - Drop python2 dependencies which are no longer needed
       for self-tests to pass.
     - Put ELPA dependencies section before Python ones (more alphabetical).
+    - Move python3-sphinx build dependency to the section for documentation.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Fri, 10 Aug 2018 19:19:16 -0400
 
