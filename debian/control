@@ -27,11 +27,6 @@ Build-Depends: debhelper (>= 11~)
              , python3-mock <!nocheck>
              , python3-nose <!nocheck>
              , python3-pip <!nocheck>
-# Dependencies used only for self-tests
-             , python-jedi <!nocheck>
-             , yapf <!nocheck>
-             , python-pip <!nocheck>
-             , python-flake8 <!nocheck>
              , texinfo
 Standards-Version: 4.2.0
 Vcs-Browser: https://salsa.debian.org/emacsen-team/elpy
