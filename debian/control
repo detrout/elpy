@@ -6,6 +6,14 @@ Uploaders: Nicholas D Steeves <nsteeves@gmail.com>
 Build-Depends: debhelper (>= 11~)
              , dh-elpa
              , dh-python
+             , elpa-company <!nocheck>
+             , elpa-find-file-in-project <!nocheck>
+             , elpa-highlight-indentation <!nocheck>
+             , elpa-pyvenv <!nocheck>
+             , elpa-yasnippet <!nocheck>
+             , elpa-s <!nocheck>
+             , elpa-dash <!nocheck>
+             , elpa-f <!nocheck>
              , python3-all
              , python3-setuptools
              , python3-flake8
@@ -16,14 +24,6 @@ Build-Depends: debhelper (>= 11~)
              , python-autopep8 <!nocheck>
              , yapf3
              , python3-sphinx
-             , elpa-company <!nocheck>
-             , elpa-find-file-in-project <!nocheck>
-             , elpa-highlight-indentation <!nocheck>
-             , elpa-pyvenv <!nocheck>
-             , elpa-yasnippet <!nocheck>
-             , elpa-s <!nocheck>
-             , elpa-dash <!nocheck>
-             , elpa-f <!nocheck>
              , python3-mock <!nocheck>
              , python3-nose <!nocheck>
              , python3-pip <!nocheck>
