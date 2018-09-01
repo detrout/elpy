@@ -40,7 +40,6 @@ Depends: ${elpa:Depends}
        , ${python3:Depends}
        , ${misc:Depends}
 Recommends: emacs (>= 46.0)
-          , python3-flake8
           , python3-jedi
 Suggests: python3-autopep8
         , yapf3
