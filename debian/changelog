@@ -16,10 +16,11 @@ elpy (1.24.0-1) UNRELEASED; urgency=medium
   * debian/control:
     - Drop python2 dependencies which are no longer needed
       for self-tests to pass.
-    - Put ELPA dependencies section before Python ones (more alphabetical).
+    - Put ELPA build-dep section before Python one (more alphabetical).
     - Move python3-sphinx build dependency to the section for documentation.
     - Add python3-jupyter-console to Suggests.  The upstream Elpy project
       recommends using Jupyter console for interactive Python.
+    - Rely on ${elpa:Depends} and drop explicitly declared ones in bin:pkg.
   * Update README.Debian to be more explicit about how Python 2 support is
     currently not enabled.
 

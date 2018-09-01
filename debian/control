@@ -39,12 +39,6 @@ Architecture: all
 Depends: ${elpa:Depends}
        , ${python3:Depends}
        , ${misc:Depends}
-       , elpa-company
-       , elpa-find-file-in-project
-       , elpa-highlight-indentation
-       , elpa-pyvenv
-       , elpa-yasnippet
-       , elpa-s
 Recommends: emacs (>= 46.0)
           , python3-flake8
           , python3-jedi
