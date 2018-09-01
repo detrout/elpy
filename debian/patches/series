@@ -2,3 +2,4 @@
 0002-Disable-tests-for-black-code-formatter.patch
 0003-Allow-pip-related-tests-to-pass-with-python3-or-usr-.patch
 0004-Tighten-the-regex-used-in-Allow-pip-related-tests-to.patch
+0005-Use-system-wide-PYTHONPATH-for-elpy-rpc-pythonpath.patch

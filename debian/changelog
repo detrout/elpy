@@ -11,6 +11,9 @@ elpy (1.23.0-2) UNRELEASED; urgency=medium
   * Add patches that allow pip-related tests to pass with python3:
     - 0003-Allow-pip-related-tests-to-pass-with-python3-or-usr-.patch
     - 0004-Tighten-the-regex-used-in-Allow-pip-related-tests-to.patch
+  * Add 0005-Use-system-wide-PYTHONPATH-for-elpy-rpc-pythonpath.patch
+    - Previously Elpy looked in site-lisp/elpa/elpy-1.23.0 for its associated
+      Python modules.
   * debian/control:
     - Drop python2 dependencies which are no longer needed
       for self-tests to pass.
