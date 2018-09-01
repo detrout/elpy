@@ -18,6 +18,9 @@ To restore upstream defaults, add the following to a user's Emacs config:
     (setq elpy-rpc-python-command "python")
 
 These defaults are useful when moving between virtualenv projects
-where some projects use Python 3 and some projects use Python 2.
+where some projects use Python 3 and some projects use Python 2.  That
+said, at present the Debian package is not built '--with python2' and
+so it is likely that Python 2 virtualenvs do not yet work correctly,
+because Python 2 modules are not installed to a system-wide PYTHONPATH.
 
- -- Nicholas D Steeves <nsteeves@gmail.com>, Fri, 31 Aug 2018 17:00:01 -0400
+ -- Nicholas D Steeves <nsteeves@gmail.com>, Sat,  1 Sep 2018 17:31:25 -0400

@@ -21,6 +21,8 @@ elpy (1.23.0-2) UNRELEASED; urgency=medium
     - Move python3-sphinx build dependency to the section for documentation.
     - Add python3-jupyter-console to Suggests.  The upstream Elpy project
       recommends using Jupyter console for interactive Python.
+  * Update README.Debian to be more explicit about how Python 2 support is
+    currently not enabled.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Fri, 10 Aug 2018 19:19:16 -0400
 
