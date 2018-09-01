@@ -4,7 +4,7 @@
 
 ;; Author: Jorgen Schaefer <contact@jorgenschaefer.de>
 ;; URL: https://github.com/jorgenschaefer/elpy
-;; Version: 1.23.0
+;; Version: 1.24.0
 ;; Keywords: Python, IDE, Languages, Tools
 ;; Package-Requires: ((company "0.9.2") (emacs "24.4") (find-file-in-project "3.3")  (highlight-indentation "0.5.0") (pyvenv "1.3") (yasnippet "0.8.0") (s "1.11.0"))
 
@@ -53,7 +53,7 @@
 (require 'pyvenv)
 (require 'find-file-in-project)
 
-(defconst elpy-version "1.23.0"
+(defconst elpy-version "1.24.0"
   "The version of the Elpy lisp code.")
 
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -3153,17 +3153,11 @@ Points to file FILE, at position POS."
     "Return identifier at point.
 
 Is a string, formatted as \"LINE_NUMBER: VARIABLE_NAME\".
-Try to find the identifier assignement if it is in the current buffer.
 "
     (let* ((symb  (symbol-at-point))
-           (symb-str (substring-no-properties (symbol-name symb)))
-           (assign (elpy-rpc-get-assignment)))
+           (symb-str (substring-no-properties (symbol-name symb))))
       (when symb
-        (if (and assign (string= (car assign) (buffer-file-name)))
-            (format "%s: %s"
-                    (line-number-at-pos (+ 1 (car (cdr assign))))
-                    symb-str)
-          (format "%s: %s" (line-number-at-pos) symb-str)))))
+        (format "%s: %s" (line-number-at-pos) symb-str))))
 
   (defun elpy-xref--identifier-name (id)
     "Return the identifier ID variable name."
@@ -3179,10 +3173,11 @@ Try to find the identifier assignement if it is in the current buffer.
     "Goto the identifier ID in the current buffer.
 This is needed to get information on the identifier with jedi
 \(that work only on the symbol at point\)"
-    (goto-char (point-min))
-    (forward-line (1- (elpy-xref--identifier-line id)))
-    (search-forward (elpy-xref--identifier-name id))
-    (goto-char (match-beginning 0)))
+    (let ((case-fold-search nil))
+      (goto-char (point-min))
+      (forward-line (1- (elpy-xref--identifier-line id)))
+      (search-forward (elpy-xref--identifier-name id) (line-end-position))
+      (goto-char (match-beginning 0))))
 
   ;; Find definition
   (cl-defmethod xref-backend-definitions ((_backend (eql elpy)) id)
@@ -3237,28 +3232,13 @@ This is needed to get information on the identifier with jedi
     (elpy-xref--get-completion-table))
 
   (defun elpy-xref--get-completion-table ()
-    "Return the completion table for identifiers.
-
-Try to use the identifier assignement instead of the identifier at point.
-Also ensure that variables are not represented more than once."
-    (let ((table nil)
-          (outside-assigns))
+    "Return the completion table for identifiers."
       (cl-loop
        for ref in (nreverse (elpy-rpc-get-names))
        for offset = (+ (alist-get 'offset ref) 1)
        for line = (line-number-at-pos offset)
-       ;; Use assignment line position if the assignement is in the same file
-       for assign = (save-excursion (goto-char offset) (elpy-rpc-get-assignment))
-       do (when (string= (car assign) (buffer-file-name))
-            (setq offset (+ 1 (car (cdr assign))))
-            (setq line (line-number-at-pos offset)))
        for id = (format "%s: %s" line (alist-get 'name ref))
-       ;; ensure that identifier are represented only once
-       unless (or (member id table) (member assign outside-assigns))
-       do (progn
-            (push id table)
-            (when assign (push assign outside-assigns))))
-      table))
+       collect id))
 
   ;; Apropos
   (cl-defmethod xref-backend-apropos ((_backend (eql elpy)) regex)
@@ -3367,6 +3347,7 @@ If you need your modeline, you can set the variable `elpy-remove-modeline-lighte
   (pcase command
     (`global-init
      (require 'company)
+     (require 'company-capf)
      (elpy-modules-remove-modeline-lighter 'company-mode)
      (define-key company-active-map (kbd "C-d")
        'company-show-doc-buffer)
@@ -3544,6 +3525,32 @@ or unless NAME is no callable instance."
              (backward-char 1)
              (delete-char 2))))))
 
+(defun elpy-company--add-interpreter-completions-candidates (candidates)
+  "Add completions candidates from python.el to the list of candidates.
+
+Get completions candidates at point from python.el, normalize them to look
+like what elpy-company returns, merge them with the CANDIDATES list
+and return the list.
+
+  python.el provides completion based on what is currently loaded in the
+python shell interpreter."
+  (let* ((completion-at-point-functions '(python-completion-complete-at-point))
+         (pytel-candidates
+          (condition-case nil
+              ;; Sometimes, python.el completion raise an error...
+              (company-capf 'candidates (company-capf 'prefix))
+            (error '())))
+         (candidates-name (cl-loop
+                           for cand in candidates
+                           collect (cdr (assoc 'name cand)))))
+    (cl-loop
+     for pytel-cand in pytel-candidates
+     for pytel-cand = (replace-regexp-in-string "($" "" pytel-cand)
+     for pytel-cand = (replace-regexp-in-string "^.*\\." "" pytel-cand)
+     if (not (member pytel-cand candidates-name))
+     do (add-to-list 'candidates (list (cons 'name pytel-cand)) t)))
+  candidates)
+
 (defun elpy-company-backend (command &optional arg &rest ignored)
   "A company-mode backend for Elpy."
   (interactive (list 'interactive))
@@ -3562,6 +3569,10 @@ or unless NAME is no callable instance."
            (lambda (callback)
              (elpy-rpc-get-completions
               (lambda (result)
+                ;; add completion candidates from python.el
+                (setq result
+                      (elpy-company--add-interpreter-completions-candidates
+                       result))
                 (elpy-company--cache-clear)
                 (funcall
                  callback
@@ -3678,10 +3689,13 @@ display the current class and method instead."
                       (propertize (nth index params)
                                   'face
                                   'eldoc-highlight-function-argument)))
-              (format "%s(%s)"
-                      name
-                      (mapconcat #'identity params ", "))
-              ))))))
+              (let ((prefix (propertize name 'face
+                                        'font-lock-function-name-face))
+                    (args (format "(%s)" (mapconcat #'identity params ", "))))
+                ;; for emacs < 25, eldoc function do not accept string
+                (if (version<= emacs-version "25")
+                    (format "%s%s" prefix args)
+                (eldoc-docstring-format-sym-doc prefix args nil)))))))))
       ;; Return the last message until we're done
       eldoc-last-message)))
 
@@ -3693,7 +3707,9 @@ display the current class and method instead."
   (pcase command
     (`global-init
      (require 'flymake)
-     (elpy-modules-remove-modeline-lighter 'flymake-mode)
+     ;; flymake modeline is quite useful for emacs > 26.1
+     (when (version< emacs-version "26.1")
+       (elpy-modules-remove-modeline-lighter 'flymake-mode))
      ;; Add our initializer function.
      (when (not (version<= "26.1" emacs-version))
        (add-to-list 'flymake-allowed-file-name-masks
