@@ -17,6 +17,7 @@ Build-Depends: debhelper (>= 11~)
              , python3-all
              , python3-setuptools
              , python3-flake8
+             , flake8
              , python3-jedi
              , python3-autopep8 <!nocheck>
 # python-autopep8 still seems to be needed for self-tests to pass.
@@ -39,6 +40,7 @@ Architecture: all
 Depends: ${elpa:Depends}
        , ${python3:Depends}
        , ${misc:Depends}
+       , flake8
 Recommends: emacs (>= 46.0)
           , python3-jedi
 Suggests: python3-autopep8
