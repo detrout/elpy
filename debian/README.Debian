@@ -37,5 +37,7 @@ where some projects use Python 3 and some projects use Python 2.  That
 said, at present the Debian package is not built '--with python2' and
 so it is likely that Python 2 virtualenvs do not yet work correctly,
 because Python 2 modules are not installed to a system-wide PYTHONPATH.
+These modules are needed for the RPC Process.  See Concepts->The RPC Process
+in 'info elpy' for further information.
 
- -- Nicholas D Steeves <nsteeves@gmail.com>, Sat,  1 Sep 2018 18:23:24 -0400
+ -- Nicholas D Steeves <nsteeves@gmail.com>, Mon,  3 Sep 2018 19:09:35 -0400
