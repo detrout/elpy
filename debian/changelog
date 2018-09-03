@@ -5,6 +5,10 @@ elpy (1.24.0-1) UNRELEASED; urgency=medium
     README.rst is only 2.8k and dh_compress already does the right thing
     automatically; that is to say, README.rst is not "larger than 4k in
     size" (dh_compress(1)) and should not be compressed.
+  * Exclusively use Python 3 dependencies and configure the use of
+    /usr/bin/python3 by default. (Closes: #899212)
+  * debian/README.Debian:  Document how Python 2 support is not enabled
+    in this Debian package.
   * debian/debian-autoloads.el:
     - Add Debian-specific configuration to default to using Python 3.
     - Document this customisation in README.Debian along with instructions
@@ -23,9 +27,8 @@ elpy (1.24.0-1) UNRELEASED; urgency=medium
     - Rely on ${elpa:Depends} and drop explicitly declared ones in bin:pkg.
     - Rely on ${python3:Depends} to generate dependency on python3-flake8.
     - Add build and runtime dependency on flake8, which provides
-      /usr/bin/flake8.  This wrapper script is still used in various places.
-  * Update README.Debian to be more explicit about how Python 2 support is
-    currently not enabled.
+      /usr/bin/flake8.  This wrapper script is still used in various places,
+      and it is part of the flake8 package provided by PyPI/pip.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Fri, 10 Aug 2018 19:19:16 -0400
 
