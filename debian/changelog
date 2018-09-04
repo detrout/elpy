@@ -1,4 +1,4 @@
-elpy (1.24.0-1) UNRELEASED; urgency=medium
+elpy (1.24.0-1) unstable; urgency=medium
 
   * New upstream version.
   * Revert "Compress README.rst with gzip before installing" because
@@ -31,7 +31,7 @@ elpy (1.24.0-1) UNRELEASED; urgency=medium
       and it is part of the flake8 package provided by PyPI/pip.
   * Declare Standards-Version: 4.2.1. (No additional changes required)
 
- -- Nicholas D Steeves <nsteeves@gmail.com>  Fri, 10 Aug 2018 19:19:16 -0400
+ -- Nicholas D Steeves <nsteeves@gmail.com>  Mon, 03 Sep 2018 20:08:24 -0400
 
 elpy (1.23.0-1) unstable; urgency=medium
 
