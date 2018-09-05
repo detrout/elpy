@@ -1,0 +1,7 @@
+# lintian is currently doing the right thing in providing
+# Informational-level nagging, as if to say "Are you really sure the
+# declared section is more appropriate?"  Yes, I am certain that
+# section "devel" is most appropriate for an IDE.  eg: it is primarily
+# a tool for Python development.
+
+elpa-elpy: wrong-section-according-to-package-name
