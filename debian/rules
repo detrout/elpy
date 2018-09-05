@@ -6,13 +6,18 @@ LC_ALL := C.UTF-8
 export LC_ALL
 
 %:
+ifneq ($(filter nodoc,$(DEB_BUILD_PROFILES)),)
+	echo -e "\nnodoc profile enabled, building without sphinxdoc..\n"
+	dh $@ --with elpa,python3 --buildsystem=pybuild
+else
 	dh $@ --with elpa,python3,sphinxdoc --buildsystem=pybuild
+endif
 
 # docs are not generated without this override
 override_dh_auto_build:
 	dh_auto_build
 # support the nodoc build profile
-ifneq ($(filter nodocs,$(DEB_BUILD_PROFILES)),)
+ifneq ($(filter nodoc,$(DEB_BUILD_PROFILES)),)
 	echo -e "\nnodoc build profile enabled, therefor not building docs.\n"
 else
 	PYTHONPATH=. sphinx-build -N -bman docs/ build/man
