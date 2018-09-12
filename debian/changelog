@@ -4,7 +4,7 @@ elpy (1.24.0-2) UNRELEASED; urgency=medium
     - debian/control: Add <!nodoc> to python3-sphinx and texinfo build deps.
     - debian/rules: Only attempt to generate documentation when nodoc is
       not present in DEB_BUILD_PROFILES.
-    - debian/rules: Work arround Bug #908078, because dh_sphinxdoc does not
+    - debian/rules: Workaround Bug #908078, because dh_sphinxdoc does not
       yet detect when "nodoc" is active and --with sphinxdoc will fail when
       python3-sphinx is not installed.
   * Add lintian-override for wrong-section-according-to-package-name, because
