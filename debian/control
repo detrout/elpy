@@ -27,6 +27,7 @@ Build-Depends: debhelper (>= 11~)
              , python3-mock <!nocheck>
              , python3-nose <!nocheck>
              , python3-pip <!nocheck>
+             , black <!nocheck>
              , python3-sphinx <!nodoc>
              , texinfo <!nodoc>
 Standards-Version: 4.2.1
@@ -45,6 +46,7 @@ Recommends: emacs (>= 46.0)
           , python3-jedi
 Suggests: python3-autopep8
         , yapf3
+        , black
         , python3-pip
         , python3-jupyter-console
 Enhances: emacs

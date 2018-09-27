@@ -11,6 +11,10 @@ elpy (1.24.0-2) UNRELEASED; urgency=medium
     section "devel" is most appropriate for an IDE for Python development
     when that IDE is implemented in Emacs Lisp.
   * debian/rules: Fix typo.
+  * Enable support for Black, the uncompromising Python code formatter, now
+    that it has been added to the Debian archive.
+    - debian/control: Add black to Build-Depends and Suggests.
+    - Drop debian/patches/0002-Disable-tests-for-black-code-formatter.patch.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Tue, 04 Sep 2018 18:10:11 -0400
 
