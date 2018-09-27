@@ -18,11 +18,10 @@ override_dh_auto_build:
 	dh_auto_build
 # support the nodoc build profile
 ifneq ($(filter nodoc,$(DEB_BUILD_PROFILES)),)
-	echo -e "\nnodoc build profile enabled, therefor not building docs.\n"
+	echo -e "\nnodoc build profile enabled, therefore not building docs.\n"
 else
 	PYTHONPATH=. sphinx-build -N -bman docs/ build/man
 	PYTHONPATH=. sphinx-build -N -btexinfo docs/ build/info
 	makeinfo --no-split build/info/Elpy.texi -o build/info/elpy.info
 	cat NEWS.rst debian/local-var-snippet > build/NEWS
 endif
-
