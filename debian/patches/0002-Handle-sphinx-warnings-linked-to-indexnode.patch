@@ -1,0 +1,50 @@
+From: galaunay <gaby.launay@tutanota.com>
+Date: Mon, 24 Sep 2018 18:27:44 +0100
+Subject: Handle sphinx warnings linked to indexnode
+
+---
+ docs/elispdomain.py | 10 +++++++---
+ docs/extending.rst  |  2 +-
+ 2 files changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/docs/elispdomain.py b/docs/elispdomain.py
+index eafee9f..e3c927f 100644
+--- a/docs/elispdomain.py
++++ b/docs/elispdomain.py
+@@ -6,7 +6,7 @@ Copyright 2014 by Jorgen Schäfer
+ 
+ """
+ 
+-from sphinx import addnodes
++from sphinx import addnodes, version_info
+ from sphinx.domains import Domain, ObjType
+ from sphinx.locale import l_
+ from sphinx.directives import ObjectDescription
+@@ -33,8 +33,12 @@ class ELispMarkup(ObjectDescription):
+             objects[key] = self.env.docname
+         indextext = self.get_index_text(self.objtype, name)
+         if indextext:
+-            self.indexnode['entries'].append(('single', indextext,
+-                                              targetname, ''))
++            if version_info < (1, 4):
++                self.indexnode['entries'].append(('single', indextext,
++                                                  targetname, ''))
++            else:
++                self.indexnode['entries'].append(('single', indextext,
++                                                  targetname, '', None))
+ 
+ 
+ class ELispFunction(ELispMarkup):
+diff --git a/docs/extending.rst b/docs/extending.rst
+index 60d7c26..61019c0 100644
+--- a/docs/extending.rst
++++ b/docs/extending.rst
+@@ -62,7 +62,7 @@ You can set up a working environment for Elpy using ``pip`` and
+ ``cask``. After installing Cask_, create a new virtual environment
+ and run the ``setup`` script in it:
+ 
+-.. code-block::
++.. code-block:: sh
+ 
+    virtualenv ~/.virtualenvs/elpy
+    source ~/.virtualenvs/elpy/bin/activate
