@@ -1,5 +1,10 @@
-elpy (1.24.0-2) UNRELEASED; urgency=medium
+elpy (1.25.0-1) UNRELEASED; urgency=medium
 
+  * New upstream version.
+  * Upstream no longer distributes NEWS.rst
+    - debian/rules: Drop build/NEWS generation.
+    - Drop debian/local-var-snippet which was only used in NEWS.
+    - debian/docs: do not install build/NEWS.
   * Support 'nodoc' build profile
     - debian/control: Add <!nodoc> to python3-sphinx and texinfo build deps.
     - debian/rules: Only attempt to generate documentation when nodoc is
