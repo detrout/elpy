@@ -55,8 +55,8 @@ Description: Emacs Python Development Environment
  The Emacs Lisp Python Environment in Emacs
  .
  Elpy is an Emacs package that brings powerful Python editing to
- Emacs.  It combines a number of existing Emacs packages, written in
- both Emacs Lisp as well as Python.
+ Emacs.  It combines a number of existing Emacs packages, and is
+ written in Emacs Lisp as well as Python.
  .
  Features:
    * Navigation by code indentation and code definition.
