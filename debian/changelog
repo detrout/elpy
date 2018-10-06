@@ -5,6 +5,8 @@ elpy (1.25.0-1) UNRELEASED; urgency=medium
     - debian/rules: Drop build/NEWS generation.
     - Drop debian/local-var-snippet which was only used in NEWS.
     - debian/docs: do not install build/NEWS.
+    - debian/elpa-test: Do not run test for elpy-news-should-insert-file,
+      because it depends on NEWS.rst, which was dropped upstream.
   * Support 'nodoc' build profile
     - debian/control: Add <!nodoc> to python3-sphinx and texinfo build deps.
     - debian/rules: Only attempt to generate documentation when nodoc is
