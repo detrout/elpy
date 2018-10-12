@@ -1,4 +1,4 @@
-elpy (1.25.0-1) UNRELEASED; urgency=medium
+elpy (1.25.0-1) unstable; urgency=medium
 
   * New upstream version.
   * Upstream no longer distributes NEWS.rst
@@ -34,7 +34,7 @@ elpy (1.25.0-1) UNRELEASED; urgency=medium
     involving Elpy "promises" will be reenabled after the Python 3.7
     transition. (Closes: #910311)
 
- -- Nicholas D Steeves <nsteeves@gmail.com>  Tue, 04 Sep 2018 18:10:11 -0400
+ -- Nicholas D Steeves <nsteeves@gmail.com>  Fri, 12 Oct 2018 18:16:00 -0400
 
 elpy (1.24.0-1) unstable; urgency=medium
 
