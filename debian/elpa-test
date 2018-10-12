@@ -1,5 +1,7 @@
 ert_eval = (progn (load-file "debian/debian-autoloads.el") (load-file "test/test-helper.el"))
 autopkgtest_keep = *.el,elpy/*,test/*
-# Do not run elpy-news-should-insert-file, because it depends on
-# NEWS.rst, which was dropped upstream.
-ert_exclude = test/elpy-news-test.el
+# 1. Do not run elpy-news-should-insert-file, because it depends on
+#    NEWS.rst, which was dropped upstream.
+# 2. Do not run elpy-promise-wait-should-return-early-for-resolved
+#    (See Bug #910311)
+ert_exclude = test/elpy-news-test.el,test/elpy-promise-wait-test.el

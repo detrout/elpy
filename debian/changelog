@@ -26,6 +26,13 @@ elpy (1.25.0-1) UNRELEASED; urgency=medium
     This patch fixes numerous warnings of "4 column based index found" when
     building.
   * Fix sentence fragment in long description.
+  * debian/elpa-test: Temporarily disable
+    elpy-promise-wait-should-return-early-for-resolved and related tests
+    in elpy-promise-wait-test.el.  This test passes 100% of the time with
+    python3.6=3.6.6-1 and python3.7=3.7.1~rc1-1 and fails ~40% of the time
+    with python3.6=3.6.7~rc1-1.  Issue has been forwarded upstream.  Tests
+    involving Elpy "promises" will be reenabled after the Python 3.7
+    transition. (Closes: #910311)
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Tue, 04 Sep 2018 18:10:11 -0400
 
