@@ -4,7 +4,7 @@
 
 ;; Author: Jorgen Schaefer <contact@jorgenschaefer.de>
 ;; URL: https://github.com/jorgenschaefer/elpy
-;; Version: 1.25.0
+;; Version: 1.26.0
 ;; Keywords: Python, IDE, Languages, Tools
 ;; Package-Requires: ((company "0.9.2") (emacs "24.4") (find-file-in-project "3.3")  (highlight-indentation "0.5.0") (pyvenv "1.3") (yasnippet "0.8.0") (s "1.11.0"))
 
@@ -53,7 +53,7 @@
 (require 'pyvenv)
 (require 'find-file-in-project)
 
-(defconst elpy-version "1.25.0"
+(defconst elpy-version "1.26.0"
   "The version of the Elpy lisp code.")
 
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -3038,6 +3038,19 @@ Returns a calltip string for the function call at point."
                        (point-min)))
               success error)))
 
+
+(defun elpy-rpc-get-oneline-docstring (&optional success error)
+  "Call the get_oneline_docstring API function.
+
+Returns a oneline docstring string for the symbol at point."
+  (when (< (buffer-size) elpy-rpc-ignored-buffer-size)
+    (elpy-rpc "get_oneline_docstring"
+              (list buffer-file-name
+                    (elpy-rpc--buffer-contents)
+                    (- (point)
+                       (point-min)))
+              success error)))
+
 (defun elpy-rpc-get-completions (&optional success error)
   "Call the get_completions API function.
 
@@ -3688,10 +3701,11 @@ python shell interpreter."
      (require 'eldoc)
      (setq eldoc-minor-mode-string nil))
     (`buffer-init
-     ;; avoid interferences between eldoc and company meta frontend
-     (when (member 'elpy-module-company elpy-modules)
-       (set (make-local-variable 'company-frontends)
-            (delq 'company-echo-metadata-frontend company-frontends)))
+     ;; avoid eldoc message flickering when using eldoc and company modules jointly
+     (eldoc-add-command-completions "company-")
+     (eldoc-add-command-completions "python-indent-dedent-line-backspace")
+     (set (make-local-variable 'company-frontends)
+          (delq 'company-echo-metadata-frontend company-frontends))
      (set (make-local-variable 'eldoc-documentation-function)
           'elpy-eldoc-documentation)
      (eldoc-mode 1))
@@ -3710,32 +3724,52 @@ display the current class and method instead."
   (let ((flymake-error (elpy-flymake-error-at-point)))
     (if flymake-error
         flymake-error
+      ;; Try getting calltip
       (elpy-rpc-get-calltip
        (lambda (calltip)
-         (eldoc-message
-          (cond
-           ((not calltip)
-            (when elpy-eldoc-show-current-function
-              (let ((current-defun (python-info-current-defun)))
-                (when current-defun
-                  (format "In: %s()" current-defun)))))
-           ((stringp calltip)
-            calltip)
-           (t
-            (let ((name (cdr (assq 'name calltip)))
-                  (index (cdr (assq 'index calltip)))
-                  (params (cdr (assq 'params calltip))))
-              (when index
-                (setf (nth index params)
-                      (propertize (nth index params)
-                                  'face
-                                  'eldoc-highlight-function-argument)))
-              (let ((prefix (propertize name 'face
-                                        'font-lock-function-name-face))
-                    (args (format "(%s)" (mapconcat #'identity params ", "))))
+         (cond
+          ((stringp calltip)
+           (eldoc-message calltip))
+          (calltip
+           (let ((name (cdr (assq 'name calltip)))
+                 (index (cdr (assq 'index calltip)))
+                 (params (cdr (assq 'params calltip))))
+             (when index
+               (setf (nth index params)
+                     (propertize (nth index params)
+                                 'face
+                                 'eldoc-highlight-function-argument)))
+             (let ((prefix (propertize name 'face
+                                       'font-lock-function-name-face))
+                   (args (format "(%s)" (mapconcat #'identity params ", "))))
+               (eldoc-message
                 (if (version<= emacs-version "25")
                     (format "%s%s" prefix args)
-                  (eldoc-docstring-format-sym-doc prefix args nil)))))))))
+                  (eldoc-docstring-format-sym-doc prefix args nil))))))
+          (t
+           ;; Try getting oneline docstring
+           (elpy-rpc-get-oneline-docstring
+            (lambda (doc)
+              (cond
+               (doc
+                 (let ((name (cdr (assq 'name doc)))
+                       (doc (cdr (assq 'doc doc))))
+                   (let ((prefix (propertize (format "%s: " name)
+                                             'face
+                                             'font-lock-function-name-face)))
+                     (eldoc-message
+                     (if (version<= emacs-version "25")
+                         (format "%s%s" prefix doc)
+                       (let ((eldoc-echo-area-use-multiline-p nil))
+                         (eldoc-docstring-format-sym-doc
+                                         prefix doc nil)))
+                     ))))
+               ;; Give the current definition
+               (elpy-eldoc-show-current-function
+                (let ((current-defun (python-info-current-defun)))
+                  (when current-defun
+                    (eldoc-message
+                     (format "In: %s()" current-defun))))))))))))
       ;; Return the last message until we're done
       eldoc-last-message)))
 
