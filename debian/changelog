@@ -1,10 +1,10 @@
-elpy (1.26.0-1) UNRELEASED; urgency=medium
+elpy (1.26.0-1) unstable; urgency=medium
 
   * New upstream version.
   * Drop 0002-Handle-sphinx-warnings-linked-to-indexnode.patch.
     (merged upstream)
 
- -- Nicholas D Steeves <nsteeves@gmail.com>  Tue, 27 Nov 2018 19:31:19 -0500
+ -- Nicholas D Steeves <nsteeves@gmail.com>  Tue, 27 Nov 2018 19:45:22 -0500
 
 elpy (1.25.0-1) unstable; urgency=medium
 
