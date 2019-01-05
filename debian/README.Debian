@@ -1,25 +1,20 @@
-Debian's Elpy package is configured to use a system-wide Python interpreter
-that will be supported after 1 January 2020, when Python 2 will be EOL.
-The specific customisations are:
+Debian's Elpy package is configured to use the system-wide Python 3
+interpreter which will be supported after 1 January 2020, when Python 2
+will be EOL. The specific customisations are:
 
 (setq elpy-rpc-pythonpath nil
       python-shell-interpreter "/usr/bin/python3"
       python-shell-interpreter-args "-i"
       elpy-rpc-python-command "/usr/bin/python3")
 
-Customise these variables to enable specific Python versions, or
-reenable the normal rules of $PATH by dropping the absolute path. eg:
-Specify python3 and let $PATH choose python3 from something like
-~/.my_virtualenv2/bin/python3.  The system-wide Python interpreter was
-chosen--using an absolute path--to guard against the situation where a
-user has installed an additional, possibly experimental Python version
-somewhere in their $PATH.  Such a state would have been confusing for
-a developer who was new to UNIX-like systems!
+Customise these variables to use Python interpreter, or reenable the
+normal rules of $PATH by dropping the absolute path. eg: Specify
+python3 and let $PATH choose python3 from something like
+~/.my_virtualenv2/bin/python3.
 
 Elpy's custom PYTHONPATH is not needed in packages that use dh-python,
-and has been disabled.  Previously Elpy unnecessarily searched
-site-lisp/elpa/elpy-1.23.0 for its associated Python modules.  This
-should not be changed.
+and has been unset.  Previously Elpy unnecessarily searched
+site-lisp/elpa/elpy-1.23.0 for its associated Python modules.
 
 An alternative interactive interpreter can be enabled by setting
 'python-shell-interpreter' and 'python-shell-interpreter-args' to (eg:
@@ -35,9 +30,9 @@ To restore upstream defaults, add the following to a user's Emacs config:
 These defaults are useful when moving between virtualenv projects
 where some projects use Python 3 and some projects use Python 2.  That
 said, at present the Debian package is not built '--with python2' and
-so it is likely that Python 2 virtualenvs do not yet work correctly,
-because Python 2 modules are not installed to a system-wide PYTHONPATH.
-These modules are needed for the RPC Process.  See Concepts->The RPC Process
-in 'info elpy' for further information.
+so it is likely that Python 2 virtualenvs do not work correctly,
+because Python 2 modules are not built or installed to the system-wide
+PYTHONPATH.  These modules are needed for the RPC Process.  See
+Concepts->The RPC Process in 'info elpy' for further information.
 
- -- Nicholas D Steeves <nsteeves@gmail.com>, Mon,  3 Sep 2018 19:09:35 -0400
+ -- Nicholas D Steeves <nsteeves@gmail.com>, Fri,  4 Jan 2019 22:41:43 -0700
