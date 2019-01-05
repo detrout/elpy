@@ -1,9 +1,14 @@
-elpy (1.26.0-2) UNRELEASED; urgency=medium
+elpy (1.28.0-1) UNRELEASED; urgency=medium
 
+  * New upstream version.
   * Rework several sections of README.Debian to be more concise and clear.
   * debian/control: Add "Rules-Requires-Root: no"
   * Update my copyright year range.
   * Declare Standards-Version: 4.3.0. (no additional changes required)
+  * debian/elpa-test:
+    - No longer exclude elpy-news-test.el, which was removed upstream.
+    - Re-enable tests from elpy-promise-wait-test.el now that the Python 3.7
+      transition is complete.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Fri, 04 Jan 2019 22:49:28 -0700
 
