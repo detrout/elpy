@@ -1,6 +1,5 @@
 #!/usr/bin/make -f
 
-export DH_VERBOSE = 1
 export PYBUILD_NAME = elpy
 LC_ALL := C.UTF-8
 export LC_ALL
