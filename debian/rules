@@ -22,4 +22,5 @@ else
 	PYTHONPATH=. sphinx-build -N -bman docs/ build/man
 	PYTHONPATH=. sphinx-build -N -btexinfo docs/ build/info
 	makeinfo --no-split build/info/Elpy.texi -o build/info/elpy.info
+	PYTHONPATH=. sphinx-build -N -bhtml docs/ build/html
 endif
