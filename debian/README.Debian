@@ -1,38 +1,47 @@
 Debian's Elpy package is configured to use the system-wide Python 3
-interpreter which will be supported after 1 January 2020, when Python 2
-will be EOL. The specific customisations are:
+interpreter and has never shipped with Python 2 support.  See Bug
+#927086 for discussion.
 
-(setq elpy-rpc-pythonpath nil
-      python-shell-interpreter "/usr/bin/python3"
-      python-shell-interpreter-args "-i"
-      elpy-rpc-python-command "/usr/bin/python3")
+To run Elpy's checks for optional dependencies, from within Emacs:
+  M-x elpy-enable  ;; <- this is the simplest way to start Elpy.
+  M-x elpy-config
 
-Customise these variables to use Python interpreter, or reenable the
-normal rules of $PATH by dropping the absolute path. eg: Specify
-python3 and let $PATH choose python3 from something like
-~/.my_virtualenv2/bin/python3.
+To find the corresponding Debian packages, run this in a shell:
+  # apt show elpa-elpy | grep 'Recommends\|Suggests'
 
-Elpy's custom PYTHONPATH is not needed in packages that use dh-python,
-and has been unset.  Previously Elpy unnecessarily searched
-site-lisp/elpa/elpy-1.23.0 for its associated Python modules.
+Debian-specific customisations are found in elpa-elpy's
+debian-autoloads.el file.
+
+  # dpkg -L elpa-elpy | grep debian-autoloads.el
+
+If a virtualenv's python interpreter is not the same as the system
+one, then it might be necessary to reenable upstream behaviour.  To do
+this, consult debian-autoloads.el, customise 'python-shell-interpreter'
+and 'elpy-rpc-python-command' on a per-user basis (eg: ~/.emacs,
+~/.emacs.el, or ~/.emacs.d/init.el), and drop the absolute path by
+setting these variables to "python3".  Setting them to "python" in the
+hopes that this will reenable Python 2 support will not work, because
+the Elpy modules needed for Python 2 are neither built nor installed,
+and these modules are needed for the RPC Process (see documentation at
+Elpy->Concepts->The RPC Process) and various other functions.  Also,
+elpa-elpy does not install a number of required Python 2 dependencies.
+
+Elpy's custom PYTHONPATH is not needed, because this package uses
+dh-python and has been unset.  Previously Elpy unnecessarily searched
+/usr/share/emacs/site-lisp/site-lisp/elpa/elpy-1.23.0 for its
+Python modules.
+
+Upstream documentation for the installed Elpy version is available in
+info, html, and man page format at the standard locations.  To access
+the info page:
+
+  # info elpy
+  # or: emacs --eval '(info "elpy")'
+  # or from within Emacs: M-x info, C-s elpy
 
 An alternative interactive interpreter can be enabled by setting
-'python-shell-interpreter' and 'python-shell-interpreter-args' to (eg:
-Jupyter console or IPython).  See "Interpreter Setup" section of
-Elpy's Documentation for more information.
+'python-shell-interpreter' and 'python-shell-interpreter-args' to
+something like Jupyter console or IPython.  See the "Interpreter Setup"
+section of Elpy's Documentation for more information.
 
-To restore upstream defaults, add the following to a user's Emacs config:
-
-    (setq python-shell-interpreter "python"
-          python-shell-interpreter-args "-i")
-          elpy-rpc-python-command "python")
-
-These defaults are useful when moving between virtualenv projects
-where some projects use Python 3 and some projects use Python 2.  That
-said, at present the Debian package is not built '--with python2' and
-so it is likely that Python 2 virtualenvs do not work correctly,
-because Python 2 modules are not built or installed to the system-wide
-PYTHONPATH.  These modules are needed for the RPC Process.  See
-Concepts->The RPC Process in 'info elpy' for further information.
-
- -- Nicholas D Steeves <nsteeves@gmail.com>, Fri,  4 Jan 2019 22:41:43 -0700
+ -- Nicholas D Steeves <nsteeves@gmail.com>, Thu,  9 May 2019 18:21:45 -0400
