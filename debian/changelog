@@ -6,6 +6,8 @@ elpy (1.28.0-2) UNRELEASED; urgency=medium
     (Closes: #928633)
   * debian/README.Debian: Make explicit how Debian's Elpy package does
     not ship with support for Python 2. (Closes: #927084)
+  * debian/control: Clarify comment explaining why the Python 2 package
+    python-autopep8 is a build dependency.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 17 Apr 2019 19:13:51 -0400
 
