@@ -36,18 +36,18 @@
     (should (not (equal (current-buffer)
                         (get-buffer "*Python*"))))))
 
-;; (ert-deftest elpy-shell-send-region-or-buffer-should-notify-of-removing-main ()
-;;   (elpy-testcase ()
-;;     (python-mode)
-;;     (elpy-mode)
-;;     (insert "def foo():\n"
-;;             "  pass\n"
-;;             "\n"
-;;             "if __name__ == '__main__':\n"
-;;             "  print('Argh')\n")
-;;     (elpy-shell-send-region-or-buffer)
-;;     (string-match "Removed if __main__"
-;;                   (if (fboundp 'shut-up-current-output)
-;;                       (shut-up-current-output)
-;;                     (with-current-buffer ert-runner-output-buffer
-;;                       (buffer-string))))))
+(ert-deftest elpy-shell-send-region-or-buffer-should-notify-of-removing-main ()
+  (elpy-testcase ()
+    (python-mode)
+    (elpy-mode)
+    (insert "def foo():\n"
+            "  pass\n"
+            "\n"
+            "if __name__ == '__main__':\n"
+            "  print('Argh')\n")
+    (elpy-shell-send-region-or-buffer)
+    (string-match "Removed if __main__"
+                  (if (fboundp 'shut-up-current-output)
+                      (shut-up-current-output)
+                    (with-current-buffer ert-runner-output-buffer
+                      (buffer-string))))))
