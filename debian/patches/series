@@ -2,3 +2,4 @@
 0002-Add-a-quickstart-section-to-the-documentation-1598.patch
 0003-Make-sure-we-cannot-load-Elpy-twice.patch
 0004-Enable-elpy-mode-in-python-buffer-when-enabling-Elpy.patch
+0005-Fix-typo.patch

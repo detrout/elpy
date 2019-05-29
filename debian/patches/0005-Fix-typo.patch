@@ -1,0 +1,28 @@
+From: galaunay <gaby.launay@tutanota.com>
+Date: Sun, 14 Apr 2019 22:23:28 +0100
+Subject: Fix typo
+
+Origin: upstream, https://github.com/jorgenschaefer/elpy/commit/7e9b87bb0ec824d2d1ae014d0d31f15ac63d01a8
+
+This is an upstream fixup for 0003-Make-sure-we-cannot-load-Elpy-twice.patch
+
+---
+ elpy.el | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/elpy.el b/elpy.el
+index 8416b62..7945dc5 100644
+--- a/elpy.el
++++ b/elpy.el
+@@ -563,10 +563,10 @@ This option need to bet set through `customize' or `customize-set-variable' to b
+     ["News" elpy-news t]
+     ["Configure" elpy-config t]))
+ 
+-;;;###autoload
+ (defvar elpy-enabled-p nil
+   "Is Elpy enabled or not.")
+ 
++;;;###autoload
+ (defun elpy-enable (&optional ignored)
+   "Enable Elpy in all future Python buffers."
+   (interactive)
