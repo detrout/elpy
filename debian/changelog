@@ -4,6 +4,9 @@ elpy (1.28.0-2) UNRELEASED; urgency=medium
   * Use sphinx to generate documentation in html format, and use
     debian/docs to install it.
     (Closes: #928633)
+  * Add libjs-sphinxdoc to Recommends.  This package's html doc search page
+    fails gracefully with "Please activate JavaScript to enable the search
+    functionality" if a user chooses not to install libjs-sphinxdoc.
   * debian/README.Debian: Make explicit how Debian's Elpy package does
     not ship with support for Python 2. (Closes: #927084)
   * debian/control: Clarify comment explaining why the Python 2 package

@@ -45,6 +45,7 @@ Depends: ${elpa:Depends}
        , flake8
 Recommends: emacs (>= 46.0)
           , python3-jedi
+          , libjs-sphinxdoc
 Suggests: python3-autopep8
         , yapf3
         , black
