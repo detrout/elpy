@@ -4,7 +4,7 @@
 
 ;; Author: Jorgen Schaefer <contact@jorgenschaefer.de>
 ;; URL: https://github.com/jorgenschaefer/elpy
-;; Version: 1.29.1
+;; Version: 1.30.0
 ;; Keywords: Python, IDE, Languages, Tools
 ;; Package-Requires: ((company "0.9.2") (emacs "24.4") (find-file-in-project "3.3")  (highlight-indentation "0.5.0") (pyvenv "1.3") (yasnippet "0.8.0") (s "1.12.0"))
 
@@ -53,7 +53,7 @@
 (require 'pyvenv)
 (require 'find-file-in-project)
 
-(defconst elpy-version "1.29.1"
+(defconst elpy-version "1.30.0"
   "The version of the Elpy lisp code.")
 
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -607,6 +607,12 @@ This option need to bet set through `customize' or `customize-set-variable' to b
     (add-hook 'python-mode-hook 'elpy-mode)
     (add-hook 'pyvenv-post-activate-hooks 'elpy-rpc--disconnect)
     (add-hook 'inferior-python-mode-hook 'elpy-shell--enable-output-filter)
+    ;; Enable Elpy-mode in the opened python buffer
+    (dolist (buffer (buffer-list))
+      (and (not (string-match "^ ?\\*" (buffer-name buffer)))
+           (with-current-buffer buffer
+             (when (string= major-mode 'python-mode)
+               (elpy-mode t)))))
     (setq elpy-enabled-p t)))
 
 (defun elpy-disable ()
@@ -673,17 +679,17 @@ import warnings
 warnings.filterwarnings('ignore', category=FutureWarning)
 
 try:
-    import xmlrpclib
+    import urllib2 as urllib
 except ImportError:
-    import xmlrpc.client as xmlrpclib
+    import urllib.request as urllib
 
 from distutils.version import LooseVersion
 
 
 def latest(package, version=None):
     try:
-        with xmlrpclib.ServerProxy('https://pypi.python.org/pypi') as pypi:
-            latest = pypi.package_releases(package)[0]
+        response = urllib.urlopen('https://pypi.org/pypi/{package}/json'.format(package=package)).read()
+        latest = json.loads(response)['info']['version']
         if version is None or LooseVersion(version) < LooseVersion(latest):
             return latest
         else:
@@ -881,13 +887,10 @@ item in another window.\n\n")
                (not (gethash "elpy_version" config)))
       (elpy-insert--para
        "The Python interpreter could not find the elpy module. "
-       "Make sure the module is installed"
-       (if (gethash "virtual_env" config)
-           " in the current virtualenv.\n"
-         ".\n"))
-      (insert "\n")
-      (widget-create 'elpy-insert--pip-button :package "elpy")
-      (insert "\n\n"))
+       "Please report to: "
+       "https://github.com/jorgenschaefer/elpy/issues/new."
+       "\n")
+      (insert "\n"))
 
     ;; Bad backend version
     (when (and (gethash "elpy_version" config)
@@ -897,9 +900,7 @@ item in another window.\n\n")
         (elpy-insert--para
          "The Elpy backend is version " elpy-python-version " while "
          "the Emacs package is " elpy-version ". This is incompatible. "
-         (if (version< elpy-python-version elpy-version)
-             "Please upgrade the Python module."
-           "Please upgrade the Emacs Lisp package.")
+         "Please report to: https://github.com/jorgenschaefer/elpy/issues/new."
          "\n")))
 
     ;; Otherwise unparseable output.
@@ -1087,7 +1088,8 @@ virtual_env_short"
                                             elpy-config--get-config)))))
         (when return-value
           (let ((data (ignore-errors
-                        (let ((json-array-type 'list))
+                        (let ((json-array-type 'list)
+                              (json-encoding-pretty-print nil))  ;; Link to bug https://github.com/jorgenschaefer/elpy/issues/1521
                           (goto-char (point-min))
                           (json-read)))))
             (if (not data)
@@ -2644,10 +2646,11 @@ Returns a PROMISE object."
       (elpy-rpc--register-callback elpy-rpc--call-id promise)
       (process-send-string
        (get-buffer-process (current-buffer))
+       (let ((json-encoding-pretty-print nil))  ;; Link to bug https://github.com/jorgenschaefer/elpy/issues/1521
        (concat (json-encode `((id . ,elpy-rpc--call-id)
                               (method . ,method-name)
                               (params . ,params)))
-               "\n")))
+               "\n"))))
     promise))
 
 (defun elpy-rpc--register-callback (call-id promise)
@@ -2795,7 +2798,8 @@ RPC calls with the event."
             (goto-char (point-min))
             (condition-case _err
                 (progn
-                  (setq json (let ((json-array-type 'list))
+                  (setq json (let ((json-array-type 'list)
+                                   (json-encoding-pretty-print nil))  ;; Link to bug https://github.com/jorgenschaefer/elpy/issues/1521
                                (json-read)))
                   (if (listp json)
                       (setq  line-end (1+ (point))

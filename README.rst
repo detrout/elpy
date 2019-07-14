@@ -6,11 +6,22 @@ Elpy is an Emacs package to bring powerful Python editing to Emacs. It
 combines and configures a number of other packages, both written in
 Emacs Lisp as well as Python.
 
-.. image:: https://secure.travis-ci.org/jorgenschaefer/elpy.png?branch=master
+.. image:: https://secure.travis-ci.org/jorgenschaefer/elpy.svg?branch=master
    :target: http://travis-ci.org/jorgenschaefer/elpy?branch=master
 
-.. image:: https://coveralls.io/repos/jorgenschaefer/elpy/badge.png?branch=master
+.. image:: https://readthedocs.org/projects/elpy/badge/?version=latest
+   :target: https://elpy.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+
+.. image:: https://coveralls.io/repos/jorgenschaefer/elpy/badge.svg?branch=master
    :target: https://coveralls.io/r/jorgenschaefer/elpy?branch=master
+
+.. image:: https://melpa.org/packages/elpy-badge.svg
+   :target: https://melpa.org/#/elpy
+
+.. image:: https://stable.melpa.org/packages/elpy-badge.svg
+   :target: https://stable.melpa.org/#/elpy
+
 
 Documentation
 =============
@@ -36,7 +47,7 @@ First, install the required Python packages:::
   pip install yapf
   pip install black
 
-One-line install: **pip install jedi flake8 autopep8 black yapf**
+One-line install: ``pip install jedi flake8 autopep8 black yapf``
 
 With `use-package`
 ------------------
