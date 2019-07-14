@@ -1,3 +1,9 @@
+elpy (1.29.1-1) UNRELEASED; urgency=medium
+
+  * New upstream version.
+
+ -- Nicholas D Steeves <nsteeves@gmail.com>  Sun, 14 Jul 2019 16:24:04 -0400
+
 elpy (1.28.0-2) unstable; urgency=medium
 
   * debian/rules: Disable DH_VERBOSE.
