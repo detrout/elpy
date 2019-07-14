@@ -9,6 +9,19 @@ To run Elpy's checks for optional dependencies, from within Emacs:
 To find the corresponding Debian packages, run this in a shell:
   # apt show elpa-elpy | grep 'Recommends\|Suggests'
 
+To autostart Elpy when visiting Python files, add the following
+to a user's Emacs config some place after (package-initialize):
+
+  (advice-add 'python-mode :before 'elpy-enable)
+
+Advising python-mode is necessary because elpy-enable must be called
+before python-mode, and this is why the following doesn't work:
+
+  (add-hook 'python-mode-hook (lambda () ((elpy-enable))))
+
+The advice-add method avoids the slowdown caused by unconditionally
+calling elpy-enable during Emacs init.
+
 Debian-specific customisations are found in elpa-elpy's
 debian-autoloads.el file.
 
@@ -44,4 +57,4 @@ An alternative interactive interpreter can be enabled by setting
 something like Jupyter console or IPython.  See the "Interpreter Setup"
 section of Elpy's Documentation for more information.
 
- -- Nicholas D Steeves <nsteeves@gmail.com>, Thu,  9 May 2019 18:21:45 -0400
+ -- Nicholas D Steeves <nsteeves@gmail.com>, Sun, 14 Jul 2019 16:55:14 -0400
