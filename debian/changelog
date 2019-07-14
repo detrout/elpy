@@ -5,6 +5,7 @@ elpy (1.29.1-1) UNRELEASED; urgency=medium
     0003-Make-sure-we-cannot-load-Elpy-twice.patch
     0004-Enable-elpy-mode-in-python-buffer-when-enabling-Elpy.patch
     0005-Fix-typo.patch
+  * Register HTML documentation with doc-base.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Sun, 14 Jul 2019 16:24:04 -0400
 

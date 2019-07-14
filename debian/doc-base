@@ -1,0 +1,8 @@
+Title: Emacs Python Development Environment
+Author: Jorgen Schäfer <contact@jorgenschaefer.de>
+Abstract: Elpy Introduction, Quickstart, Concepts, and IDE features
+Section: Programming/Python
+
+Format: HTML
+Index: /usr/share/doc/elpa-elpy/html/index.html
+Files: /usr/share/doc/elpa-elpy/html/*.html
