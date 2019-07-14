@@ -104,13 +104,14 @@ documentation is a good place for further information.
 
 .. _Company Mode: https://company-mode.github.io/
 
-.. option:: elpy-company-add-completion-from-shell
+.. option:: elpy-get-info-from-shell
 
-    If t, add completion candidates gathered from the current python shell.
-    Normally elpy provides completion using static code analysis (from jedi).
-    With this option set to t, elpy will add the completion candidates from the
-    associated python shell. This allow to have decent completion candidates
-    when the static code analysis fails.
+    If t, use the shell to gather docstrings and completions. Normally elpy
+    provides completion and documentation using static code analysis (from
+    jedi). With this option set to t, elpy will add the completion candidates
+    and the docstrings from the associated python shell. This allows to have
+    decent completion candidates and documentation when the static code analysis
+    fails. the static code analysis fails.
 
 
 Navigation
@@ -476,14 +477,6 @@ evaluation command, thereby providing visual feedback.
    value). Then, no window is needed to display the shell (thereby saving screen
    real estate), but the outputs can still be seen in the echo area.
 
-.. option:: elpy-shell-capture-last-multiline-output
-
-   When a multiple statements are sent to the shell simultaneously (e.g., via
-   :command:`elpy-shell-send-group-and-step`), Elpy by default captures the
-   value of the last Python statement (if is an expression) and shows it in the
-   shell buffer. This variable can be used to turn off this behavior (then shell
-   won't show any output, except for single-line statements).
-
 .. option:: elpy-shell-display-buffer-after-send
 
    Whether to display the Python shell after sending something to it (default
@@ -558,6 +551,49 @@ currently selected company candidate.
 .. option:: elpy-autodoc-delay
 
    The idle delay in seconds until documentation is updated automatically.
+
+
+Debugging
+=========
+
+Elpy provides an interface to `pdb`_, the builtin Python debugger.
+Note that this interface is only available for Emacs 25 and above.
+
+.. _pdb: https://docs.python.org/3/library/pdb.html
+
+.. command:: elpy-pdb-debug-buffer
+   :kbd: C-c C-g g
+
+   Run pdb on the current buffer. If no breakpoints has been set using
+   :command:`elpy-pdb-toggle-breakpoint-at-point`, the debugger will
+   pause at the beginning of the buffer. Else, the debugger will pause
+   at the first breakpoint. Once pdb is started, the `pdb commands`_
+   can be used to step through and look into the code evaluation.
+
+   With a prefix argument :kbd:`C-u`, ignore the breakpoints and
+   always pause at the beginning of the buffer.
+
+.. _pdb commands: https://docs.python.org/3/library/pdb.html#debugger-commands
+
+.. command:: elpy-pdb-toggle-breakpoint-at-point
+   :kbd: C-c C-g b
+
+   Add (or remove) a breakpoint on the current line. Elpy adds a red
+   circle to the fringe to indicate the presence of a breakpoint. You
+   can then use :command:`elpy-pdb-debug-buffer` to start pdb and
+   pause at each of the breakpoints.
+
+   With a prefix argument :kbd:`C-u`, remove all the breakpoints.
+
+.. command:: elpy-pdb-break-at-point
+   :kbd: C-c C-g p
+
+   Run pdb on the current buffer and pause at the cursor position.
+
+.. command:: elpy-pdb-debug-last-exception
+   :kbd: C-c C-g e
+
+   Run post-mortem pdb on the last exception.
 
 
 Testing
