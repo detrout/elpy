@@ -1,7 +1,8 @@
 elpy (1.29.1+31.ge61540b-1) UNRELEASED; urgency=medium
 
-  * New upstream version.
-  * Drop all patches that are part of the upstream release:
+  * Package upstream snapshot.
+  * Drop all patches that were merged upstream:
+    0002-Add-a-quickstart-section-to-the-documentation-1598.patch
     0003-Make-sure-we-cannot-load-Elpy-twice.patch
     0004-Enable-elpy-mode-in-python-buffer-when-enabling-Elpy.patch
     0005-Fix-typo.patch
