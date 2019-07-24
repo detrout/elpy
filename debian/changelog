@@ -1,4 +1,4 @@
-elpy (1.29.1+31.ge61540b-1) UNRELEASED; urgency=medium
+elpy (1.29.1+31.ge61540b-1) unstable; urgency=medium
 
   * Package upstream snapshot.
   * Drop all patches that were merged upstream:
@@ -16,7 +16,7 @@ elpy (1.29.1+31.ge61540b-1) UNRELEASED; urgency=medium
     double the amount of time we wait-for-output during self-tests.
   * Switch to debhelper-compat 12.
 
- -- Nicholas D Steeves <nsteeves@gmail.com>  Sun, 14 Jul 2019 16:24:04 -0400
+ -- Nicholas D Steeves <nsteeves@gmail.com>  Tue, 23 Jul 2019 20:22:01 -0400
 
 elpy (1.28.0-2) unstable; urgency=medium
 
