@@ -1,0 +1,22 @@
+From: Nicholas D Steeves <nsteeves@gmail.com>
+Date: Tue, 23 Jul 2019 20:10:26 -0400
+Subject: Double max-wait in elpy/wait-for-output self-test
+Forwarded: https://github.com/jorgenschaefer/elpy/issues/1620
+
+---
+ test/test-helper.el | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/test/test-helper.el b/test/test-helper.el
+index b40b0c6..7f055df 100644
+--- a/test/test-helper.el
++++ b/test/test-helper.el
+@@ -129,7 +129,7 @@ for that file."
+ 
+ (defun elpy/wait-for-output (output &optional max-wait)
+   (when (not max-wait)
+-    (setq max-wait 10))
++    (setq max-wait 20))
+   (let ((end (time-add (current-time)
+                        (seconds-to-time max-wait))))
+     (while (and (time-less-p (current-time)

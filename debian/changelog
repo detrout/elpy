@@ -12,6 +12,8 @@ elpy (1.29.1+31.ge61540b-1) UNRELEASED; urgency=medium
     it during Emacs init.
   * debian/elpa-test: Set elpa-rpc-timeout to double it's default value to
     defend against timing-related self-test failures on DebCI.
+  * Add 0002-Double-max-wait-in-elpy-wait-for-output-self-test.patch to
+    double the amount of time we wait-for-output during self-tests.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Sun, 14 Jul 2019 16:24:04 -0400
 
