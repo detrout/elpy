@@ -1,4 +1,4 @@
-elpy (1.29.1+31.ge61540b-1) unstable; urgency=medium
+elpy (1.29.1+40.gb929013-1) UNRELEASED; urgency=medium
 
   * Package upstream snapshot.
   * Drop all patches that were merged upstream:
@@ -15,6 +15,7 @@ elpy (1.29.1+31.ge61540b-1) unstable; urgency=medium
   * Add 0002-Double-max-wait-in-elpy-wait-for-output-self-test.patch to
     double the amount of time we wait-for-output during self-tests.
   * Switch to debhelper-compat 12.
+  * Declare Standards-Version: 4.4.0 (no changes required).
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Tue, 23 Jul 2019 20:22:01 -0400
 
