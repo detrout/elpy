@@ -1,4 +1,4 @@
-elpy (1.29.1+40.gb929013-1) UNRELEASED; urgency=medium
+elpy (1.29.1+40.gb929013-1) unstable; urgency=medium
 
   * Package upstream snapshot.
   * Drop all patches that were merged upstream:
@@ -17,7 +17,7 @@ elpy (1.29.1+40.gb929013-1) UNRELEASED; urgency=medium
   * Switch to debhelper-compat 12.
   * Declare Standards-Version: 4.4.0 (no changes required).
 
- -- Nicholas D Steeves <nsteeves@gmail.com>  Tue, 23 Jul 2019 20:22:01 -0400
+ -- Nicholas D Steeves <nsteeves@gmail.com>  Thu, 25 Jul 2019 22:20:27 -0400
 
 elpy (1.28.0-2) unstable; urgency=medium
 
