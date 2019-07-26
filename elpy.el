@@ -296,7 +296,7 @@ this feature."
 (defcustom elpy-get-info-from-shell nil
   "If t, use the shell to gather docstrings and completions.
 
-Normally elpy provides completion and documentation using static code analysis (from jedi). With this option set to t, elpy will add the completion candidates and the docstrings from the associated python shell. This allows to have decent completion candidates and documentation when the static code analysis fails."
+Normally elpy provides completion and documentation using static code analysis (from jedi). With this option set to t, elpy will add the completion candidates and the docstrings from the associated python shell; This activates fallback completion candidates for cases when static code analysis fails."
   :type 'boolean
   :group 'elpy)
 
@@ -3736,7 +3736,7 @@ and return the list."
      (eldoc-add-command-completions "company-")
      (eldoc-add-command-completions "python-indent-dedent-line-backspace")
      (set (make-local-variable 'company-frontends)
-          (delq 'company-echo-metadata-frontend company-frontends))
+          (remq 'company-echo-metadata-frontend company-frontends))
      (set (make-local-variable 'eldoc-documentation-function)
           'elpy-eldoc-documentation)
      (eldoc-mode 1))
