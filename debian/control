@@ -16,7 +16,6 @@ Build-Depends: debhelper-compat (= 12)
              , elpa-f <!nocheck>
              , python3-all
              , python3-setuptools
-             , python3-flake8
              , flake8
              , python3-jedi
              , python3-autopep8 <!nocheck>
