@@ -1,6 +1,7 @@
 elpy (1.29.1+40.gb929013-2) UNRELEASED; urgency=medium
 
   * Drop build-dep on python3-flake8, because flake8 now depends on it.
+  * Drop emacs25 from Enhances, because it's now just a dummy package.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 21 Aug 2019 23:45:56 -0400
 

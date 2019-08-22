@@ -51,7 +51,6 @@ Suggests: python3-autopep8
         , python3-pip
         , python3-jupyter-console
 Enhances: emacs
-        , emacs25
 Description: Emacs Python Development Environment
  The Emacs Lisp Python Environment in Emacs
  .
