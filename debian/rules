@@ -19,8 +19,8 @@ override_dh_auto_build:
 ifneq ($(filter nodoc,$(DEB_BUILD_PROFILES)),)
 	echo -e "\nnodoc build profile enabled, therefore not building docs.\n"
 else
-	PYTHONPATH=. sphinx-build -N -bman docs/ build/man
-	PYTHONPATH=. sphinx-build -N -btexinfo docs/ build/info
+	PYTHONPATH=. python3 -m sphinx -N -bman docs/ build/man
+	PYTHONPATH=. python3 -m sphinx -N -btexinfo docs/ build/info
 	makeinfo --no-split build/info/Elpy.texi -o build/info/elpy.info
-	PYTHONPATH=. sphinx-build -N -bhtml docs/ build/html
+	PYTHONPATH=. python3 -m sphinx -N -bhtml docs/ build/html
 endif
