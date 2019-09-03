@@ -1,0 +1,25 @@
+Origin: https://github.com/jorgenschaefer/elpy/pull/1638
+From: galaunay <gaby.launay@protonmail.com>
+Date: Tue, 27 Aug 2019 19:35:25 +0200
+Subject: Added profile visualizer options
+
+---
+ elpy-profile.el | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/elpy-profile.el b/elpy-profile.el
+index 3b61c37..b54d940 100644
+--- a/elpy-profile.el
++++ b/elpy-profile.el
+@@ -30,7 +30,10 @@
+ 
+ (defcustom elpy-profile-visualizer "snakeviz"
+   "Visualizer for elpy profile results."
+-  :type 'str
++  :type '(choice (const :tag "Snakeviz" "snakeviz")
++                 (const :tag "RunSnakeRun" "runsnake")
++                 (const :tag "pyprof2calltree" "pyprof2calltree -k -i")
++                 (string :tag "Other"))
+   :group 'elpy)
+ 
+ ;;;;;;;;;;;;;;;;;;;;;;

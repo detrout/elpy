@@ -1,2 +1,4 @@
 0001-Disable-test-shell-send-region-or-buffer.patch
 0002-Double-max-wait-in-elpy-wait-for-output-self-test.patch
+0003-Added-profile-visualizer-options.patch
+0004-ide.rst-Add-documentation-for-1638.patch
