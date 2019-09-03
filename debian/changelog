@@ -10,7 +10,8 @@ elpy (1.29.1+40.gb929013-2) UNRELEASED; urgency=medium
     on wiki.debian.org for this tip.
   * Add 0003-Added-profile-visualizer-options.patch, which provides defcustom
     alternatives for profiling visualisers.
-  * Add 0004-ide.rst-Add-documentation-for-1638.patch to document 0003*.patch.g
+  * Add 0004-ide.rst-Add-documentation-for-1638.patch to document 0003*.patch.
+  * Add 0005-ide.rst-two-minor-typo-spelling-fixes.patch.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 21 Aug 2019 23:45:56 -0400
 
