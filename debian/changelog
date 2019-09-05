@@ -9,10 +9,7 @@ elpy (1.29.1+57.gc9b0c7f-1) UNRELEASED; urgency=medium
     so it makes sense to make them more visible and discoverable with links to
     /usr/share/doc/elpa-elpy/rst.  Thanks to the Python Library Style Guide
     on wiki.debian.org for this tip.
-  * Add 0003-Added-profile-visualizer-options.patch, which provides defcustom
-    alternatives for profiling visualisers.
   * Add 0004-ide.rst-Add-documentation-for-1638.patch to document 0003*.patch.
-  * Add 0005-ide.rst-two-minor-typo-spelling-fixes.patch.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 21 Aug 2019 23:45:56 -0400
 
