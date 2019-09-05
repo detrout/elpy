@@ -557,7 +557,7 @@ Snippets
 
 Elpy uses yasnippet_ to provide code templates that helps writing common pieces of code faster.
 You can access a template by typing a "template key" and hitting ``TAB`` to expand it.
-You may then be asked to fill some fields in the template, just hit ``TAB`` when you are done to procede to the next field.
+You may then be asked to fill some fields in the template, just hit ``TAB`` when you are done to proceed to the next field.
 
 The sequel presents a list of templates provided by Elpy.
 
@@ -593,7 +593,7 @@ Note that this interface is only available for Emacs 25 and above.
 .. _pdb: https://docs.python.org/3/library/pdb.html
 
 .. command:: elpy-pdb-debug-buffer
-   :kbd: C-c C-g g
+   :kbd: C-c C-u d
 
    Run pdb on the current buffer. If no breakpoints has been set using
    :command:`elpy-pdb-toggle-breakpoint-at-point`, the debugger will
@@ -607,7 +607,7 @@ Note that this interface is only available for Emacs 25 and above.
 .. _pdb commands: https://docs.python.org/3/library/pdb.html#debugger-commands
 
 .. command:: elpy-pdb-toggle-breakpoint-at-point
-   :kbd: C-c C-g b
+   :kbd: C-c C-u b
 
    Add (or remove) a breakpoint on the current line. Elpy adds a red
    circle to the fringe to indicate the presence of a breakpoint. You
@@ -617,12 +617,12 @@ Note that this interface is only available for Emacs 25 and above.
    With a prefix argument :kbd:`C-u`, remove all the breakpoints.
 
 .. command:: elpy-pdb-break-at-point
-   :kbd: C-c C-g p
+   :kbd: C-c C-u p
 
    Run pdb on the current buffer and pause at the cursor position.
 
 .. command:: elpy-pdb-debug-last-exception
-   :kbd: C-c C-g e
+   :kbd: C-c C-u e
 
    Run post-mortem pdb on the last exception.
 
@@ -700,8 +700,9 @@ Refactoring
 
    Format code using the available formatter.
 
-   This command formats code using `yapf`_ , `autopep8`_ or `black`_
-   formatter. If a region is selected, only that region is formatted.
+   This command formats code using the first formatter found amongst
+   `yapf`_ , `autopep8`_ and `black`_.
+   If a region is selected, only that region is formatted.
    Otherwise current buffer is formatted.
 
    `yapf`_ and `autopep8`_ can be configured with style files placed in
@@ -716,7 +717,7 @@ Refactoring
 Profiling
 =========
 
-Elpy allows to profile python scripts asynchronously using `cProfile`.
+Elpy allows one to profile python scripts asynchronously using `cProfile`.
 
 .. command:: elpy-profile-buffer-or-region
 

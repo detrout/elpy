@@ -325,8 +325,10 @@ edited instead. Setting this variable to nil disables this feature."
   :safe 'elpy-test-runner-p
   :group 'elpy)
 
-(defcustom elpy-test-discover-runner-command '("python" "-m" "unittest")
-  "The command to use for `elpy-test-discover-runner'."
+(defcustom elpy-test-discover-runner-command '("python-shell-interpreter" "-m" "unittest")
+  "The command to use for `elpy-test-discover-runner'.
+If the string \"python-shell-interpreter\" is present, it will be replaced with
+the value of `python-shell-interpreter'."
   :type '(repeat string)
   :group 'elpy)
 
@@ -500,14 +502,14 @@ This option need to bet set through `customize' or `customize-set-variable' to b
 
 (defvar elpy-pdb-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "g") 'elpy-pdb-debug-buffer)
+    (define-key map (kbd "d") 'elpy-pdb-debug-buffer)
     (define-key map (kbd "p") 'elpy-pdb-break-at-point)
     (define-key map (kbd "e") 'elpy-pdb-debug-last-exception)
     (define-key map (kbd "b") 'elpy-pdb-toggle-breakpoint-at-point)
     map)
   "Key map for the shell related commands")
 (fset 'elpy-pdb-map elpy-pdb-map)
-(define-key elpy-mode-map (kbd "C-c C-g") 'elpy-pdb-map)
+(define-key elpy-mode-map (kbd "C-c C-u") 'elpy-pdb-map)
 
 (easy-menu-define elpy-menu elpy-mode-map
   "Elpy Mode Menu"
@@ -2010,6 +2012,15 @@ This uses the `elpy-test-runner-p' symbol property."
                         (cons command args)
                         " "))))
 
+(defun elpy-test-get-discover-runner ()
+  "Return the test discover runner from `elpy-test-discover-runner-command'."
+  (cl-loop
+   for string in elpy-test-discover-runner-command
+   if (string= string "python-shell-interpreter")
+   collect python-shell-interpreter
+   else
+   collect string))
+
 (defun elpy-test-discover-runner (top _file module test)
   "Test the project using the python unittest discover runner.
 
@@ -2021,7 +2032,7 @@ This requires Python 2.7 or later."
                (t "discover"))))
     (apply #'elpy-test-run
            top
-           (append elpy-test-discover-runner-command
+           (append (elpy-test-get-discover-runner)
                    (list test)))))
 (put 'elpy-test-discover-runner 'elpy-test-runner-p t)
 
