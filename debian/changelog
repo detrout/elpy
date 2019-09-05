@@ -11,6 +11,7 @@ elpy (1.29.1+57.gc9b0c7f-1) UNRELEASED; urgency=medium
     on wiki.debian.org for this tip.
   * Add 0004-ide.rst-Add-documentation-for-1638.patch to document upstream
     commit:326ad1d "Add profile visualiser options".
+  * Add 0005-Drop-explicit-setq-to-python2-in-elpy-shell-echo-inp.patch
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 21 Aug 2019 23:45:56 -0400
 
