@@ -9,10 +9,10 @@ Documents alternatives added in #1638 in ide.rst.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/docs/ide.rst b/docs/ide.rst
-index 1ae8d81..0b0a370 100644
+index 455c12f..9835daf 100644
 --- a/docs/ide.rst
 +++ b/docs/ide.rst
-@@ -722,7 +722,7 @@ Elpy allows to profile python scripts asynchronously using `cProfile`.
+@@ -723,7 +723,7 @@ Elpy allows one to profile python scripts asynchronously using `cProfile`.
  
     Send the current buffer or region to the profiler and display the result with
     ``elpy-profile-visualizer``.
