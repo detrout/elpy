@@ -1,7 +1,7 @@
 elpy (1.29.1+57.gc9b0c7f-1) UNRELEASED; urgency=medium
 
-  * Drop build-dep on python3-flake8, because flake8 now depends on it.
   * Package new upstream snapshot.
+  * Drop build-dep on python3-flake8, because flake8's deps now provide it.
   * Drop emacs25 from Enhances, because it's now just a dummy package.
   * Drop python-autopep8 from build-deps; it is no longer needed for self-tests.
   * Switch from using "sphinx-build" to new explicit "python3 -m sphinx" method.
