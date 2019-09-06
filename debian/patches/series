@@ -1,4 +1,2 @@
 0001-Disable-test-shell-send-region-or-buffer.patch
 0002-Double-max-wait-in-elpy-wait-for-output-self-test.patch
-0004-ide.rst-Add-documentation-for-1638.patch
-0005-Drop-explicit-setq-to-python2-in-elpy-shell-echo-inp.patch
