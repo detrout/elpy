@@ -9,6 +9,8 @@ elpy (1.29.1+65.g8adc427-1) UNRELEASED; urgency=medium
     so it makes sense to make them more visible and discoverable with links to
     /usr/share/doc/elpa-elpy/rst.  Thanks to the Python Library Style Guide
     on wiki.debian.org for this tip.
+  * Add elpa-pip-requirements to Suggests; editing requirements[3].txt files
+    is part maintaining a project, so this is nice to have.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 21 Aug 2019 23:45:56 -0400
 
