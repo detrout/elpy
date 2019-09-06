@@ -1,6 +1,7 @@
-elpy (1.29.1+65.g8adc427-1) UNRELEASED; urgency=medium
+elpy (1.29.1+65.g8adc427-1) unstable; urgency=medium
 
   * Package new upstream snapshot.
+    Elpy should now be ready for the Python 2 removal.
   * Drop build-dep on python3-flake8, because flake8's deps now provide it.
   * Drop emacs25 from Enhances, because it's now just a dummy package.
   * Drop python-autopep8 from build-deps; it is no longer needed for self-tests.
@@ -12,7 +13,7 @@ elpy (1.29.1+65.g8adc427-1) UNRELEASED; urgency=medium
   * Add elpa-pip-requirements to Suggests; editing requirements[3].txt files
     is part maintaining a project, so this is nice to have.
 
- -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 21 Aug 2019 23:45:56 -0400
+ -- Nicholas D Steeves <nsteeves@gmail.com>  Fri, 06 Sep 2019 13:30:42 -0400
 
 elpy (1.29.1+40.gb929013-1) unstable; urgency=medium
 
