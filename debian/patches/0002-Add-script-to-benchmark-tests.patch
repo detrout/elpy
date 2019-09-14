@@ -1,0 +1,122 @@
+From: galaunay <gaby.launay@protonmail.com>
+Date: Sat, 7 Sep 2019 23:16:48 +0200
+Subject: Add script to benchmark tests
+
+---
+ scripts/elpy-test-benchmark.el | 61 ++++++++++++++++++++++++++++++++++++++++++
+ scripts/test-benchmark         |  6 +++++
+ test/elpy-config-test.el       |  2 +-
+ test/test-helper.el            |  4 +--
+ 4 files changed, 69 insertions(+), 4 deletions(-)
+ create mode 100644 scripts/elpy-test-benchmark.el
+ create mode 100755 scripts/test-benchmark
+
+diff --git a/scripts/elpy-test-benchmark.el b/scripts/elpy-test-benchmark.el
+new file mode 100644
+index 0000000..35aa25b
+--- /dev/null
++++ b/scripts/elpy-test-benchmark.el
+@@ -0,0 +1,61 @@
++;; Load Elpy
++(require 'f)
++(require 'cl-extra)
++(let ((elpy-dir (f-parent (f-dirname (f-this-file)))))
++  (add-to-list 'load-path elpy-dir)
++  (add-to-list 'process-environment (format "PYTHONPATH=%s:%s"
++					    elpy-dir
++					    (getenv "PYTHONPATH")))
++  (add-to-list 'process-environment "ELPY_TEST=1"))
++(require 'elpy)
++;; blocking if not overwritten
++(defun elpy-doc--read-identifier-from-minibuffer (initial)
++  nil)
++
++
++;; Main function to run benchmarks
++(defun elpy-benchmark-tests (&optional repetitions)
++  "Benchmark every elpy's tests to identify stalling origins."
++  (interactive)
++  (let* ((dir (file-name-directory (locate-library "elpy.el")))
++         (files (directory-files (concat (file-name-as-directory dir)
++                                         "test")
++                                 t
++                                 "\\(.*-test\\.el$\\|test-helper\\.el\\)"
++                                 ))
++         (test-symbols '())
++         (test-benchmarks '()))
++    ;; Load every test
++    (dolist (test files)
++      (load-file test))
++    ;; Get tests list
++    (mapatoms (lambda (symb)
++                (when (and (ert-test-boundp symb)
++                           (string-match "elpy" (symbol-name symb)))
++                  (add-to-list 'test-symbols symb)))
++              obarray)
++    ;; Run every test with benchmark
++    (dolist (test test-symbols)
++      (message "Test: %s" (symbol-name test))
++
++      (add-to-list 'test-benchmarks
++                   (cons (symbol-name test)
++                         (benchmark-run (or repetitions 1)
++                           (ert-run-tests test (lambda (&rest _rest) t))))))
++    ;; Sort by time elapsed
++    (setq test-benchmarks
++          (sort test-benchmarks
++                (lambda (elem1 elem2)
++                  (< (nth 1 elem1) (nth 1 elem2)))))
++    ;; Display
++    (message "=== Ran %s tests ===" (length test-symbols))
++    (let ((tot-time 0))
++      (dolist (test test-benchmarks)
++        (setq tot-time (+ tot-time (nth 1 test)))
++        (message "%s" test))
++      (message "Total elapsed time: %s" tot-time))))
++
++
++
++;; Run benchmarks
++(elpy-benchmark-tests 1)
+diff --git a/scripts/test-benchmark b/scripts/test-benchmark
+new file mode 100755
+index 0000000..3a21aaf
+--- /dev/null
++++ b/scripts/test-benchmark
+@@ -0,0 +1,6 @@
++#!/bin/bash
++
++set -e
++cd "$(dirname "$0")/.."
++
++cask exec emacs -Q --batch -l scripts/elpy-test-benchmark.el
+\ No newline at end of file
+diff --git a/test/elpy-config-test.el b/test/elpy-config-test.el
+index e620b87..fe353df 100644
+--- a/test/elpy-config-test.el
++++ b/test/elpy-config-test.el
+@@ -18,7 +18,7 @@
+                          (elpy-mode)
+                          (elpy-config)
+                          (let ((output (with-current-buffer  "*Elpy Config*"
+-                                         (elpy/wait-for-output "Only")
++                                         (elpy/wait-for-output "Options")
+                                          (buffer-string))))
+                            (should (equal elpy-syntax-check-command "/foo/bar/flake8"))
+                            (should (string-match "python.*\ -m pip install.*flake8" output))))))
+diff --git a/test/test-helper.el b/test/test-helper.el
+index b40b0c6..768a33d 100644
+--- a/test/test-helper.el
++++ b/test/test-helper.el
+@@ -128,10 +128,8 @@ for that file."
+   (goto-char end))
+ 
+ (defun elpy/wait-for-output (output &optional max-wait)
+-  (when (not max-wait)
+-    (setq max-wait 10))
+   (let ((end (time-add (current-time)
+-                       (seconds-to-time max-wait))))
++                       (seconds-to-time (or max-wait 10)))))
+     (while (and (time-less-p (current-time)
+                              end)
+                 (save-excursion

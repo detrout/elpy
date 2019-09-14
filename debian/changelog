@@ -2,6 +2,8 @@ elpy (1.31.0-1) UNRELEASED; urgency=medium
 
   * New upstream version.
   * Add Upstream-Contact to copyright file.
+  * Add 0002-Add-script-to-benchmark-tests.patch.  It was cherry picked
+    from upstream.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Sat, 14 Sep 2019 13:51:38 -0400
 
