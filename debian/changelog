@@ -9,6 +9,7 @@ elpy (1.31.0-1) UNRELEASED; urgency=medium
   * Move as much as possible of debian/elpa-test's ert_eval expression to
     debian/ert-helper.el, run ert-run-tests-batch elpy-test-benchmark.el
     in strict order, and return the result of ert-run-tests-batch.
+  * Drop elpy/* from autopkgtest_keep.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Sat, 14 Sep 2019 13:51:38 -0400
 
