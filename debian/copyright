@@ -1,6 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: elpy
 Source: https://github.com/jorgenschaefer/elpy
+Upstream-Contact: galaunay <gaby.launay@protonmail.com>
 
 Files: *
 Copyright: (C) 2012-2016 Jorgen Schaefer <contact@jorgenschaefer.de>
