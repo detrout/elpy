@@ -1,0 +1,31 @@
+From: Nicholas D Steeves <nsteeves@gmail.com>
+Date: Tue, 23 Jul 2019 20:10:26 -0400
+Subject: Double max-wait in elpy/wait-for-output self-test
+
+Forwarded: https://github.com/jorgenschaefer/elpy/issues/1620
+---
+ test/test-helper.el | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/test/test-helper.el b/test/test-helper.el
+index 768a33d..49dea00 100644
+--- a/test/test-helper.el
++++ b/test/test-helper.el
+@@ -9,7 +9,7 @@
+   (add-to-list 'process-environment "ELPY_TEST=1"))
+ (require 'elpy)
+ ;; Travis regularly has some lag for some reason.
+-(setq elpy-rpc-timeout 10)
++(setq elpy-rpc-timeout 20)
+ 
+ (defmacro mletf* (bindings &rest body)
+   "Liket `cl-letf*', just with a slightly more concise function syntax.
+@@ -129,7 +129,7 @@ for that file."
+ 
+ (defun elpy/wait-for-output (output &optional max-wait)
+   (let ((end (time-add (current-time)
+-                       (seconds-to-time (or max-wait 10)))))
++                       (seconds-to-time (or max-wait 20)))))
+     (while (and (time-less-p (current-time)
+                              end)
+                 (save-excursion
