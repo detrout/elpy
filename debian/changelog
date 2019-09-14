@@ -1,4 +1,4 @@
-elpy (1.31.0-1) UNRELEASED; urgency=medium
+elpy (1.31.0-1) unstable; urgency=medium
 
   * New upstream version.
   * Add Upstream-Contact to copyright file.
@@ -11,7 +11,7 @@ elpy (1.31.0-1) UNRELEASED; urgency=medium
     in strict order, and return the result of ert-run-tests-batch.
   * Drop elpy/* from autopkgtest_keep.
 
- -- Nicholas D Steeves <nsteeves@gmail.com>  Sat, 14 Sep 2019 13:51:38 -0400
+ -- Nicholas D Steeves <nsteeves@gmail.com>  Sat, 14 Sep 2019 19:35:28 -0400
 
 elpy (1.29.1+65.g8adc427-1) unstable; urgency=medium
 
