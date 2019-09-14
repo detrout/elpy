@@ -1,2 +1,3 @@
-ert_eval = (progn (load-file "debian/debian-autoloads.el") (load-file "test/test-helper.el") (setq elpy-rpc-timeout 20))
-autopkgtest_keep = *.el,elpy/*,test/*
+ert_eval = (progn (load-file "debian/debian-autoloads.el") (load-file "test/test-helper.el"))
+ert_helper = debian/ert-helper.el
+autopkgtest_keep = *.el,elpy/*,test/*,debian/ert-helper.el
