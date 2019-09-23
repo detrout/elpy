@@ -25,6 +25,7 @@ Build-Depends: debhelper-compat (= 12)
              , python3-pip <!nocheck>
              , black <!nocheck>
              , python3-sphinx <!nodoc>
+	     , python3-sphinx-rtd-theme <!nodoc>
              , texinfo <!nodoc>
 Rules-Requires-Root: no
 Standards-Version: 4.4.0
