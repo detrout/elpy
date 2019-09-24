@@ -1,3 +1,4 @@
 0001-Disable-test-shell-send-region-or-buffer.patch
 0002-Add-script-to-benchmark-tests.patch
 0003-Double-max-wait-in-elpy-wait-for-output-self-test.patch
+0004-docs-conf.py-build-the-documentation-using-sphinx_rt.patch
