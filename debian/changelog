@@ -10,6 +10,7 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
     rtd-theme, which must be a Depends and not a Recommends.  This will also
     install libjs-sphinxdoc as a hard dep, so drop it from Recommends.
   * New upstream release.
+  * Rebase patch series onto upstream 1.32.0.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Sat, 28 Sep 2019 18:26:52 -0400
 

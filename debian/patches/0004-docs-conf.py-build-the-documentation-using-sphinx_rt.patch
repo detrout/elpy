@@ -7,7 +7,7 @@ Subject: [PATCH] docs/conf.py: build the documentation using sphinx_rtd_theme
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/docs/conf.py b/docs/conf.py
-index 28f5de9..849f196 100644
+index 877f62d..9e57fdf 100644
 --- a/docs/conf.py
 +++ b/docs/conf.py
 @@ -98,7 +98,7 @@ pygments_style = 'sphinx'
@@ -19,6 +19,3 @@ index 28f5de9..849f196 100644
  
  # Theme options are theme-specific and customize the look and feel of a theme
  # further.  For a list of options available for each theme, see the
--- 
-2.23.0
-

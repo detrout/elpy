@@ -4,7 +4,7 @@ Description: Disable one consistently failing test
  .
  It may be possible to make
  elpy-shell-send-region-or-buffer-should-notify-of-removing-main
- pass by packaging ert-helper and then somehow integrating it with
+ pass by packaging ert-runner and then somehow integrating it with
  dh-elpa.  That is to say, this test seems to depend on assumptions
  associated with a Cask+ert-runner self-test infrastructure.
  .
@@ -21,41 +21,15 @@ Last-Update: 2018-07-03
  test/elpy-shell-send-region-or-buffer-test.el | 30 +++++++++++++--------------
  1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/test/elpy-shell-send-region-or-buffer-test.el b/test/elpy-shell-send-region-or-buffer-test.el
-index a863b5c..193946e 100644
---- a/test/elpy-shell-send-region-or-buffer-test.el
-+++ b/test/elpy-shell-send-region-or-buffer-test.el
-@@ -36,18 +36,18 @@
-     (should (not (equal (current-buffer)
+Index: elpy/test/elpy-shell-send-region-or-buffer-test.el
+===================================================================
+--- elpy.orig/test/elpy-shell-send-region-or-buffer-test.el
++++ elpy/test/elpy-shell-send-region-or-buffer-test.el
+@@ -53,6 +53,7 @@
                          (get-buffer "*Python*"))))))
  
--(ert-deftest elpy-shell-send-region-or-buffer-should-notify-of-removing-main ()
--  (elpy-testcase ()
--    (python-mode)
--    (elpy-mode)
--    (insert "def foo():\n"
--            "  pass\n"
--            "\n"
--            "if __name__ == '__main__':\n"
--            "  print('Argh')\n")
--    (elpy-shell-send-region-or-buffer)
--    (string-match "Removed if __main__"
--                  (if (fboundp 'shut-up-current-output)
--                      (shut-up-current-output)
--                    (with-current-buffer ert-runner-output-buffer
--                      (buffer-string))))))
-+;; (ert-deftest elpy-shell-send-region-or-buffer-should-notify-of-removing-main ()
-+;;   (elpy-testcase ()
-+;;     (python-mode)
-+;;     (elpy-mode)
-+;;     (insert "def foo():\n"
-+;;             "  pass\n"
-+;;             "\n"
-+;;             "if __name__ == '__main__':\n"
-+;;             "  print('Argh')\n")
-+;;     (elpy-shell-send-region-or-buffer)
-+;;     (string-match "Removed if __main__"
-+;;                   (if (fboundp 'shut-up-current-output)
-+;;                       (shut-up-current-output)
-+;;                     (with-current-buffer ert-runner-output-buffer
-+;;                       (buffer-string))))))
+ (ert-deftest elpy-shell-send-region-or-buffer-should-notify-of-removing-main ()
++  (ert-skip "Skipping, because this test requires ert-runner")
+   (elpy-testcase ()
+     (elpy-enable)
+     (python-mode)
