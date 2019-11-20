@@ -3,14 +3,14 @@
     (mletf* ((start-process (name buffer command &rest args) 'test-process)
              (requested-backend nil)
              (requested-library-root nil)
-             (elpy-rpc-init (library-root success)
+             (elpy-rpc-init (library-root env success)
                             (setq requested-library-root library-root))
              (exit-flag-disabled-for nil)
              (sentinel nil)
              (filter nil)
              (set-process-query-on-exit-flag
               (proc flag)
-              (when (not flag)
+              (unless flag
                 (setq exit-flag-disabled-for proc)))
              (set-process-sentinel
               (proc fun)
@@ -26,7 +26,8 @@
         (should (equal elpy-rpc--buffer (current-buffer)))
         (should (equal elpy-rpc--backend-library-root "/tmp"))
         (should (equal elpy-rpc--backend-python-command
-                       (executable-find elpy-rpc-python-command)))
+                       (with-elpy-rpc-virtualenv-activated
+                        (executable-find elpy-rpc-python-command))))
         (should (equal default-directory "/"))
         (should (equal exit-flag-disabled-for 'test-process))
         (should (equal sentinel 'elpy-rpc--sentinel))
@@ -47,12 +48,25 @@
 
       (should (equal environment "test-environment")))))
 
-(ert-deftest elpy-rpc--open-should-include-full-path ()
+(ert-deftest elpy-rpc--open-should-include-virtualenv-name ()
   (elpy-testcase ()
     (let ((buf (elpy-rpc--open "/tmp" elpy-rpc-python-command)))
-      (should (string-match (executable-find elpy-rpc-python-command)
+      (should (string-match (directory-file-name
+                             (file-name-directory
+                              (directory-file-name
+                               (file-name-directory
+                                (executable-find elpy-rpc-python-command)))))
                             (buffer-name buf)))
       (should
        (equal (buffer-local-value 'elpy-rpc--backend-python-command
                                   buf)
-              (executable-find elpy-rpc-python-command))))))
+              (with-elpy-rpc-virtualenv-activated
+               (executable-find elpy-rpc-python-command)))))))
+
+(unless elpy-test-dont-use-virtualenv
+  (ert-deftest elpy-rpc--open-should-open-in-a-dedicated-virtualenv ()
+    (elpy-testcase ()
+      (let ((elpy-rpc-virtualenv-path 'default))
+        (elpy-rpc--get-rpc-buffer)
+        (with-elpy-rpc-virtualenv-activated
+         (should (string= "rpc-venv" pyvenv-virtual-env-name)))))))

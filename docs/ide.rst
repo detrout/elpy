@@ -29,10 +29,11 @@ inside the project root.
    ``tests`` subdirectory. If the current file is already called
    ``test_foo.py``, it will try and find a ``foo.py`` nearby.
 
-   This command uses `find-file-in-project`_ under the hood, so see
-   there for more options.
+   This command uses `projectile`_ or `find-file-in-project`_ under the hood, so you
+   need one of them to be installed.
 
 .. _find-file-in-project: https://github.com/technomancy/find-file-in-project
+.. _projectile: https://github.com/bbatsov/projectile
 
 .. command:: elpy-rgrep-symbol
    :kbd: C-c C-s
@@ -258,7 +259,14 @@ The Shell Buffer
    By default, Elpy tries to find the root directory of the current project
    (git, svn or hg repository, python package or projectile project) and
    starts the python interpreter here. This behaviour can be suppressed
-   with the option ``elpy-shell-use-project-root``.
+   with the option ``elpy-shell-starting-directory``.
+
+.. option:: elpy-shell-starting-directory
+
+   Govern the directory in which Python shells will be started.
+   Can be ``'project-root`` (default) to use the current project root,
+   ``'current-directory`` to use the buffer current directory, or a
+   string indicating a specific path.
 
 .. command:: elpy-shell-toggle-dedicated-shell
 
@@ -316,8 +324,9 @@ for each combination of: whether or not the point should move after sending
 
    Send the current statement to the Python shell and keep point position. Here
    statement refers to the Python statement the point is on, including
-   potentially nested statements and, if point is on an if/elif/else clause, the
-   entire if statement (with all its elif/else clauses).
+   potentially nested statements. If point is on an if/elif/else clause send the
+   entire if statement (with all its elif/else clauses). If point is on a
+   decorated function, send the decorator as well.
 
 .. command:: elpy-shell-send-statement-and-step
    :kbd: C-c C-y C-e
@@ -393,6 +402,12 @@ accidental code execution, e.g.:
    :kbd:`C-u`.
 
    Also bound to :kbd:`C-c C-c`.
+
+.. option:: elpy-shell-add-to-shell-history
+
+   If `t`, Elpy will make the code sent available in the shell
+   history. This allows to use `comint-previous-input` (:kbd:`C-up`)
+   in the python shell to get back the pieces of code sent by Elpy.
 
 The list of remaining commands to send code fragments is:
 
@@ -650,9 +665,9 @@ advantages this brings.
 .. command:: elpy-set-test-runner
 
    This changes the current test runner. Elpy supports the standard
-   unittest discovery runner, the Django discovery runner, nose and
-   py.test. You can also write your own, as described in :ref:`Writing
-   Test Runners`.
+   unittest discovery runner, the Django discovery runner, nose,
+   green, py.test and Twisted trial. You can also write your own, as
+   described in :ref:`Writing Test Runners`.
 
    Note on Django runners: Elpy tries to find `manage.py` within your project
    structure. If it's unable to find it, it falls back to `django-admin.py`.
@@ -741,6 +756,8 @@ Can also start `runserver` automatically and you can give an ip address and port
    :kbd: C-c C-x c
 
    Choose what command you'd like to run via `django-admin.py` or `manage.py`.
+   Please note that for compatibility reasons, the `shell` command will use
+   python (instead of ipython by default).
 
 .. command:: elpy-django-runserver
    :kbd: C-c C-x r

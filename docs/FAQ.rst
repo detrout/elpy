@@ -62,12 +62,6 @@ Q: How to solve company, yasnippet conflicts?
                  company-active-map)))
 
 
-Q: Do I have to install all the python packages every time?
-===========================================================
-
-**A:** Installing them all in the same virtualenv is the easiest way to do this. There are a few other options, though. You can install jedi etc. globally (or as a user) and use virtualenvwrapper's ``togglesitepackages`` to include globally installed packages in your virtualenv. Or you can install them in a separate virtualenv and set PYTHONPATH to include that virtualenv.
-
-
 Q: How do I install development version of elpy?
 ================================================
 
@@ -85,7 +79,6 @@ Install dependencies
     (package-install 'yasnippet)
     (package-install 'pyvenv)
     (package-install 'highlight-indentation)
-    (package-install 'find-file-in-project)
     (package-install 's)
 
 Get latest code from github
