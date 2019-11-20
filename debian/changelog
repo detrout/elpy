@@ -11,6 +11,8 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
     install libjs-sphinxdoc as a hard dep, so drop it from Recommends.
   * New upstream release.
   * Rebase patch series onto upstream 1.32.0.
+  * Drop 0002-Add-script-to-benchmark-tests.patch which is a commit that
+    is present in this release.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Sat, 28 Sep 2019 18:26:52 -0400
 
