@@ -19,7 +19,7 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
     used to run tests first.  Also, this means it became possible to move
     (ert-run-tests-batch-and-exit) to the position of the final expression,
     which is what dh-elpa requires.  See Bug #941330 for more info.
-  * debian-autoloads.el: Set elpy-rpc-virtualenv-path to "'global".
+  * debian-autoloads.el: Set elpy-rpc-virtualenv-path to "'system".
     Upstream has moved to a default where everything is installed to a
     virtualenv using pip, which is incompatible with Debian Policy.  This
     configuration key restores the previous behaviour of using system
