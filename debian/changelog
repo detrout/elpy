@@ -13,6 +13,12 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
   * Rebase patch series onto upstream 1.32.0.
   * Drop 0002-Add-script-to-benchmark-tests.patch which is a commit that
     is present in this release.
+  * ert-helper.el: Upstream fixed bugs in scripts/elpy-test-benchmark.el
+    which were causing tests to fail due to an unclean test environment,
+    so it became possible to drop the (prog1 FIRST BODY) form that was
+    used to run tests first.  Also, this means it became possible to move
+    (ert-run-tests-batch-and-exit) to the position of the final expression,
+    which is what dh-elpa requires.  See Bug #941330 for more info.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Sat, 28 Sep 2019 18:26:52 -0400
 
