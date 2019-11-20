@@ -24,6 +24,10 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
     virtualenv using pip, which is incompatible with Debian Policy.  This
     configuration key restores the previous behaviour of using system
     Python packages by default.
+  * rules: Activate ELPY_TEST_DONT_USE_VIRTUALENV, because self-tests and
+    autopkgtests test virtualenv creation using pip rather than the
+    package as-installed, even when elpy-rpc-virtualenv-path is set to
+    "'global".
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Sat, 28 Sep 2019 18:26:52 -0400
 
