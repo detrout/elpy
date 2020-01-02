@@ -1,15 +1,10 @@
-elpy (1.32.0-2) UNRELEASED; urgency=medium
-
-  * d/control: change python3-jupyter-console to jupyter-console
-  * d/control: add ipython3 as second alternative to jupyter-console
-
- -- Salman Mohammadi <salman@smoha.org>  Sun, 29 Dec 2019 23:01:43 +0100
-
 elpy (1.32.0-1) UNRELEASED; urgency=medium
 
   [ Salman Mohammadi ]
   * d/control: add python3-sphinx-rtd-theme as a build dependency
   * add the patch to build the documentation using sphinx_rtd_theme
+  * d/control: change python3-jupyter-console to jupyter-console
+  * d/control: add ipython3 as second alternative to jupyter-console
 
   [ Nicholas D Steeves ]
   * Add missing newline to series.
