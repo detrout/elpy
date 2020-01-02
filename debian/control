@@ -47,7 +47,8 @@ Suggests: python3-autopep8
         , yapf3
         , black
         , python3-pip
-        , jupyter-console | ipython3
+        , jupyter-console
+	, ipython3
         , elpa-pip-requirements
 Enhances: emacs
 Description: Emacs Python Development Environment
