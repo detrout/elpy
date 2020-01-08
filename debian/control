@@ -49,6 +49,7 @@ Suggests: python3-autopep8
         , python3-pip
         , jupyter-console
 	, ipython3
+        , elpa-flycheck
         , elpa-pip-requirements
 Enhances: emacs
 Description: Emacs Python Development Environment

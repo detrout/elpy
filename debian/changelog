@@ -3,6 +3,8 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
   [ Salman Mohammadi ]
   * d/control: add python3-sphinx-rtd-theme as a build dependency
   * add the patch to build the documentation using sphinx_rtd_theme
+  * add Suggests: elpa-flycheck because this package can be used as
+    an alternative to flymake which is the default on-the-fly syntax checker.
 
   [ Nicholas D Steeves ]
   * Add missing newline to patch series.
