@@ -3,8 +3,6 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
   [ Salman Mohammadi ]
   * d/control: add python3-sphinx-rtd-theme as a build dependency
   * add the patch to build the documentation using sphinx_rtd_theme
-  * d/control: change python3-jupyter-console to jupyter-console
-  * d/control: add ipython3 as second alternative to jupyter-console
 
   [ Nicholas D Steeves ]
   * Add missing newline to series.
@@ -35,6 +33,14 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
     modify the behavior of the interpreter." (man python3(1)).
   * Disable the execution of benchmarks from ert-runner.el (which is
     called from dh-elpa).  See comment in ert-runner.el for rationale.
+
+  [ Salman Mohammadi and Nicholas D Steeves ]
+  * d/control: Change python3-jupyter-console Suggests to jupyter-console,
+    because python3-jupyter-console does not provide
+    /usr/bin/jupyter-console, which Elpy requires in order to use this
+    functionality.
+  * d/control: Add ipython3 to Suggests, but not as an alternative to
+    jupyter-console.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Sat, 28 Sep 2019 18:26:52 -0400
 
