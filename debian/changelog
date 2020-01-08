@@ -31,6 +31,8 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
   * debian-autoloads.el: Add "-E" to python-shell-interpreter args, to
     "Ignore environment variables like PYTHONPATH and PYTHONHOME that
     modify the behavior of the interpreter." (man python3(1)).
+  * Disable the execution of benchmarks from ert-runner.el (which is
+    called from dh-elpa).  See comment in ert-runner.el for rationale.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Sat, 28 Sep 2019 18:26:52 -0400
 
