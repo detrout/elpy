@@ -5,7 +5,7 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
   * add the patch to build the documentation using sphinx_rtd_theme
 
   [ Nicholas D Steeves ]
-  * Add missing newline to series.
+  * Add missing newline to patch series.
   * Add ${sphinxdoc:Depends} to elpa-elpy's Depends.  This installs the
     rtd-theme, which must be a Depends and not a Recommends.  This will also
     install libjs-sphinxdoc as a hard dep, so drop it from Recommends.
@@ -27,7 +27,7 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
   * rules: Activate ELPY_TEST_DONT_USE_VIRTUALENV, because self-tests and
     autopkgtests test virtualenv creation using pip rather than the
     package as-installed, even when elpy-rpc-virtualenv-path is set to
-    "'global".
+    "'system".
   * debian-autoloads.el: Add "-E" to python-shell-interpreter args, to
     "Ignore environment variables like PYTHONPATH and PYTHONHOME that
     modify the behavior of the interpreter." (man python3(1)).
