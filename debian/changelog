@@ -40,7 +40,8 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
     /usr/bin/jupyter-console, which Elpy requires in order to use this
     functionality.
   * d/control: Add ipython3 to Suggests, but not as an alternative to
-    jupyter-console.
+    jupyter-console.  IPython can also be configured to be used with Elpy
+    as an interactive Python shell.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Sat, 28 Sep 2019 18:26:52 -0400
 
