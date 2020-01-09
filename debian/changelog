@@ -2,7 +2,6 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
 
   [ Salman Mohammadi ]
   * d/control: add python3-sphinx-rtd-theme as a build dependency
-  * add the patch to build the documentation using sphinx_rtd_theme
 
   [ Nicholas D Steeves ]
   * Add missing newline to patch series.
@@ -38,6 +37,8 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
     called from dh-elpa).  See comment in ert-runner.el for rationale.
 
   [ Salman Mohammadi and Nicholas D Steeves ]
+  * Add 0004-docs-conf.py-build-the-documentation-using-sphinx_rt.patch to
+    build the documentation using the sphinx_rtd_theme.
   * d/control: Change python3-jupyter-console Suggests to jupyter-console,
     because python3-jupyter-console does not provide
     /usr/bin/jupyter-console, which Elpy requires in order to use this
