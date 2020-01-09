@@ -1,4 +1,4 @@
-elpy (1.32.0-1) UNRELEASED; urgency=medium
+elpy (1.32.0-1) unstable; urgency=medium
 
   [ Salman Mohammadi ]
   * d/control: add python3-sphinx-rtd-theme as a build dependency
@@ -35,7 +35,10 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
     "Ignore environment variables like PYTHONPATH and PYTHONHOME that
     modify the behavior of the interpreter." (man python3(1)).
   * Disable the execution of benchmarks from ert-runner.el (which is
-    called from dh-elpa).  See comment in ert-runner.el for rationale.
+    called from dh-elpa).  See comment in ert-runner.el for rationale.  It
+    is unclear whether these fail due to an upstream Elpy, Emacs, or
+    dh-elpa bug.  See https://github.com/jorgenschaefer/elpy/issues/1724
+    for more info.  Help would be appreciated!
 
   [ Salman Mohammadi and Nicholas D Steeves ]
   * Add 0004-docs-conf.py-build-the-documentation-using-sphinx_rt.patch to
@@ -48,7 +51,7 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
     jupyter-console.  IPython can also be configured to be used with Elpy
     as an interactive Python shell.
 
- -- Nicholas D Steeves <nsteeves@gmail.com>  Sat, 28 Sep 2019 18:26:52 -0400
+ -- Nicholas D Steeves <nsteeves@gmail.com>  Thu, 09 Jan 2020 16:22:02 -0700
 
 elpy (1.31.0-1) unstable; urgency=medium
 
