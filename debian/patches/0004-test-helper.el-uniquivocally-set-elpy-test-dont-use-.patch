@@ -1,0 +1,21 @@
+From: Nicholas D Steeves <nsteeves@gmail.com>
+Date: Thu, 9 Jan 2020 15:59:26 -0700
+Subject: test-helper.el: uniquivocally set elpy-test-dont-use-virtualenv to t
+
+---
+ test/test-helper.el | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/test/test-helper.el b/test/test-helper.el
+index f65fde8..9cf3283 100644
+--- a/test/test-helper.el
++++ b/test/test-helper.el
+@@ -28,7 +28,7 @@
+ ;; defined, don't check for features involving virtualenvs.
+ ;; This permits testing on platforms that do not allow virtualenvs
+ ;; (for the Debian package for example)
+-(setq elpy-test-dont-use-virtualenv (getenv "ELPY_TEST_DONT_USE_VIRTUALENV"))
++(setq elpy-test-dont-use-virtualenv t)
+ (when elpy-test-dont-use-virtualenv
+   (message "ELPY_TEST_DONT_USE_VIRTUALENV is set, skipping tests using virtualenvs.")
+   (setq elpy-rpc-virtualenv-path 'system))
