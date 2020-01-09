@@ -28,9 +28,6 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
     autopkgtests test virtualenv creation using pip rather than the
     package as-installed, even when elpy-rpc-virtualenv-path is set to
     "'system".
-  * Additionally set elpy-test-dont-use-virtualenv in ert-helper.el,
-    because setting ELPY_TEST_DONT_USE_VIRTUALENV in rules does not cover
-    the autopkgtest case.
   * debian-autoloads.el: Add "-E" to python-shell-interpreter args, to
     "Ignore environment variables like PYTHONPATH and PYTHONHOME that
     modify the behavior of the interpreter." (man python3(1)).
