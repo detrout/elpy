@@ -1,5 +1,5 @@
-(setq elpy-rpc-timeout 20)
-
+(setq elpy-rpc-timeout 20
+      elpy-test-dont-use-virtualenv t)
 ;; Disable the execution of benchmarks from ert-runner.el (which is
 ;; called from dh-elpa).  For some reason running the benchmarks
 ;; before the self-tests causes self-tests to fail.  In particular it
