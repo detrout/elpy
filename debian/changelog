@@ -29,7 +29,8 @@ elpy (1.32.0-1) UNRELEASED; urgency=medium
     "'system".
   * The change above doesn't solve to autopkgtest case, and using
     ert-helper.el doesn't work, so add
-    0004-test-helper.el-uniquivocally-set-elpy-test-dont-use-.patch
+    0005-test-helper.el-uniquivocally-set-elpy-test-dont-use-.patch.  It
+    is unclear whether this is an upstream bug or a dh-elpa bug.
   * debian-autoloads.el: Add "-E" to python-shell-interpreter args, to
     "Ignore environment variables like PYTHONPATH and PYTHONHOME that
     modify the behavior of the interpreter." (man python3(1)).
