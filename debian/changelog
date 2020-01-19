@@ -4,6 +4,9 @@ elpy (1.32.0-2) UNRELEASED; urgency=medium
   * add Suggests: elpa-flycheck because this package can be used as
     an alternative to flymake which is the default on-the-fly syntax checker.
 
+  [ Nicholas D Steeves ]
+  * control: Replace tab on ipython3 line with spaces.
+
  -- Nicholas D Steeves <nsteeves@gmail.com>  Sun, 19 Jan 2020 14:32:26 -0700
 
 elpy (1.32.0-1) unstable; urgency=medium

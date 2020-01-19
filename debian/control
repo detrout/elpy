@@ -48,7 +48,7 @@ Suggests: python3-autopep8
         , black
         , python3-pip
         , jupyter-console
-	, ipython3
+        , ipython3
         , elpa-flycheck
         , elpa-pip-requirements
 Enhances: emacs
