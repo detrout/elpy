@@ -3,6 +3,9 @@ elpy (1.32.0-2) UNRELEASED; urgency=medium
   [ Salman Mohammadi ]
   * add Suggests: elpa-flycheck because this package can be used as
     an alternative to flymake which is the default on-the-fly syntax checker.
+  * rules: disable internet access while building sphinx documentation.
+    According to Debian Policy §4.9, packages may not attempt network access
+    during the build.
 
   [ Nicholas D Steeves ]
   * control: Replace tab on ipython3 line with spaces.

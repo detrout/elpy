@@ -14,6 +14,8 @@ else
 	dh $@ --with elpa,python3,sphinxdoc --buildsystem=pybuild
 endif
 
+override_dh_auto_build: export http_proxy=127.0.0.1:9
+override_dh_auto_build: export https_proxy=127.0.0.1:9
 # docs are not generated without this override
 override_dh_auto_build:
 	dh_auto_build
