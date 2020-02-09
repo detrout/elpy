@@ -15,6 +15,14 @@ elpy (1.32.0-2) UNRELEASED; urgency=medium
     are found, so this dependency meets the criteria for Recommends.  Ffip
     works out-of-the-box and does not require configuration.
     (Closes: #948567, #948569)
+  * Add elpa-projectile to Recommends, as an alternative to
+    elpa-find-file-in-project, because 'elpy-find-file' supports it as an
+    alternative back-end.  Users who wish to avoid installing elpa-ivy may
+    choose this alternative; however, projectile may require configuration
+    to work properly.  Also, please note that Elpy+Projectile has not
+    received the ~1.5years of formal testing in Debian that the ffip
+    back-end has.  Unlike ffip, Projectile does not appear in upstream's
+    Cask file, but there are ERT tests for its functionality.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Sun, 19 Jan 2020 14:32:26 -0700
 
