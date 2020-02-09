@@ -9,6 +9,7 @@ Build-Depends: debhelper-compat (= 12)
              , elpa-company <!nocheck>
              , elpa-find-file-in-project <!nocheck>
              , elpa-highlight-indentation <!nocheck>
+             , elpa-projectile <!nocheck>
              , elpa-pyvenv <!nocheck>
              , elpa-yasnippet <!nocheck>
              , elpa-s <!nocheck>
