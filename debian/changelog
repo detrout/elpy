@@ -6,6 +6,15 @@ elpy (1.32.0-2) UNRELEASED; urgency=medium
 
   [ Nicholas D Steeves ]
   * control: Replace tab on ipython3 line with spaces.
+  * Add Recommends: elpa-find-file-in-project.  This dependency was
+    previously installed via ${elpa:Depends} because it was an upstream
+    hard dependency.  Find-file-in-project was made somewhat optional in
+    v1.32.0, and if upstream did not depend on it in their Cask and
+    start-clean-elpy.el files then it would clearly be a Suggests.  Also,
+    'elpy-find-file' emits an error if neither this package nor Projectile
+    are found, so this dependency meets the criteria for Recommends.  Ffip
+    works out-of-the-box and does not require configuration.
+    (Closes: #948567, #948569)
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Sun, 19 Jan 2020 14:32:26 -0700
 
