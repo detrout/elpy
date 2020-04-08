@@ -53,6 +53,7 @@ Suggests: python3-autopep8
         , ipython3
         , elpa-flycheck
         , elpa-pip-requirements
+        , pyprof2calltree
 Enhances: emacs
 Description: Emacs Python Development Environment
  The Emacs Lisp Python Environment in Emacs

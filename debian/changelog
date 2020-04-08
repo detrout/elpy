@@ -1,3 +1,12 @@
+elpy (1.33.0-1) UNRELEASED; urgency=medium
+
+  * New upstream release.
+  * Add pyprof2calltree to Suggests.  Pyprof2calltree converts cProfile
+    data into a format that is consumable by kcachegrind and qcachegrind for
+    graphical calltree analysis.
+
+ -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 08 Apr 2020 15:21:20 -0400
+
 elpy (1.32.0-2) unstable; urgency=medium
 
   [ Salman Mohammadi ]
