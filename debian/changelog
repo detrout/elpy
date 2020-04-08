@@ -1,6 +1,7 @@
 elpy (1.33.0-1) UNRELEASED; urgency=medium
 
   * New upstream release.
+  * Rebase patch series onto upstream 1.33.0.
   * Add pyprof2calltree to Suggests.  Pyprof2calltree converts cProfile
     data into a format that is consumable by kcachegrind and qcachegrind for
     graphical calltree analysis.

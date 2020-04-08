@@ -18,13 +18,13 @@ Date: Sat, 3 Mar 2018 19:27:31 -0500
 Last-Update: 2018-07-03
 
 ---
- test/elpy-shell-send-region-or-buffer-test.el | 30 +++++++++++++--------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ test/elpy-shell-send-region-or-buffer-test.el | 1 +
+ 1 file changed, 1 insertion(+)
 
-Index: elpy/test/elpy-shell-send-region-or-buffer-test.el
-===================================================================
---- elpy.orig/test/elpy-shell-send-region-or-buffer-test.el
-+++ elpy/test/elpy-shell-send-region-or-buffer-test.el
+diff --git a/test/elpy-shell-send-region-or-buffer-test.el b/test/elpy-shell-send-region-or-buffer-test.el
+index dd8a6d2..080430b 100644
+--- a/test/elpy-shell-send-region-or-buffer-test.el
++++ b/test/elpy-shell-send-region-or-buffer-test.el
 @@ -53,6 +53,7 @@
                          (get-buffer "*Python*"))))))
  

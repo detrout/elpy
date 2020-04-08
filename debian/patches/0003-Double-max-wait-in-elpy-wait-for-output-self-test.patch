@@ -8,19 +8,19 @@ Forwarded: https://github.com/jorgenschaefer/elpy/issues/1620
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/test/test-helper.el b/test/test-helper.el
-index c47497f..f65fde8 100644
+index e9f6810..6d6dbe2 100644
 --- a/test/test-helper.el
 +++ b/test/test-helper.el
-@@ -23,7 +23,7 @@
+@@ -37,7 +37,7 @@
+                         (apply fun args))))
  
- (require 'elpy)
  ;; Travis regularly has some lag for some reason.
 -(setq elpy-rpc-timeout 10)
 +(setq elpy-rpc-timeout 20)
- ;; If the environment variable `ELPY_TEST_DONT_USE_VIRTUALENV' is
- ;; defined, don't check for features involving virtualenvs.
- ;; This permits testing on platforms that do not allow virtualenvs
-@@ -160,7 +160,7 @@ for that file."
+ ;; Print elpy configuration
+ (when (getenv "TRAVIS")
+   (elpy-config)
+@@ -182,7 +182,7 @@ for that file."
  
  (defun elpy/wait-for-output (output &optional max-wait)
    (let ((end (time-add (current-time)
