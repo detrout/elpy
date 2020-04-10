@@ -1,4 +1,4 @@
-elpy (1.33.0-1) UNRELEASED; urgency=medium
+elpy (1.33.0-1) unstable; urgency=medium
 
   * New upstream release.
   * Rebase patch series onto upstream 1.33.0.
@@ -6,7 +6,7 @@ elpy (1.33.0-1) UNRELEASED; urgency=medium
     data into a format that is consumable by kcachegrind and qcachegrind for
     graphical calltree analysis.
 
- -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 08 Apr 2020 15:21:20 -0400
+ -- Nicholas D Steeves <nsteeves@gmail.com>  Thu, 09 Apr 2020 20:35:40 -0400
 
 elpy (1.32.0-2) unstable; urgency=medium
 
