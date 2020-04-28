@@ -1,4 +1,4 @@
-elpy (1.33.0-2) UNRELEASED; urgency=medium
+elpy (1.33.0-2) unstable; urgency=medium
 
   * Add 0006-Fix-a-fatal-typo-in-elpy-format-code.patch, a commit cherry
     picked from upstream that resolves a fatal error in elpy-format-code.
@@ -6,7 +6,7 @@ elpy (1.33.0-2) UNRELEASED; urgency=medium
     and for providing a link to the upstream commit. (Closes: #959053)
   * Declare Standards-Version: 4.5.0 (no changes required).
 
- -- Nicholas D Steeves <nsteeves@gmail.com>  Tue, 28 Apr 2020 16:25:06 -0400
+ -- Nicholas D Steeves <nsteeves@gmail.com>  Tue, 28 Apr 2020 19:42:51 -0400
 
 elpy (1.33.0-1) unstable; urgency=medium
 
