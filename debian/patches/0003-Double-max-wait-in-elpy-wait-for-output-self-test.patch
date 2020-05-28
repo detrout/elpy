@@ -8,7 +8,7 @@ Forwarded: https://github.com/jorgenschaefer/elpy/issues/1620
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/test/test-helper.el b/test/test-helper.el
-index e9f6810..6d6dbe2 100644
+index 82aa162..a1a2367 100644
 --- a/test/test-helper.el
 +++ b/test/test-helper.el
 @@ -37,7 +37,7 @@
