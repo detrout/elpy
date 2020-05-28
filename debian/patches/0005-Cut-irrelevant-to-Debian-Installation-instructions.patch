@@ -1,0 +1,36 @@
+From: Nicholas D Steeves <nsteeves@gmail.com>
+Date: Thu, 28 May 2020 18:05:51 -0400
+Subject: Cut irrelevant to Debian Installation instructions
+
+---
+ README.rst | 17 -----------------
+ 1 file changed, 17 deletions(-)
+
+diff --git a/README.rst b/README.rst
+index 45081a9..427b259 100644
+--- a/README.rst
++++ b/README.rst
+@@ -53,23 +53,6 @@ Features
+ .. _Snippet Expansion: https://elpy.readthedocs.io/en/latest/ide.html#snippets
+ 
+ 
+-Installation
+-============
+-
+-Elpy is available on Melpa, the most straightforward way to install it is to use `use-package`:
+-
+-.. code-block:: elisp
+-
+-  (use-package elpy
+-    :ensure t
+-    :init
+-    (elpy-enable))
+-
+-For other installation alternatives, see the `documentation`_.
+-
+-.. _documentation: https://elpy.readthedocs.io/en/latest/introduction.html#installation
+-
+-
+ Quickstart
+ ==========
+ 
