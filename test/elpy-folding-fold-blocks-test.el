@@ -6,13 +6,13 @@
      "def foo(_|_a, b):"
      "  c = a + b"
      "var2 = foo(var1, 4)")
+    (elpy-enable)
     (python-mode)
-    (elpy-mode)
     (elpy-folding-toggle-at-point)
     (let* ((overlays (apply 'nconc (overlay-lists)))
            overlay)
-      (should (= 2 (length overlays)))
-      (setq overlay (nth 0 overlays))
+      (setq overlay (elpy-get-overlay-at 25 'code))
+      (should overlay)
       (should (eq (overlay-get overlay 'hs) 'code))
       (should (= (overlay-start overlay) 25))
       (should (or (= (overlay-end overlay) 37)
@@ -20,9 +20,6 @@
     (should (= (point) 14))
     ;; Unfold
     (elpy-folding-toggle-at-point)
-    (let* ((overlays (apply 'nconc (overlay-lists)))
-           overlay)
-      (should (= 1 (length overlays))))
     ;; Position
     (should (= (point) 14))))
 
@@ -34,13 +31,13 @@
      "def foo(a, b):"
      "  c = _|_a + b"
      "var2 = foo(var1, 4)")
+    (elpy-enable)
     (python-mode)
-    (elpy-mode)
     (elpy-folding-toggle-at-point)
     (let* ((overlays (apply 'nconc (overlay-lists)))
            overlay)
-      (should (= 2 (length overlays)))
-      (setq overlay (nth 0 overlays))
+      (setq overlay (elpy-get-overlay-at 25 'code))
+      (should overlay)
       (should (eq (overlay-get overlay 'hs) 'code))
       (should (= (overlay-start overlay) 25))
       (should (or (= (overlay-end overlay) 37)
@@ -48,9 +45,6 @@
     (should (= (point) 14))
     ;; Unfold
     (elpy-folding-toggle-at-point)
-    (let* ((overlays (apply 'nconc (overlay-lists)))
-           overlay)
-      (should (= 1 (length overlays))))
     ;; Position
     (should (= (point) 14))))
 
@@ -64,11 +58,9 @@
      "  return c"
      "_|_"
      "var2 = foo(var1, 4)")
+    (elpy-enable)
     (python-mode)
-    (elpy-mode)
     (elpy-folding-toggle-at-point)
-    (let ((overlays (apply 'nconc (overlay-lists))))
-      (should (= 1 (length overlays))))
     ;; Position
     (should (= (point) 49))))
 
@@ -84,13 +76,13 @@
      "    print(mess)"
      "    return _|_mess"
      "var2 = foo(var1, 4)")
+    (elpy-enable)
     (python-mode)
-    (elpy-mode)
     (elpy-folding-toggle-at-point)
     (let* ((overlays (apply 'nconc (overlay-lists)))
            overlay)
-      (should (= 3 (length overlays)))
-      (setq overlay (nth 0 overlays))
+      (setq overlay (elpy-get-overlay-at 54 'code))
+      (should overlay)
       (should (eq (overlay-get overlay 'hs) 'code))
       (should (= (overlay-start overlay) 54))
       (should (or (= (overlay-end overlay) 100)
@@ -98,9 +90,6 @@
     (should (= (point) 43))
     ;; Unfold
     (elpy-folding-toggle-at-point)
-    (let* ((overlays (apply 'nconc (overlay-lists)))
-           overlay)
-      (should (= 2 (length overlays))))
     ;; Position
     (should (= (point) 43))))
 
@@ -118,13 +107,13 @@
      "    print(mess)"
      "    return _|_mess"
      "var2 = foo(var1, 4)")
+    (elpy-enable)
     (python-mode)
-    (elpy-mode)
     (elpy-folding-toggle-at-point)
     (let* ((overlays (apply 'nconc (overlay-lists)))
            overlay)
-      (should (= 4 (length overlays)))
-      (setq overlay (nth 0 overlays))
+      (setq overlay (elpy-get-overlay-at 104 'code))
+      (should overlay)
       (should (eq (overlay-get overlay 'hs) 'code))
       (should (= (overlay-start overlay) 104))
       (should (or (= (overlay-end overlay) 150)
@@ -132,9 +121,6 @@
     (should (= (point) 93))
     ;; Unfold
     (elpy-folding-toggle-at-point)
-    (let* ((overlays (apply 'nconc (overlay-lists)))
-           overlay)
-      (should (= 3 (length overlays))))
     ;; Position
     (should (= (point) 93))))
 
@@ -152,13 +138,13 @@
      "    print(mess)"
      "    return mess"
      "var2 = foo(var1, 4)")
+    (elpy-enable)
     (python-mode)
-    (elpy-mode)
     (elpy-folding-toggle-at-point)
     (let* ((overlays (apply 'nconc (overlay-lists)))
            overlay)
-      (should (= 4 (length overlays)))
-      (setq overlay (nth 0 overlays))
+      (setq overlay (elpy-get-overlay-at 29 'code))
+      (should overlay)
       (should (eq (overlay-get overlay 'hs) 'code))
       (should (= (overlay-start overlay) 29))
       (should (or (= (overlay-end overlay) 150)
@@ -166,8 +152,5 @@
     (should (= (point) 16))
     ;; Unfold
     (elpy-folding-toggle-at-point)
-    (let* ((overlays (apply 'nconc (overlay-lists)))
-           overlay)
-      (should (= 3 (length overlays))))
     ;; Position
     (should (= (point) 16))))

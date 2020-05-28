@@ -15,22 +15,19 @@
      "    print(mess)"
      "    return mess"
      "var2 = foo(var1, 4)")
+    (elpy-enable)
     (python-mode)
-    (elpy-mode)
     (elpy-folding-toggle-at-point)
     (let* ((overlays (overlays-in (point-min) (point-max)))
            overlay)
-      (should (= 4 (length overlays)))
-      (setq overlay (nth 1 overlays))
+      (setq overlay (elpy-get-overlay-at 111 'comment))
+      (should overlay)
       (should (eq (overlay-get overlay 'hs) 'comment))
       (should (= (overlay-start overlay) 111))
       (should (= (overlay-end overlay) 156)))
     (should (= (point) 92))
     ;; Unfold
     (elpy-folding-toggle-at-point)
-    (let* ((overlays (overlays-in (point-min) (point-max)))
-           overlay)
-      (should (= 3 (length overlays))))
     ;; Position
     (should (= (point) 92))))
 
@@ -49,10 +46,7 @@
      "    print(mess)"
      "    return mess"
      "var2 = foo(var1, 4)")
+    (elpy-enable)
     (python-mode)
-    (elpy-mode)
     (elpy-folding-toggle-at-point)
-    (let* ((overlays (overlays-in (point-min) (point-max)))
-           overlay)
-      (should (= 3 (length overlays))))
     (should (= (point) 112))))

@@ -29,19 +29,21 @@
      "    print(mess)"
      ""
      "var2 = foo(var1, 4)")
+    (elpy-enable)
     (python-mode)
-    (elpy-mode)
     (elpy-folding-toggle-docstrings)
     (let* ((overlays (overlays-in (point-min) (point-max)))
            overlay)
       (should (= 6 (length overlays)))
       ;; First docstring
-      (setq overlay (nth 3 overlays))
+      (setq overlay (elpy-get-overlay-at 97 'docstring))
+      (should overlay)
       (should (eq (overlay-get overlay 'hs) 'docstring))
       (should (= (overlay-start overlay) 97))
       (should (= (overlay-end overlay) 124))
       ;; Second docstring
-      (setq overlay (nth 1 overlays))
+      (setq overlay (elpy-get-overlay-at 206 'docstring))
+      (should overlay)
       (should (eq (overlay-get overlay 'hs) 'docstring))
       (should (= (overlay-start overlay) 206))
       (should (= (overlay-end overlay) 280)))
