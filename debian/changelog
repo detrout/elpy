@@ -2,6 +2,7 @@ elpy (1.34.0-1) UNRELEASED; urgency=medium
 
   * New upstream release.
   * Rebase quilt series onto this release.
+  * Drop 0006-Fix-a-fatal-typo-in-elpy-format-code.patch (merged upstream).
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Thu, 28 May 2020 17:17:28 -0400
 
