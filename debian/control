@@ -3,7 +3,7 @@ Section: devel
 Priority: optional
 Maintainer: Debian Emacsen team <debian-emacsen@lists.debian.org>
 Uploaders: Nicholas D Steeves <nsteeves@gmail.com>
-Build-Depends: debhelper-compat (= 12)
+Build-Depends: debhelper-compat (= 13)
              , dh-elpa
              , dh-python
              , elpa-company <!nocheck>
