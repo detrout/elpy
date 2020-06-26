@@ -1,0 +1,38 @@
+From: Nicholas D Steeves <nsteeves@gmail.com>
+Date: Fri, 26 Jun 2020 05:32:03 -0400
+Subject: docs: migrate away from functions removed in Sphinx 3.0
+Forwarded: https://github.com/jorgenschaefer/elpy/pull/1817
+
+Closes: #1816
+---
+ docs/elispdomain.py | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/docs/elispdomain.py b/docs/elispdomain.py
+index e7db217..6c7002b 100644
+--- a/docs/elispdomain.py
++++ b/docs/elispdomain.py
+@@ -8,7 +8,7 @@ Copyright 2014-2019 by Jorgen Schäfer
+ 
+ from sphinx import addnodes
+ from sphinx.domains import Domain, ObjType
+-from sphinx.locale import l_
++from sphinx.locale import _
+ from sphinx.directives import ObjectDescription
+ from sphinx.roles import XRefRole
+ from sphinx.util.nodes import make_refnode
+@@ -106,10 +106,10 @@ class ELispDomain(Domain):
+     label = 'ELisp'
+ 
+     object_types = {
+-        'function': ObjType(l_('function'), 'function'),
+-        'variable': ObjType(l_('variable'), 'variable'),
+-        'command': ObjType(l_('function'), 'command'),
+-        'option': ObjType(l_('variable'), 'option'),
++        'function': ObjType(_('function'), 'function'),
++        'variable': ObjType(_('variable'), 'variable'),
++        'command': ObjType(_('function'), 'command'),
++        'option': ObjType(_('variable'), 'option'),
+     }
+     directives = {
+         'function': ELispFunction,

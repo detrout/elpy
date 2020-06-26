@@ -3,3 +3,4 @@
 0004-docs-conf.py-build-the-documentation-using-sphinx_rt.patch
 0005-test-helper.el-uniquivocally-set-elpy-test-dont-use-.patch
 0005-Cut-irrelevant-to-Debian-Installation-instructions.patch
+0006-docs-migrate-away-from-functions-removed-in-Sphinx-3.patch
