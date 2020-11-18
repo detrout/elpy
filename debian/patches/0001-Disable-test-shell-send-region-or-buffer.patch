@@ -1,22 +1,23 @@
-Description: Disable one consistently failing test
- 1 unexpected results:
- FAILED elpy-shell-send-region-or-buffer-should-notify-of-removing-main
- .
- It may be possible to make
- elpy-shell-send-region-or-buffer-should-notify-of-removing-main
- pass by packaging ert-runner and then somehow integrating it with
- dh-elpa.  That is to say, this test seems to depend on assumptions
- associated with a Cask+ert-runner self-test infrastructure.
- .
- As far as I can tell ert-runner--like Cask--is a tool that is
- incompatible with dh-elpa and it should be similarly bypassed and not
- depended on as a build dependency.  See bug #837922 and the Debian
- Emacsen Team's wiki for more information.
-Forwarded: https://github.com/jorgenschaefer/elpy/issues/1308
 From: Nicholas D Steeves <nsteeves@gmail.com>
 Date: Sat, 3 Mar 2018 19:27:31 -0500
-Last-Update: 2018-07-03
+Subject: Disable one consistently failing test
 
+Forwarded: https://github.com/jorgenschaefer/elpy/issues/1308
+Last-Update: 2020-11-18
+
+1 unexpected results:
+FAILED elpy-shell-send-region-or-buffer-should-notify-of-removing-main
+
+It may be possible to make
+elpy-shell-send-region-or-buffer-should-notify-of-removing-main
+pass by packaging ert-runner and then somehow integrating it with
+dh-elpa.  That is to say, this test seems to depend on assumptions
+associated with a Cask+ert-runner self-test infrastructure.
+
+As far as I can tell ert-runner--like Cask--is a tool that is
+incompatible with dh-elpa and it should be similarly bypassed and not
+depended on as a build dependency.  See bug #837922 and the Debian
+Emacsen Team's wiki for more information.
 ---
  test/elpy-shell-send-region-or-buffer-test.el | 1 +
  1 file changed, 1 insertion(+)

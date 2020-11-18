@@ -7,7 +7,7 @@ Subject: test-helper.el: uniquivocally set elpy-test-dont-use-virtualenv to t
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/test/test-helper.el b/test/test-helper.el
-index a1a2367..1bc54a0 100644
+index 7857746..9219d00 100644
 --- a/test/test-helper.el
 +++ b/test/test-helper.el
 @@ -52,7 +52,7 @@

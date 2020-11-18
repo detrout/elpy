@@ -1,5 +1,9 @@
-elpy (1.34.0-3) UNRELEASED; urgency=medium
+elpy (1.35.0-1) UNRELEASED; urgency=medium
 
+  * New upstream release.
+  * Rebase quilt series onto this release.
+    - Drop 0006-docs-migrate-away-from-functions-removed-in-Sphinx-3.patch
+      (merged upstream).
   * elpa-test: Set ert-batch-backtrace-right-margin to 500 to truncate the
     backtrace less in case of failure.  Thanks to Thomas Koch for posting the
     tip on the Emacsen Team wiki page.
