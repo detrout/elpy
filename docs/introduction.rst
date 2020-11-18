@@ -66,6 +66,7 @@ dependencies with the following command:::
 
   sudo apt install elpa-elpy
 
+
 Elpy can then be activated by running ``M-x elpy-enable``.
 This can be made automatic by adding the following to your ``.emacs``:
 
@@ -73,10 +74,11 @@ This can be made automatic by adding the following to your ``.emacs``:
 
   (elpy-enable)
 
-
 In order to use all the features (such as navigation with ``M-.``),
-you'll need to install some python libraries.  You can do that easily
-by typing ``M-x elpy-config RET``, and following the instructions.
+you'll need to install some python libraries:::
+
+  sudo apt install python3-jedi black autopep8 yapf
+
 
 Manually from Melpa
 -------------------
@@ -128,6 +130,14 @@ Then check out the branch associated to the PR you want to try:
 .. code-block:: elisp
 
    (add-to-list 'load-path "/path/to/elpy")
+
+- Install Elpy's dependencies:
+
+  - Company
+  - highlight-indentation
+  - pyvenv
+  - yasnippet
+  - s
 
 - Finally, load Elpy files:
 
