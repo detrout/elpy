@@ -1,0 +1,45 @@
+From: Nicholas D Steeves <nsteeves@gmail.com>
+Date: Wed, 18 Nov 2020 17:47:38 -0500
+Subject: minor typo and style fixes
+
+Forwarded: https://github.com/jorgenschaefer/elpy/pull/1855
+---
+ docs/customization_tips.rst | 2 +-
+ docs/ide.rst                | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/docs/customization_tips.rst b/docs/customization_tips.rst
+index 3d867b5..0493b65 100644
+--- a/docs/customization_tips.rst
++++ b/docs/customization_tips.rst
+@@ -44,7 +44,7 @@ This can be achieved with the following snippet:
+                                 (add-hook 'before-save-hook
+                                           'elpy-format-code nil t)))
+ 
+-The formatting function (``elpy-format-code`` here) can be replaced with your prefered one.
++The formatting function (``elpy-format-code`` here) can be replaced with your preferred one.
+ For example to use black:
+ 
+ .. code-block:: elisp
+diff --git a/docs/ide.rst b/docs/ide.rst
+index 8e2443d..3c602f1 100644
+--- a/docs/ide.rst
++++ b/docs/ide.rst
+@@ -421,7 +421,7 @@ accidental code execution, e.g.:
+ .. option:: elpy-shell-add-to-shell-history
+ 
+    If `t`, Elpy will make the code sent available in the shell
+-   history. This allows to use `comint-previous-input` (:kbd:`C-up`)
++   history. This allows one to use `comint-previous-input` (:kbd:`C-up`)
+    in the python shell to get back the pieces of code sent by Elpy.
+ 
+ The list of remaining commands to send code fragments is:
+@@ -786,7 +786,7 @@ Refactoring
+ 
+ .. option:: elpy-formatter
+ 
+-   Allow to select the formatter you want to use amongst
++   Allows the selection of one's preferred formatter. Available options are:
+    `yapf`_ , `autopep8`_ and `black`_.
+ 
+    `yapf`_ and `autopep8`_ can be configured with style files placed in

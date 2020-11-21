@@ -7,6 +7,8 @@ elpy (1.35.0-1) UNRELEASED; urgency=medium
   * elpa-test: Set ert-batch-backtrace-right-margin to 500 to truncate the
     backtrace less in case of failure.  Thanks to Thomas Koch for posting the
     tip on the Emacsen Team wiki page.
+  * Add 0006-minor-typo-and-style-fixes.patch to fix minor issues in
+    documentation.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 18 Nov 2020 16:53:57 -0500
 
