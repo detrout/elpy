@@ -9,9 +9,6 @@ elpy (1.35.0-1) UNRELEASED; urgency=medium
     tip on the Emacsen Team wiki page.
   * Add 0006-minor-typo-and-style-fixes.patch to fix minor issues in
     documentation.
-  * ert-helper.el: Skip five tests that are flaky with Emacs 27.1 and Python
-    3.9.  Thanks to Thomas Koch for the new method for skipping tests
-    (Closes: #975535).
   * Add 0007-test-helper.el-double-elpy-rpc-timeout.patch.
   * Override dh_auto_test to run pytests in addition to ERTs.
 
