@@ -12,6 +12,7 @@ elpy (1.35.0-1) UNRELEASED; urgency=medium
   * ert-helper.el: Skip five tests that are flaky with Emacs 27.1 and Python
     3.9.  Thanks to Thomas Koch for the new method for skipping tests
     (Closes: #975535).
+  * Add 0007-test-helper.el-double-elpy-rpc-timeout.patch.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 18 Nov 2020 16:53:57 -0500
 

@@ -1,0 +1,22 @@
+From: Nicholas D Steeves <nsteeves@gmail.com>
+Date: Tue, 8 Dec 2020 16:10:19 -0500
+Subject: test-helper.el: double elpy-rpc-timeout
+Forwarded: no
+
+---
+ test/test-helper.el | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/test/test-helper.el b/test/test-helper.el
+index 9219d00..b4af05c 100644
+--- a/test/test-helper.el
++++ b/test/test-helper.el
+@@ -150,7 +150,7 @@ itself a list where the car indicates the type of environment.
+       (message "Elpy was not deactivated by the previous test, deactivating...")
+       (elpy-disable))
+      (with-temp-buffer
+-       (setq elpy-rpc-timeout 100)
++       (setq elpy-rpc-timeout 200)
+        ,(elpy-testcase-transform-spec spec body))
+      (when (and (boundp 'elpy-enabled-p)
+                 elpy-enabled-p)
