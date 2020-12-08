@@ -13,6 +13,7 @@ elpy (1.35.0-1) UNRELEASED; urgency=medium
     3.9.  Thanks to Thomas Koch for the new method for skipping tests
     (Closes: #975535).
   * Add 0007-test-helper.el-double-elpy-rpc-timeout.patch.
+  * Override dh_auto_test to run pytests in addition to ERTs.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 18 Nov 2020 16:53:57 -0500
 

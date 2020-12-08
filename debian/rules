@@ -1,6 +1,7 @@
 #!/usr/bin/make -f
 
 export PYBUILD_NAME = elpy
+export PY3VERS = $(shell py3versions -r -v)
 LC_ALL := C.UTF-8
 export LC_ALL
 ELPY_TEST_DONT_USE_VIRTUALENV := t
@@ -28,3 +29,14 @@ else
 	makeinfo --no-split build/info/Elpy.texi -o build/info/elpy.info
 	PYTHONPATH=. python3 -m sphinx -N -bhtml docs/ build/html
 endif
+
+override_dh_auto_test:
+	echo "Beginning dh_auto_test"
+	for i in $(PY3VERS); do \
+	    echo "=== testing with python $${i} ==="
+	    cp -ar moreorless/tests \
+	           .pybuild/cpython3_$${i}_elpy/build/elpy; \
+	    cd .pybuild/cpython3_$${i}_elpy/build; \
+	    python$${i} -m pytest tests; \
+	done
+	dh_elpa_test
