@@ -1,8 +1,8 @@
 From: Nicholas D Steeves <nsteeves@gmail.com>
 Date: Tue, 8 Dec 2020 16:10:19 -0500
 Subject: test-helper.el: double elpy-rpc-timeout
-Forwarded: no
 
+Forwarded: no
 ---
  test/test-helper.el | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)

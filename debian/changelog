@@ -3,14 +3,12 @@ elpy (1.35.0+20.g4032c72-1) UNRELEASED; urgency=medium
   * Package upstream snapshot.
     - this snapshot notably contains work to switch from the bitrotted Rope
       refactoring backend to the new Jedi one.
-  * Rebase quilt series onto this release.
+  * Rebase quilt series onto this snapshot.
     - Drop 0006-docs-migrate-away-from-functions-removed-in-Sphinx-3.patch
       (merged upstream).
   * elpa-test: Set ert-batch-backtrace-right-margin to 500 to truncate the
     backtrace less in case of failure.  Thanks to Thomas Koch for posting the
     tip on the Emacsen Team wiki page.
-  * Add 0006-minor-typo-and-style-fixes.patch to fix minor issues in
-    documentation.
   * Add 0007-test-helper.el-double-elpy-rpc-timeout.patch.
   * Override dh_auto_test to run pytests in addition to ERTs.
   * Update build-deps from requirements*.txt.
