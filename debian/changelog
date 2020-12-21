@@ -14,6 +14,8 @@ elpy (1.35.0-1) UNRELEASED; urgency=medium
   * Update build-deps from requirements*.txt.
   * Use PYBUILD_SYSTEM=custom dh_auto_test with custom --test-args to run
     pytest using pybuild tooling.
+  * elpa-test: Set the "disable" key, because without this dh_auto_test is
+    disabled and pytests are not run.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 18 Nov 2020 16:53:57 -0500
 
