@@ -16,6 +16,7 @@ elpy (1.35.0-1) UNRELEASED; urgency=medium
     pytest using pybuild tooling.
   * elpa-test: Set the "disable" key, because without this dh_auto_test is
     disabled and pytests are not run.
+  * Add python3-pytest to build deps.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 18 Nov 2020 16:53:57 -0500
 
