@@ -31,12 +31,12 @@ else
 endif
 
 override_dh_auto_test:
-	echo "Beginning dh_auto_test"
-	for i in $(PY3VERS); do \
-	    echo "=== testing with python $${i} ==="
-	    cp -ar moreorless/tests \
-	           .pybuild/cpython3_$${i}_elpy/build/elpy; \
-	    cd .pybuild/cpython3_$${i}_elpy/build; \
-	    python$${i} -m pytest tests; \
-	done
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	PYBUILD_SYSTEM=custom dh_auto_test -- \
+	    --test-args="set -e; \
+			 cp -ar {dir}/elpy/tests \
+				{build_dir}/elpy; \
+			 cd {build_dir}; \
+			 {interpreter} -m pytest --verbose"
 	dh_elpa_test
+endif
