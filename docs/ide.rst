@@ -421,7 +421,7 @@ accidental code execution, e.g.:
 .. option:: elpy-shell-add-to-shell-history
 
    If `t`, Elpy will make the code sent available in the shell
-   history. This allows to use `comint-previous-input` (:kbd:`C-up`)
+   history. This allows one to use `comint-previous-input` (:kbd:`C-up`)
    in the python shell to get back the pieces of code sent by Elpy.
 
 The list of remaining commands to send code fragments is:
@@ -786,7 +786,7 @@ Refactoring
 
 .. option:: elpy-formatter
 
-   Allow to select the formatter you want to use amongst
+   Allows the selection of one's preferred formatter. Available options are:
    `yapf`_ , `autopep8`_ and `black`_.
 
    `yapf`_ and `autopep8`_ can be configured with style files placed in
@@ -797,6 +797,35 @@ Refactoring
 .. _yapf: https://github.com/google/yapf
 .. _black: https://github.com/ambv/black
 
+
+Jedi refactoring
+----------------
+
+   The following commands take advantage of Jedi refactoring possibilities.
+   They all present a diff of the modifications before applying them,
+   this allows to check the ongoing modifications and cancel some of them if needed.
+
+.. command:: elpy-refactor-rename
+   :kbd: C-c C-r r
+
+   Rename all occurences of the symbol at point (variable, function, class, ...).
+   If needed, rename occurences in other files as well.
+
+.. command:: elpy-refactor-extract-variable
+   :kbd: C-c C-r v
+
+   Move the selection to a new variable.
+
+.. command:: elpy-refactor-extract-function
+   :kbd: C-c C-r f
+
+   Move the selection to a new function.
+
+.. command:: elpy-refactor-inline
+   :kbd: C-c C-r i
+
+   Inline the variable at point.
+   i.e. replace it with its defining expression.
 
 
 Profiling
