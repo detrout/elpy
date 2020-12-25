@@ -1,0 +1,161 @@
+From: Nicholas D Steeves <nsteeves@gmail.com>
+Date: Fri, 25 Dec 2020 13:43:05 -0500
+Subject: Skip all Jedi tests
+
+Forwarded: https://github.com/jorgenschaefer/elpy/issues/1865
+---
+ elpy/tests/test_jedibackend.py              | 1 +
+ test/elpy-refactor-extract-function-test.el | 2 ++
+ test/elpy-refactor-extract-variable-test.el | 3 +++
+ test/elpy-refactor-inline-test.el           | 3 +++
+ test/elpy-refactor-rename-test.el           | 7 +++++++
+ 5 files changed, 16 insertions(+)
+
+diff --git a/elpy/tests/test_jedibackend.py b/elpy/tests/test_jedibackend.py
+index 1e8d2c6..9964cdc 100644
+--- a/elpy/tests/test_jedibackend.py
++++ b/elpy/tests/test_jedibackend.py
+@@ -26,6 +26,7 @@ from elpy.tests.support import RPCGetExtractVariableDiffTests
+ from elpy.tests.support import RPCGetInlineDiffTests
+ from elpy.tests.support import RPCGetAssignmentTests
+ 
++@unittest.skip('Skip all Jedi tests')
+ 
+ class JediBackendTestCase(BackendTestCase):
+     def setUp(self):
+diff --git a/test/elpy-refactor-extract-function-test.el b/test/elpy-refactor-extract-function-test.el
+index 5ca981c..d981431 100644
+--- a/test/elpy-refactor-extract-function-test.el
++++ b/test/elpy-refactor-extract-function-test.el
+@@ -5,6 +5,7 @@
+ 
+ 
+ (ert-deftest elpy-refactor-rpc-extract-function-should-return-diff ()
++    (ert-skip "Skipping; Jedi refactoring support is not yet ready for use")
+   (elpy-testcase ((:project project-root "test.py"))
+     (find-file (f-join project-root "test.py"))
+     (insert (concat
+@@ -38,6 +39,7 @@
+                        "+   x = int(bar(foo))\n"))))))
+ 
+ (ert-deftest elpy-refactor-extract-function-should-extract-function ()
++  (ert-skip "Skipping; Jedi refactoring support is not yet ready for use")
+   (elpy-testcase ((:project project-root "test.py"))
+     (find-file (f-join project-root "test.py"))
+     (insert (concat
+diff --git a/test/elpy-refactor-extract-variable-test.el b/test/elpy-refactor-extract-variable-test.el
+index 7c8fb6c..ca0ae05 100644
+--- a/test/elpy-refactor-extract-variable-test.el
++++ b/test/elpy-refactor-extract-variable-test.el
+@@ -4,6 +4,7 @@
+                      "Not available"))
+ 
+ (ert-deftest elpy-refactor-rpc-extract-variable-should-return-diff ()
++    (ert-skip "Skipping; Jedi refactoring support is not yet ready for use")
+   (elpy-testcase ((:project project-root "test.py"))
+     (find-file (f-join project-root "test.py"))
+     (insert (concat
+@@ -27,6 +28,7 @@
+ ")))))
+ 
+ (ert-deftest elpy-refactor-extract-variable-should-extract-variable ()
++  (ert-skip "Skipping; Jedi refactoring support is not yet ready for use")
+   (elpy-testcase ((:project project-root "test.py"))
+     (find-file (f-join project-root "test.py"))
+     (insert (concat
+@@ -42,6 +44,7 @@
+                       "x = int(bar + 1)\n")))))
+ 
+ (ert-deftest elpy-refactor-extract-variable-should-extract-variable-from-region ()
++  (ert-skip "Skipping; Jedi refactoring support is not yet ready for use")
+   (elpy-testcase ((:project project-root "test.py"))
+     (find-file (f-join project-root "test.py"))
+     (insert (concat
+diff --git a/test/elpy-refactor-inline-test.el b/test/elpy-refactor-inline-test.el
+index 8709180..f516b3d 100644
+--- a/test/elpy-refactor-inline-test.el
++++ b/test/elpy-refactor-inline-test.el
+@@ -4,6 +4,7 @@
+                      "Not available"))
+ 
+ (ert-deftest elpy-refactor-rpc-inline-should-return-diff ()
++    (ert-skip "Skipping; Jedi refactoring support is not yet ready for use")
+   (elpy-testcase ((:project project-root "test.py"))
+     (find-file (f-join project-root "test.py"))
+     (insert (concat
+@@ -29,6 +30,7 @@
+ ")))))
+ 
+ (ert-deftest elpy-refactor-inline-should-inline-from-var-definition ()
++  (ert-skip "Skipping; Jedi refactoring support is not yet ready for use")
+   (elpy-testcase ((:project project-root "test.py"))
+     (find-file (f-join project-root "test.py"))
+     (insert (concat
+@@ -44,6 +46,7 @@ x = int(foo + 1)
+ "))))
+ 
+ (ert-deftest elpy-refactor-inline-should-inline-from-var-usage ()
++  (ert-skip "Skipping; Jedi refactoring support is not yet ready for use")
+   (elpy-testcase ((:project project-root "test.py"))
+     (find-file (f-join project-root "test.py"))
+     (insert (concat
+diff --git a/test/elpy-refactor-rename-test.el b/test/elpy-refactor-rename-test.el
+index ebc67f2..8f77c96 100644
+--- a/test/elpy-refactor-rename-test.el
++++ b/test/elpy-refactor-rename-test.el
+@@ -4,6 +4,7 @@
+                      "Not available"))
+ 
+ (ert-deftest elpy-refactor-rpc-rename-should-return-diff ()
++    (ert-skip "Skipping; Jedi refactoring support is not yet ready for use")
+   (elpy-testcase ((:project project-root "test.py"))
+     (find-file (f-join project-root "test.py"))
+     (insert (concat
+@@ -34,6 +35,7 @@
+                         "+   x = int(bar(new_foo))\n"))))))
+ 
+ (ert-deftest elpy-refactor-rename-should-rename ()
++  (ert-skip "Skipping; Jedi refactoring support is not yet ready for use")
+   (elpy-testcase ((:project project-root "test.py"))
+     (find-file (f-join project-root "test.py"))
+     (insert (concat
+@@ -57,6 +59,7 @@ def x(new_foo):
+ 
+ 
+ (ert-deftest elpy-refactor-rpc-rename-should-rename-variable ()
++  (ert-skip "Skipping; Jedi refactoring support is not yet ready for use")
+   (elpy-testcase ((:project project-root "test.py"))
+     (find-file (f-join project-root "test.py"))
+     (set-buffer-string-with-point
+@@ -75,6 +78,7 @@ def x(new_foo):
+                      "   x = int(bar(new_foo))\n")))))
+ 
+ (ert-deftest elpy-refactor-rpc-rename-should-rename-function ()
++  (ert-skip "Skipping; Jedi refactoring support is not yet ready for use")
+   (elpy-testcase ((:project project-root "test.py"))
+     (find-file (f-join project-root "test.py"))
+     (set-buffer-string-with-point
+@@ -93,6 +97,7 @@ def x(new_foo):
+                      "   x = int(new_bar(foo))\n")))))
+ 
+ (ert-deftest elpy-refactor-rpc-rename-should-rename-class ()
++  (ert-skip "Skipping; Jedi refactoring support is not yet ready for use")
+   (elpy-testcase ((:project project-root "test.py"))
+     (find-file (f-join project-root "test.py"))
+     (set-buffer-string-with-point
+@@ -113,6 +118,7 @@ def x(new_foo):
+      "print(foo.res)\n")))))
+ 
+ (ert-deftest elpy-refactor-rpc-rename-should-rename-in-multiple-files ()
++  (ert-skip "Skipping; Jedi refactoring support is not yet ready for use")
+   (elpy-testcase ((:project project-root ("test.py" "Classes.py")))
+     (find-file (f-join project-root "Classes.py"))
+     (set-buffer-string-with-point
+@@ -200,6 +206,7 @@ def x(new_foo):
+     (should-error (elpy-refactor-rename "#var" t))))
+ 
+ (ert-deftest elpy-refactor-rpc-rename-should-ignore-regions ()
++  (ert-skip "Skipping; Jedi refactoring support is not yet ready for use")
+   (elpy-testcase ((:project project-root "test.py"))
+     (find-file (f-join project-root "test.py"))
+     (set-buffer-string-with-point

@@ -17,6 +17,7 @@ elpy (1.35.0+20.g4032c72-1) UNRELEASED; urgency=medium
   * elpa-test: Set the "disable" key, because without this, dh_auto_test is
     disabled, and pytests are not run.
   * Add python3-pytest to build deps.
+  * Add 0006-Skip-all-Jedi-tests.patch.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 18 Nov 2020 16:53:57 -0500
 
