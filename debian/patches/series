@@ -4,3 +4,4 @@
 0005-test-helper.el-uniquivocally-set-elpy-test-dont-use-.patch
 0007-test-helper.el-double-elpy-rpc-timeout.patch
 0006-Skip-all-Jedi-tests.patch
+0007-Fix-incorrect-deps-in-elpy-pkg.el.patch
