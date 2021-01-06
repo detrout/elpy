@@ -21,6 +21,7 @@ elpy (1.35.0+20.g4032c72-1) UNRELEASED; urgency=medium
   * Add 0007-Fix-incorrect-deps-in-elpy-pkg.el.patch.
   * Add 0008-Use-cl-lib-when-trying-to-use-eval-sexp-fu-flash.patch for Emacs
     27.x compatibility.
+  * Add 0009-py3.9-json-fix.patch for Python 3.9.x compatibility.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 18 Nov 2020 16:53:57 -0500
 
