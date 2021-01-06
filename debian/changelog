@@ -19,6 +19,8 @@ elpy (1.35.0+20.g4032c72-1) UNRELEASED; urgency=medium
   * Add python3-pytest to build deps.
   * Add 0006-Skip-all-Jedi-tests.patch.
   * Add 0007-Fix-incorrect-deps-in-elpy-pkg.el.patch.
+  * Add 0008-Use-cl-lib-when-trying-to-use-eval-sexp-fu-flash.patch for Emacs
+    27.x compatibility.
 
  -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 18 Nov 2020 16:53:57 -0500
 

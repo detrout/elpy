@@ -1,0 +1,24 @@
+From: Dennis Ogbe <do@ogbe.net>
+Date: Sun, 29 Nov 2020 14:37:59 -0500
+Subject: Use cl-lib when trying to use eval-sexp-fu-flash
+
+Forwarded: https://github.com/jorgenschaefer/elpy/pull/1857
+
+This is removing an implicit dependency on `cl' and updating it to use `cl-lib'. `cl-lib' is already a dependency.
+---
+ elpy-shell.el | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/elpy-shell.el b/elpy-shell.el
+index 1ac646c..fdd1c99 100644
+--- a/elpy-shell.el
++++ b/elpy-shell.el
+@@ -417,7 +417,7 @@ active, additionally flashes that region briefly."
+             (message "Sent: %s" code-on-first-line)
+           (message "Sent: %s..." code-on-first-line))
+         (when (bound-and-true-p eval-sexp-fu-flash-mode)
+-          (multiple-value-bind (_bounds hi unhi _eflash)
++          (cl-multiple-value-bind (_bounds hi unhi _eflash)
+               (eval-sexp-fu-flash (cons begin end))
+             (eval-sexp-fu-flash-doit (lambda () t) hi unhi)))))))
+ 
