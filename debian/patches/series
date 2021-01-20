@@ -7,3 +7,4 @@
 0007-Fix-incorrect-deps-in-elpy-pkg.el.patch
 0008-Use-cl-lib-when-trying-to-use-eval-sexp-fu-flash.patch
 0009-py3.9-json-fix.patch
+0010-update-ffip-project-search-arguments-for-ffip-6.0.0.patch

@@ -1,0 +1,33 @@
+From: Nicholas D Steeves <nsteeves@gmail.com>
+Date: Wed, 20 Jan 2021 04:48:18 -0500
+Subject: =?utf-8?q?update_ffip-project-search_arguments_for_ffip_=E2=89=A5_?=
+ =?utf-8?q?6=2E0=2E0?=
+
+---
+ Cask    | 2 +-
+ elpy.el | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Cask b/Cask
+index 9e693e9..bcb29ee 100644
+--- a/Cask
++++ b/Cask
+@@ -12,4 +12,4 @@
+ (development
+  (depends-on "f")
+  (depends-on "ert-runner")
+- (depends-on "find-file-in-project"))
++ (depends-on "find-file-in-project" "6.0.0"))
+diff --git a/elpy.el b/elpy.el
+index e985d46..1876d3e 100644
+--- a/elpy.el
++++ b/elpy.el
+@@ -1627,7 +1627,7 @@ A test file is named test_<name>.py if the current file is
+             (let ((projectile-project-root project-root))
+               (projectile-current-project-files)))
+            ((fboundp 'find-file-in-project)
+-            (cl-map 'list 'cdr (ffip-project-search nil nil project-root)))
++            (cl-map 'list 'cdr (ffip-project-search nil nil)))
+            (t '())))
+          (file (if impl-file
+                     (cl-remove-if (lambda (file)
