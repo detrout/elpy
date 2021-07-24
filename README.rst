@@ -26,6 +26,18 @@ Emacs Lisp as well as Python. Elpy is fully documented at `Readthedocs`_.
 
 .. _Readthedocs: https://elpy.readthedocs.io/en/latest/index.html
 
+IMPORTANT NOTE: Current support
+===============================
+
+I find myself (@galaunay, current maintainer), unable to maintain Elpy at the moment, and probably for a while.
+I will keep an eye on the PRs to integrate any fix and/or new feature proposed, but I will definitely not be able to treat the issues in a satisfying manner.
+
+If you are stuck with an issue, please have a look at the `documentation`_, there is a lot of answers there. 
+@gfederix also made some bug fixing in his `fork`_, so you can try using this version of Elpy.
+
+.. _documentation: https://elpy.readthedocs.io/en/latest/index.html
+.. _fork: https://github.com/gfederix/elpy
+
 Features
 ========
 
@@ -65,9 +77,9 @@ Elpy is available on Melpa, the most straightforward way to install it is to use
     :init
     (elpy-enable))
 
-For other installation alternatives, see the `documentation`_.
+For other installation alternatives, see the documentation section `Installation`_.
 
-.. _documentation: https://elpy.readthedocs.io/en/latest/introduction.html#installation
+.. _Installation: https://elpy.readthedocs.io/en/latest/introduction.html#installation
 
 
 Quickstart
@@ -103,10 +115,3 @@ github`_ or visit us on IRC, channel ``#emacs-elpy`` on
 ``irc.freenode.net``.
 
 .. _issue on github: https://github.com/jorgenschaefer/elpy/issues/new
-
-If you would like to support this work, you can become a patreon:
-https://www.patreon.com/jorgenschaefer
-Please note that this is completely voluntary, and does not make you
-more important than others when it comes to issues, feature requests
-or anything. I appreciate donations, but do not feel compelled to
-spend money, and do not feel bad if you don't.
