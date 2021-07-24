@@ -24,8 +24,9 @@ elpy (1.35.0+20.g4032c72-1) UNRELEASED; urgency=medium
   * Add 0009-py3.9-json-fix.patch for Python 3.9.x compatibility.
   * Add 0010-update-ffip-project-search-arguments-for-ffip-6.0.0.patch.
   * Add 0011-temporarily-skip-remaining-failing-tests.patch.
+  * Update my email address.
 
- -- Nicholas D Steeves <nsteeves@gmail.com>  Wed, 18 Nov 2020 16:53:57 -0500
+ -- Nicholas D Steeves <sten@debian.org>  Sat, 24 Jul 2021 14:42:52 -0400
 
 elpy (1.34.0-2) unstable; urgency=medium
 

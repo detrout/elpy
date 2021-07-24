@@ -2,7 +2,7 @@ Source: elpy
 Section: devel
 Priority: optional
 Maintainer: Debian Emacsen team <debian-emacsen@lists.debian.org>
-Uploaders: Nicholas D Steeves <nsteeves@gmail.com>
+Uploaders: Nicholas D Steeves <sten@debian.org>
 Build-Depends: debhelper-compat (= 13)
              , dh-elpa
              , dh-python
