@@ -71,7 +71,7 @@ index 1bb029e..9a66b7a 100644
                     (:emacs-required "25.0"))
      (find-file (f-join project-root "test.py"))
 diff --git a/test/elpy-xref--apropos-test.el b/test/elpy-xref--apropos-test.el
-index e2f8c30..f3421cd 100644
+index 013499e..a1924c3 100644
 --- a/test/elpy-xref--apropos-test.el
 +++ b/test/elpy-xref--apropos-test.el
 @@ -1,4 +1,5 @@
@@ -81,7 +81,7 @@ index e2f8c30..f3421cd 100644
      (elpy-testcase ((:project project-root "test.py"))
          (find-file (f-join project-root "test.py"))
 diff --git a/test/elpy-xref--definitions-test.el b/test/elpy-xref--definitions-test.el
-index 923150a..840fec4 100644
+index df9c87e..50ec149 100644
 --- a/test/elpy-xref--definitions-test.el
 +++ b/test/elpy-xref--definitions-test.el
 @@ -1,4 +1,5 @@
@@ -91,7 +91,7 @@ index 923150a..840fec4 100644
      (elpy-testcase ((:project project-root "test.py"))
          (find-file (f-join project-root "test.py"))
 diff --git a/test/elpy-xref--get-completion-table-test.el b/test/elpy-xref--get-completion-table-test.el
-index 5b595cc..5ad639c 100644
+index 5612d7a..f161938 100644
 --- a/test/elpy-xref--get-completion-table-test.el
 +++ b/test/elpy-xref--get-completion-table-test.el
 @@ -1,4 +1,5 @@

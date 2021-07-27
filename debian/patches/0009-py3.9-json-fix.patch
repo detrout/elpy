@@ -6,11 +6,11 @@ Forwarded: https://github.com/jorgenschaefer/elpy/issues/1868
 
 Thanks to Akshay Badola for the fix!
 ---
- elpy/rpc.py | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ elpy/rpc.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/elpy/rpc.py b/elpy/rpc.py
-index 07b2ce9..b7013c6 100644
+index 186ac50..d117ec9 100644
 --- a/elpy/rpc.py
 +++ b/elpy/rpc.py
 @@ -10,6 +10,7 @@ See the documentation of the JSONRPCServer class for further details.
@@ -32,12 +32,3 @@ index 07b2ce9..b7013c6 100644
      def write_json(self, **kwargs):
          """Write an JSON object on a single line.
  
-@@ -74,7 +79,7 @@ class JSONRPCServer(object):
-         It's not possible with this method to write non-objects.
- 
-         """
--        self.stdout.write(json.dumps(kwargs) + "\n")
-+        self.stdout.write(json.dumps(kwargs, default=self.json_defaults) + "\n")
-         self.stdout.flush()
- 
-     def handle_request(self):

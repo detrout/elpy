@@ -4,23 +4,14 @@ Subject: Double max-wait in elpy/wait-for-output self-test
 
 Forwarded: https://github.com/jorgenschaefer/elpy/issues/1620
 ---
- test/test-helper.el | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ test/test-helper.el | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/test/test-helper.el b/test/test-helper.el
-index 3de3c96..7857746 100644
+index 5d20717..d447ba7 100644
 --- a/test/test-helper.el
 +++ b/test/test-helper.el
-@@ -37,7 +37,7 @@
-                         (apply fun args))))
- 
- ;; Travis regularly has some lag for some reason.
--(setq elpy-rpc-timeout 10)
-+(setq elpy-rpc-timeout 20)
- ;; Print elpy configuration
- (when (getenv "TRAVIS")
-   (elpy-config)
-@@ -182,7 +182,7 @@ for that file."
+@@ -183,7 +183,7 @@ for that file."
  
  (defun elpy/wait-for-output (output &optional max-wait)
    (let ((end (time-add (current-time)

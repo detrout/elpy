@@ -7,10 +7,10 @@ Subject: test-helper.el: uniquivocally set elpy-test-dont-use-virtualenv to t
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/test/test-helper.el b/test/test-helper.el
-index 7857746..9219d00 100644
+index d447ba7..45fe0d0 100644
 --- a/test/test-helper.el
 +++ b/test/test-helper.el
-@@ -52,7 +52,7 @@
+@@ -45,7 +45,7 @@
  ;; defined, don't check for features involving virtualenvs.
  ;; This permits testing on platforms that do not allow virtualenvs
  ;; (for the Debian package for example)

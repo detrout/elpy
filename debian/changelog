@@ -6,6 +6,8 @@ elpy (1.35.0+48.g4248dcc-1) UNRELEASED; urgency=medium
   * Rebase quilt series onto this snapshot.
     - Drop 0006-docs-migrate-away-from-functions-removed-in-Sphinx-3.patch
       (merged upstream).
+    - Drop 0010-update-ffip-project-search-arguments-for-ffip-6.0.0.patch
+      (merged upstream).
   * elpa-test: Set ert-batch-backtrace-right-margin to 500 to truncate the
     backtrace less in case of failure.  Thanks to Thomas Koch for posting the
     tip on the Emacsen Team wiki page.
@@ -19,10 +21,7 @@ elpy (1.35.0+48.g4248dcc-1) UNRELEASED; urgency=medium
   * Add python3-pytest to build deps.
   * Add 0006-Skip-all-Jedi-tests.patch.
   * Add 0007-Fix-incorrect-deps-in-elpy-pkg.el.patch.
-  * Add 0008-Use-cl-lib-when-trying-to-use-eval-sexp-fu-flash.patch for Emacs
-    27.x compatibility.
   * Add 0009-py3.9-json-fix.patch for Python 3.9.x compatibility.
-  * Add 0010-update-ffip-project-search-arguments-for-ffip-6.0.0.patch.
   * Add 0011-temporarily-skip-remaining-failing-tests.patch.
   * Update my email address.
 

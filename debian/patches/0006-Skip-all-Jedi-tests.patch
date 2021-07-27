@@ -12,10 +12,10 @@ Forwarded: https://github.com/jorgenschaefer/elpy/issues/1865
  5 files changed, 16 insertions(+)
 
 diff --git a/elpy/tests/test_jedibackend.py b/elpy/tests/test_jedibackend.py
-index 1e8d2c6..9964cdc 100644
+index 9177b22..639bb16 100644
 --- a/elpy/tests/test_jedibackend.py
 +++ b/elpy/tests/test_jedibackend.py
-@@ -26,6 +26,7 @@ from elpy.tests.support import RPCGetExtractVariableDiffTests
+@@ -29,6 +29,7 @@ from elpy.tests.support import RPCGetExtractVariableDiffTests
  from elpy.tests.support import RPCGetInlineDiffTests
  from elpy.tests.support import RPCGetAssignmentTests
  
