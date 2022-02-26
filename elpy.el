@@ -39,6 +39,7 @@
 (require 'etags)
 (require 'files-x)
 (require 'grep)
+(require 'hideshow)
 (require 'ido)
 (require 'json)
 (require 'python)
@@ -631,9 +632,13 @@ virtualenv.
 
 (defvar elpy-config--get-config "import json
 import sys
-from distutils.version import LooseVersion
+
 import warnings
 warnings.filterwarnings('ignore', category=FutureWarning)
+warnings.filterwarnings('ignore', category=DeprecationWarning)
+warnings.filterwarnings('ignore', category=PendingDeprecationWarning)
+
+from distutils.version import LooseVersion
 
 try:
     import urllib2 as urllib
