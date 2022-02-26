@@ -24,7 +24,6 @@ elpy (1.35.0+48.g4248dcc-1) UNRELEASED; urgency=medium
   * Add 0009-py3.9-json-fix.patch for Python 3.9.x compatibility.
   * Add 0011-temporarily-skip-remaining-failing-tests.patch.
   * Update my email address.
-  * rules: Enable old Python parser.
 
  -- Nicholas D Steeves <sten@debian.org>  Sat, 24 Jul 2021 14:42:52 -0400
 
