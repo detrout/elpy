@@ -1,4 +1,4 @@
-elpy (1.35.0+48.g4248dcc-1) UNRELEASED; urgency=medium
+elpy (1.35.0+64-g758c1ab-1) UNRELEASED; urgency=medium
 
   * Package upstream snapshot.
     - this snapshot notably contains work to switch from the bitrotted Rope
