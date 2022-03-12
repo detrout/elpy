@@ -8,3 +8,4 @@
 0009-py3.9-json-fix.patch
 0011-temporarily-skip-remaining-failing-tests.patch
 0012-do-experiment-for-test.patch
+0011-Skip-test_should_read_options_from_pyproject_toml.patch
