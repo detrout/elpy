@@ -1,8 +1,8 @@
 From: Nicholas D Steeves <nsteeves@gmail.com>
 Date: Fri, 11 Mar 2022 19:20:28 -0500
 Subject: Skip test_should_read_options_from_pyproject_toml
-Forwarded: https://github.com/jorgenschaefer/elpy/issues/1967
 
+Forwarded: https://github.com/jorgenschaefer/elpy/issues/1967
 ---
  elpy/tests/test_black.py | 1 +
  1 file changed, 1 insertion(+)

@@ -11,7 +11,7 @@ elpy (1.35.0+64-g758c1ab-1) UNRELEASED; urgency=medium
   * elpa-test: Set ert-batch-backtrace-right-margin to 500 to truncate the
     backtrace less in case of failure.  Thanks to Thomas Koch for posting the
     tip on the Emacsen Team wiki page.
-  * Add 0007-test-helper.el-double-elpy-rpc-timeout.patch.
+  * Add 0005-test-helper.el-double-elpy-rpc-timeout.patch.
   * Override dh_auto_test to run pytests in addition to ERTs.
   * Update build-deps from requirements*.txt.
   * Use PYBUILD_SYSTEM=custom dh_auto_test with custom --test-args to run
@@ -19,10 +19,21 @@ elpy (1.35.0+64-g758c1ab-1) UNRELEASED; urgency=medium
   * elpa-test: Set the "disable" key, because without this, dh_auto_test is
     disabled, and pytests are not run.
   * Add python3-pytest to build deps.
+  * Renumber patches:
+    0003-Double-max-wait-in-elpy-wait-for-output-self-test.patch
+      -> 0002-Double-max-wait-in-elpy-wait-for-output-self-test.patch
+    0004-docs-conf.py-build-the-documentation-using-sphinx_rt.patch
+      -> 0003-docs-conf.py-build-the-documentation-using-sphinx_rt.patch
+    0005-test-helper.el-uniquivocally-set-elpy-test-dont-use-.patch
+      -> 0004-test-helper.el-uniquivocally-set-elpy-test-dont-use-.patch
+    0009-py3.9-json-fix.patch
+      -> 0008-py3.9-json-fix.patch
+    0011-temporarily-skip-remaining-failing-tests.patch
+      -> 0009-temporarily-skip-remaining-failing-tests.patch
   * Add 0006-Skip-all-Jedi-tests.patch.
   * Add 0007-Fix-incorrect-deps-in-elpy-pkg.el.patch.
-  * Add 0009-py3.9-json-fix.patch for Python 3.9.x compatibility.
-  * Add 0011-temporarily-skip-remaining-failing-tests.patch.
+  * Add 0008-py3.9-json-fix.patch for Python >= 3.9.x compatibility.
+  * Add 0009-temporarily-skip-remaining-failing-tests.patch.
   * Update my email address.
   * Add 0011-Skip-test_should_read_options_from_pyproject_toml.patch.
 
