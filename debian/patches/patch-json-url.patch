@@ -1,0 +1,29 @@
+--- a/elpy/tests/test_jedibackend.py
++++ b/elpy/tests/test_jedibackend.py
+@@ -101,7 +101,7 @@
+                 ' document) to a Python object.'
+             )
+             self.JSON_DOCSTRING = (
+-                "JSON (JavaScript Object Notation) <http://json.org>"
++                "JSON (JavaScript Object Notation) <https://json.org>"
+                 " is a subset of JavaScript syntax (ECMA-262"
+                 " 3rd edition) used as a lightweight data interchange format.")
+         elif sys.version_info >= (3, 0):
+@@ -110,7 +110,7 @@
+                 'containing a JSON document) to a Python object.'
+             )
+             self.JSON_DOCSTRING = (
+-                "JSON (JavaScript Object Notation) <http://json.org>"
++                "JSON (JavaScript Object Notation) <https://json.org>"
+                 " is a subset of JavaScript syntax (ECMA-262"
+                 " 3rd edition) used as a lightweight data interchange format.")
+         else:
+@@ -119,7 +119,7 @@
+                 'instance containing a JSON document) to a Python object.'
+             )
+             self.JSON_DOCSTRING = (
+-                "JSON (JavaScript Object Notation) <http://json.org>"
++                "JSON (JavaScript Object Notation) <https://json.org>"
+                 " is a subset of JavaScript syntax (ECMA-262"
+                 " 3rd edition) used as a lightweight data interchange format.")
+ 
