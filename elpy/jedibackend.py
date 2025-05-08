@@ -15,15 +15,19 @@ import jedi
 from elpy import rpc
 from elpy.rpc import Fault
 
-# in case pkg_resources is not properly installed
-# (see https://github.com/jorgenschaefer/elpy/issues/1674).
+# Fix from Christopher Genovese
+# https://github.com/jorgenschaefer/elpy/issues/2051#issuecomment-2472286571
+# see also https://github.com/jorgenschaefer/elpy/issues/2051
 try:
     from pkg_resources import parse_version
 except ImportError:  # pragma: no cover
-    def parse_version(*arg, **kwargs):
-        raise Fault("`pkg_resources` could not be imported, "
-                    "please reinstall Elpy RPC virtualenv with"
-                    " `M-x elpy-rpc-reinstall-virtualenv`", code=400)
+    try:
+        from packaging.version import parse as parse_version
+    except ImportError:  # pragma: no cover
+        def parse_version(*arg, **kwargs):
+            raise Fault("Neither `packaging` nor`pkg_resources` could be imported, "
+                        "please reinstall Elpy RPC virtualenv with"
+                        " `M-x elpy-rpc-reinstall-virtualenv`", code=400)
 JEDISUP17 = parse_version(jedi.__version__) >= parse_version("0.17.0")
 JEDISUP18 = parse_version(jedi.__version__) >= parse_version("0.18.0")
 

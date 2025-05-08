@@ -84,7 +84,7 @@ This can be used to enable minor modes for Python development."
   "Which Elpy modules to use.
 
 Elpy can use a number of modules for additional features, which
-can be inidividually enabled or disabled."
+can be individually enabled or disabled."
   :type '(set (const :tag "Inline code completion (company-mode)"
                      elpy-module-company)
               (const :tag "Show function signatures (ElDoc)"
@@ -597,7 +597,7 @@ virtualenv.
 
 \\{elpy-mode-map}"
   :lighter " Elpy"
-  (unless (derived-mode-p 'python-mode)
+  (unless (derived-mode-p 'python-mode 'python-ts-mode)
     (error "Elpy only works with `python-mode'"))
   (unless elpy-enabled-p
     (error "Please enable Elpy with `(elpy-enable)` before using it"))
@@ -640,7 +640,10 @@ warnings.filterwarnings('ignore', category=FutureWarning)
 warnings.filterwarnings('ignore', category=DeprecationWarning)
 warnings.filterwarnings('ignore', category=PendingDeprecationWarning)
 
-from distutils.version import LooseVersion
+try:
+    from distutils.version import LooseVersion
+except ModuleNotFoundError:
+    from packaging.version import parse as LooseVersion
 
 try:
     import urllib2 as urllib
@@ -2319,7 +2322,8 @@ root directory."
   (elpy--fix-code-with-formatter "fix_code"))
 
 (defun elpy-black-fix-code ()
-  "Automatically formats Python code with black."
+  "Automatically formats Python code with black.
+Note: Requires 'toml' to be installed due to legacy reasons."
   (interactive)
   (elpy--fix-code-with-formatter "fix_code_with_black"))
 
