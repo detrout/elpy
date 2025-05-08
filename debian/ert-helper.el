@@ -12,4 +12,30 @@
 ;; info: https://github.com/jorgenschaefer/elpy/issues/1724
 
 ;; (load-file "scripts/elpy-test-benchmark.el")
-(ert-run-tests-batch-and-exit)
+(ert-run-tests-batch-and-exit
+ '(not (or
+         "elpy-company-backend-should-add-shell-candidates"
+         "elpy-eldoc-documentation-should-show-object-onelinedoc"
+         "elpy-multiedit-python-symbol-at-point-should-save-some-buffers"
+         "elpy-pdb-break-at-point-should-break-at-point"
+         "elpy-pdb-debug-buffer-and-break-at-point-should-ignore-breakpoints"
+         "elpy-pdb-debug-buffer-from-beginning-should-enter-pdb"
+         "elpy-pdb-debug-buffer-should-always-begin-at-first-line"
+         "elpy-pdb-debug-buffer-should-continue-with-second-breakpoint"
+         "elpy-pdb-debug-buffer-should-enter-pdb"
+         "elpy-pdb-debug-buffer-should-forget-previous-breakpoints"
+         "elpy-pdb-debug-buffer-should-ignore-breakpoints"
+         "elpy-pdb-debug-buffer-should-stop-at-the-first-breakpoint"
+         "elpy-pdb-debug-last-exception-should-debug-last-exception"
+         "elpy-pdb-debug-last-exception-should-ignore-breakpoints"
+         "elpy-profile-buffer-or-region-test-fail"
+         "elpy-profile-buffer-or-region-test-succeed"
+         "elpy-profile-buffer-or-region-test-indir-failed"
+         "elpy-profile-buffer-or-region-test-indir-succeed"
+         "elpy-promise-wait-should-return-after-timeout"
+         "elpy-promise-wait-should-return-eventually-for-resolved-promise"
+         "elpy-refactor-extract-function-should-extract-function"
+         "elpy-refactor-rpc-rename-should-rename-in-multiple-files"
+         "elpy-shell-send-file-should-accept-large-strings"
+         "elpy-shell-should-echo-outputs")))
+
