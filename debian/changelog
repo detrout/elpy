@@ -7,6 +7,7 @@ elpy (1.35.0+64-gae7919d-1) UNRELEASED; urgency=medium
     0010-do-experiment-for-test.patch
   * Exclude *.el files from .pybuild
   * Add patch-json-url.patch
+  * Add require 0012-require-modules.patch
 
  -- Diane Trout <diane@ghic.org>  Sat, 28 Jan 2023 19:43:19 -0000
 

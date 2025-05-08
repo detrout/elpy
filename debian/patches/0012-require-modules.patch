@@ -1,0 +1,212 @@
+--- a/elpy-refactor.el
++++ b/elpy-refactor.el
+@@ -29,7 +29,11 @@
+ ;; (require 'elpy)
+ (require 'diff-mode)
+ 
+-
++(declare-function elpy-rpc-get-rename-diff "elpy-rpc.el")
++(declare-function elpy-rpc-get-extract-function-diff "elpy-rpc.el")
++(declare-function elpy-rpc-get-extract-variable-diff "elpy-rpc.el")
++(declare-function elpy-rpc-get-inline-diff "elpy-rpc.el")
++                  
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;;; Refactor mode (for applying diffs)
+ 
+--- a/elpy-django.el
++++ b/elpy-django.el
+@@ -26,6 +26,13 @@
+ 
+ (require 's)
+ 
++(declare-function elpy-test-run "elpy.el")
++(declare-function elpy-test-at-point "elpy.el")
++(declare-function elpy-project-root "elpy.el")
++
++(defvar elpy-rpc-python-command)
++(defvar django-import-cmd)
++
+ ;;;;;;;;;;;;;;;;;;;;;;
+ ;;; User customization
+ 
+--- a/elpy.el
++++ b/elpy.el
+@@ -54,6 +54,18 @@
+ (require 'elpy-rpc)
+ (require 'pyvenv)
+ 
++(declare-function highlight-indentation "highlight-indentation.el")
++(declare-function highlight-indentation-mode "highlight-indentation.el")
++
++(defvar ov-beg)
++(defvar ov-end)
++(defvar yas-snippet-dirs)
++(defvar company-selection)
++(defvar company-candidates)
++(defvar python-python-command)
++(defvar highlight-indent-active)
++(defvar ffip-prune-patterns)
++
+ (defconst elpy-version "1.35.0"
+   "The version of the Elpy Lisp code.")
+ 
+@@ -2588,9 +2600,6 @@
+     (xref-elpy-location-file l))
+ 
+   ;; Identifiers
+-  (cl-defmethod xref-backend-identifier-at-point ((_backend (eql elpy)))
+-    (elpy-xref--identifier-at-point))
+-
+   (defun elpy-xref--identifier-at-point ()
+     "Return identifier at point.
+ 
+@@ -2601,6 +2610,9 @@
+       (when symb
+         (format "%s: %s" (line-number-at-pos) symb-str))))
+ 
++  (cl-defmethod xref-backend-identifier-at-point ((_backend (eql elpy)))
++    (elpy-xref--identifier-at-point))
++
+   (defun elpy-xref--identifier-name (id)
+     "Return the identifier ID variable name."
+     (string-match ".*: \\([^:]*\\)" id)
+@@ -2622,9 +2634,6 @@
+       (goto-char (match-beginning 0))))
+ 
+   ;; Find definition
+-  (cl-defmethod xref-backend-definitions ((_backend (eql elpy)) id)
+-    (elpy-xref--definitions id))
+-
+   (defun elpy-xref--definitions (id)
+     "Return SYMBOL definition position as a xref object."
+     (save-excursion
+@@ -2643,10 +2652,10 @@
+                  (loc (xref-make-elpy-location file pos)))
+             (list (xref-make summary loc)))))))
+ 
+-  ;; Find references
+-  (cl-defmethod xref-backend-references ((_backend (eql elpy)) id)
+-    (elpy-xref--references id))
++  (cl-defmethod xref-backend-definitions ((_backend (eql elpy)) id)
++    (elpy-xref--definitions id))
+ 
++  ;; Find references
+   (defun elpy-xref--references (id)
+     "Return SYMBOL references as a list of xref objects."
+     (save-excursion
+@@ -2669,10 +2678,10 @@
+          if file
+          collect (xref-make summary loc)))))
+ 
+-  ;; Completion table (used when calling `xref-find-references`)
+-  (cl-defmethod xref-backend-identifier-completion-table ((_backend (eql elpy)))
+-    (elpy-xref--get-completion-table))
++  (cl-defmethod xref-backend-references ((_backend (eql elpy)) id)
++    (elpy-xref--references id))
+ 
++  ;; Completion table (used when calling `xref-find-references`)
+   (defun elpy-xref--get-completion-table ()
+     "Return the completion table for identifiers."
+     (cl-loop
+@@ -2682,10 +2691,10 @@
+      for id = (format "%s: %s" line (alist-get 'name ref))
+      collect id))
+ 
+-  ;; Apropos
+-  (cl-defmethod xref-backend-apropos ((_backend (eql elpy)) regex)
+-    (elpy-xref--apropos regex))
++  (cl-defmethod xref-backend-identifier-completion-table ((_backend (eql elpy)))
++    (elpy-xref--get-completion-table))
+ 
++  ;; Apropos
+   (defun elpy-xref--apropos (regex)
+     "Return identifiers matching REGEX."
+     (let ((ids (elpy-rpc-get-names))
+@@ -2708,6 +2717,9 @@
+                      (xref-make summary loc)))))))
+   )
+ 
++  (cl-defmethod xref-backend-apropos ((_backend (eql elpy)) regex)
++    (elpy-xref--apropos regex))
++
+ ;;;;;;;;;;;
+ ;;; Modules
+ 
+--- a/elpy-profile.el
++++ b/elpy-profile.el
+@@ -24,6 +24,10 @@
+ 
+ ;;; Code:
+ 
++(require 'pyvenv)
++(require 'python)
++
++(defvar elpy-rpc-python-command)
+ 
+ ;;;;;;;;;;;;;;;;;;;;;;
+ ;;; User customization
+--- a/elpy-rpc.el
++++ b/elpy-rpc.el
+@@ -31,6 +31,17 @@
+ (require 'json)
+ (require 'pyvenv)
+ 
++(declare-function elpy-config--insert-configuration-table "elpy.el")
++(declare-function elpy-config--get-config "elpy.el")
++(declare-function elpy-insert--para "elpy.el")
++(declare-function elpy-insert--header "elpy.el")
++(declare-function elpy-config-error "elpy.el")
++(declare-function elpy-library-root "elpy.el")
++
++(defvar elpy-mode)
++(defvar elpy-version)
++(defvar elpy-disable-backend-error-display)
++
+ (defcustom elpy-rpc-maximum-buffer-age (* 5 60)
+   "Seconds after which Elpy automatically closes an unused RPC buffer.
+ 
+--- a/elpy-shell.el
++++ b/elpy-shell.el
+@@ -27,6 +27,13 @@
+ (eval-when-compile (require 'subr-x))
+ (require 'python)
+ 
++(declare-function elpy-nav-forward-block "elpy.el")
++(declare-function elpy-nav-backward-block "elpy.el")
++(declare-function elpy-project-root "elpy.el")
++
++(declare-function eval-sexp-fu-flash "eval-sexp-fu.el")
++(declare-function eval-sexp-fu-flash-doit "eval-sexp-fu.el")
++
+ ;;;;;;;;;;;;;;;;;;;;;;
+ ;;; User customization
+ 
+@@ -1326,6 +1333,13 @@
+     "Face for breakpoint bitmaps appearing on the fringe."
+     :group 'elpy)
+ 
++
++  (defun elpy-pdb-clear-breakpoints ()
++    "Remove the breakpoints in the current region or buffer."
++    (if (use-region-p)
++        (remove-overlays (region-beginning) (region-end) 'elpy-breakpoint t)
++      (remove-overlays (point-min) (point-max) 'elpy-breakpoint t)))
++
+   (defun elpy-pdb-toggle-breakpoint-at-point (&optional arg)
+     "Add or remove a breakpoint at the current line.
+ 
+@@ -1364,13 +1378,7 @@
+                                    marker-string)
+                 (overlay-put ov 'before-string marker-string)
+                 (overlay-put ov 'priority 200)
+-                (overlay-put ov 'elpy-breakpoint t)))))))
+-
+-  (defun elpy-pdb-clear-breakpoints ()
+-    "Remove the breakpoints in the current region or buffer."
+-    (if (use-region-p)
+-        (remove-overlays (region-beginning) (region-end) 'elpy-breakpoint t)
+-      (remove-overlays (point-min) (point-max) 'elpy-breakpoint t))))
++                (overlay-put ov 'elpy-breakpoint t))))))))
+ 
+ 
+ ;;;;;;;;;;;;;;;;;;;;;;;
