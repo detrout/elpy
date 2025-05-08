@@ -1,6 +1,10 @@
 elpy (1.35.0+64-gae7919d-1) UNRELEASED; urgency=medium
 
   * Build personal upstream snapshot from gae7919d
+  * Ignore patches
+    0006-Skip-AllJedi-tests.patch
+    0009-temporarily-skip-remaining-failing-tests.patch
+    0010-do-experiment-for-test.patch
 
  -- Diane Trout <diane@ghic.org>  Sat, 28 Jan 2023 19:43:19 -0000
 

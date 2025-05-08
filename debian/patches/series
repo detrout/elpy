@@ -3,9 +3,9 @@
 0003-docs-conf.py-build-the-documentation-using-sphinx_rt.patch
 0004-test-helper.el-uniquivocally-set-elpy-test-dont-use-.patch
 0005-test-helper.el-double-elpy-rpc-timeout.patch
-0006-Skip-all-Jedi-tests.patch
+#0006-Skip-all-Jedi-tests.patch
 0007-Fix-incorrect-deps-in-elpy-pkg.el.patch
 0008-py3.9-json-fix.patch
-0009-temporarily-skip-remaining-failing-tests.patch
-0010-do-experiment-for-test.patch
+#0009-temporarily-skip-remaining-failing-tests.patch
+#0010-do-experiment-for-test.patch
 0011-Skip-test_should_read_options_from_pyproject_toml.patch
