@@ -1,3 +1,9 @@
+elpy (1.35.0+64-gae7919d-1) UNRELEASED; urgency=medium
+
+  * Build personal upstream snapshot from gae7919d
+
+ -- Diane Trout <diane@ghic.org>  Sat, 28 Jan 2023 19:43:19 -0000
+
 elpy (1.35.0+64-g758c1ab-1) UNRELEASED; urgency=medium
 
   * Package upstream snapshot.
