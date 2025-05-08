@@ -1,4 +1,5 @@
 ert_eval = (progn (setq ert-batch-backtrace-right-margin 500) (load-file "debian/debian-autoloads.el") (load-file "test/test-helper.el"))
 ert_helper = debian/ert-helper.el
 autopkgtest_keep = *.el,test/*,debian/ert-helper.el
+ert_exclude=.pybuild/*/elpy/test/*.el
 disable = see_override_dh_auto_test

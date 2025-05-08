@@ -5,6 +5,7 @@ elpy (1.35.0+64-gae7919d-1) UNRELEASED; urgency=medium
     0006-Skip-AllJedi-tests.patch
     0009-temporarily-skip-remaining-failing-tests.patch
     0010-do-experiment-for-test.patch
+  * Exclude *.el files from .pybuild
 
  -- Diane Trout <diane@ghic.org>  Sat, 28 Jan 2023 19:43:19 -0000
 
