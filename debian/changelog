@@ -1,4 +1,10 @@
-elpy (1.35.0+64-gae7919d-1) UNRELEASED; urgency=medium
+elpy (1.35.0+65-0b381f55-2) unstable; urgency=medium
+
+  * Add elpa-pyvenv as a install dependency
+
+ -- Diane Trout <diane@ghic.org>  Thu, 08 May 2025 20:17:37 -0700
+
+elpy (1.35.0+65-0b381f55-1) UNRELEASED; urgency=medium
 
   * Build personal upstream snapshot from gae7919d
   * Ignore patches

@@ -44,6 +44,7 @@ Depends: ${elpa:Depends}
        , ${sphinxdoc:Depends}
        , ${misc:Depends}
        , flake8
+       , elpa-pyvenv
 Recommends: emacs (>= 46.0)
           , python3-jedi
           , elpa-find-file-in-project | elpa-projectile
