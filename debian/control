@@ -35,7 +35,6 @@ Vcs-Browser: https://salsa.debian.org/emacsen-team/elpy
 Vcs-Git: https://salsa.debian.org/emacsen-team/elpy.git
 Homepage: https://elpy.readthedocs.io/en/latest/index.html
 Testsuite: autopkgtest-pkg-elpa
-X-Python3-Version:3.10
 
 Package: elpa-elpy
 Architecture: all
