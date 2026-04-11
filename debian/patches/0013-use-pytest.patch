@@ -1,0 +1,11 @@
+--- a/requirements-dev.txt
++++ b/requirements-dev.txt
+@@ -1,7 +1,7 @@
+ bumpversion
+ coverage
+ mock
+-nose
++pytest
+ twine
+ wheel
+ virtualenv

@@ -22,7 +22,7 @@ Build-Depends: debhelper-compat (= 13)
              , python3-autopep8 (>= 1.5.4) <!nocheck>
              , yapf3 (>= 0.30)
              , python3-mock (>= 3.0.5) <!nocheck>
-             , python3-nose  <!nocheck>
+             , python3-pytest  <!nocheck>
              , python3-pip <!nocheck>
              , black (>= 19.10b0) <!nocheck>
              , python3-sphinx <!nodoc>
