@@ -1,0 +1,22 @@
+Author: Diane Trout <diane@ghic.org>
+Description: Make the expression longer to force the black reflow
+ that this test was originally trying test for.
+
+--- a/elpy/tests/test_black.py
++++ b/elpy/tests/test_black.py
+@@ -56,9 +56,11 @@
+ 
+         testdata = [('x=       123\n', 'x = 123\n'),
+                     ('x=1; \ny=2 \n', 'x = 1\ny = 2\n'),
+-                    ('x, y, z, a, b, c = 123, 124, 125, 126, 127, 128',
+-                     '(\n    x,\n    y,\n    z,\n    a,\n    b,\n    c,\n)'
+-                     ' = (\n    123,\n    124,\n    125,'
+-                     '\n    126,\n    127,\n    128,\n)\n')]
++                    ('x, y, z, a, b, c, d, e, f, g, h, i = 123, 124, 125, '
++                     '126, 127, 128, 129, 130, 131, 132, 133, 134',
++                     'x, y, z, a, b, c, d, e, f, g, h, i = (\n    '
++                     '123,\n    124,\n    125,\n    126,\n    127,\n'
++                     '    128,\n    129,\n    130,\n    131,\n    132,\n'
++                     '    133,\n    134,\n)\n')]
+         for src, expected in testdata:
+             self._assert_format(src, expected)

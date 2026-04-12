@@ -3,6 +3,11 @@ elpy (1.35.0+65-0b381f55-2) unstable; urgency=medium
   * Add elpa-pyvenv as a install dependency
   * Switch to pytest
   * Remove obsolete X-Python3-Version
+  * add patches
+    0014-update-sphinx-formatting.patch
+    0015-test-force-black-reflow.patch
+    0016-remove-yapf-verifier-module.patch
+    0017-fix-elpy-fold-at-point-should-not-fold-and-unfold-functionspatch
 
  -- Diane Trout <diane@ghic.org>  Thu, 08 May 2025 20:17:37 -0700
 

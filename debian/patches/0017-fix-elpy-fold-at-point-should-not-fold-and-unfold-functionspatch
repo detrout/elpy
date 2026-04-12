@@ -1,0 +1,28 @@
+Author: Diane Trout <diane@ghic.org>
+Description: In emacs 31, the hs-hide-block function says you need a prefix arg
+ to end up at the end of the function. Even when doing that the point was off by
+ one. But that was still quite a bit closer than near the front of the function.
+
+--- a/elpy.el
++++ b/elpy.el
+@@ -3618,7 +3618,7 @@
+           ((python-info-docstring-p)
+            (elpy-folding--hide-docstring-at-point))
+           (t
+-           (hs-hide-block))))))))
++           (hs-hide-block t))))))))
+ 
+ ;;;;;;;;;;;;;;;;;;;
+ ;;; Module: Flymake
+--- a/test/elpy-folding-fold-blocks-test.el
++++ b/test/elpy-folding-fold-blocks-test.el
+@@ -62,7 +62,8 @@
+     (python-mode)
+     (elpy-folding-toggle-at-point)
+     ;; Position
+-    (should (= (point) 49))))
++    (message (format-message " point `%d`" (point)))
++    (should (= (point) 48))))
+ 
+ (ert-deftest elpy-fold-at-point-should-fold-and-unfold-nested-functions ()
+   (elpy-testcase ()

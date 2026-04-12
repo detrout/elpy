@@ -1,0 +1,20 @@
+Author: Diane Trout <diane@ghic.org>
+Description: There was a type conversion error with %s
+ .format() is a bit more forgiving about type conversions
+
+--- a/docs/elispdomain.py
++++ b/docs/elispdomain.py
+@@ -27,8 +27,11 @@
+             key = (self.objtype, name)
+             if key in objects:
+                 self.state_machine.reporter.warning(
+-                    'duplicate description of %s %s, ' % (self.objtype, name) +
+-                    'other instance in ' + self.env.doc2path(objects[key]),
++                    'duplicate description of {} {}, '
++                    'other instance in '.format(
++                        self.objtype,
++                        name,
++                        self.env.doc2path(objects[key])),
+                     line=self.lineno)
+             objects[key] = self.env.docname
+         indextext = self.get_index_text(self.objtype, name)
